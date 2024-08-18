@@ -17,4 +17,4 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build
-      run: chmod +x ./utils/build.sh && ./utils/build.sh
+      run: sudo apt install libwxbase3.0-0v5 libwxgtk3.0-gtk3-0v5 libwxgtk-webview3.0-gtk3-0v5 libwxgtk-media3.0-gtk3-0v5 libwxgtk3.0-gtk3-dev && chmod +x ./utils/build.sh && ./utils/build.sh
