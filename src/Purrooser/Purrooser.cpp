@@ -12,15 +12,15 @@ const string BANNER = R"(
 )";
 
 bool Purrooser::OnInit() {
-    cout << BANNER << endl;
-    cout << "Starting Purrooser..." << endl;
-    wxLog::AddTraceMask("all");
-    wxLog::SetLogLevel(wxLOG_Trace);
+  cout << BANNER << endl;
+  cout << "Starting Purrooser..." << endl;
+  wxLog::AddTraceMask("all");
+  wxLog::SetLogLevel(wxLOG_Trace);
 
-    auto* frame = new PurrooserFrame("Purrooser");
-    frame->Show(true);
-    wxCommandEvent event;
-    frame->OnToggleTheme(event);
-    cout << "Purrooser started successfully!" << endl;
-    return true;
+  auto *frame = new PurrooserFrame("Purrooser");
+  frame->Show(true);
+  wxCommandEvent event;
+  frame->OnToggleTheme(event);
+  cout << "Purrooser started successfully!" << endl;
+  return true;
 }
