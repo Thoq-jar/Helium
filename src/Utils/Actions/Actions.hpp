@@ -1,6 +1,6 @@
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef ACTIONS_HPP
+#define ACTIONS_HPP
 
 using namespace std;
 
-#endif //ACTIONS_H
+#endif //ACTIONS_HPP

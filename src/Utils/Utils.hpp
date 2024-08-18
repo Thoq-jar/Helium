@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include "../Main.hpp"
 
@@ -9,4 +9,4 @@ public:
   static void GetSearchEngine();
 };
 
-#endif //UTILS_H
+#endif //UTILS_HPP

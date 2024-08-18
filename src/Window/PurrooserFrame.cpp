@@ -9,24 +9,38 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   auto *sizer = new wxBoxSizer(wxVERTICAL);
   auto *topSizer = new wxBoxSizer(wxHORIZONTAL);
 
+  // This segfaults 👍-> LoadSearchEngine();
+
   m_searchCtrl = new wxSearchCtrl(this, wxID_ANY);
   m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
   topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
 
-  m_newTabButton = new wxButton(this, wxID_ANY, "New Tab");
+  m_newTabButton = new wxButton(this, wxID_ANY, "+", wxDefaultPosition, wxSize(30, 30));
   m_newTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnNewTab, this);
   topSizer->Add(m_newTabButton, 0, wxEXPAND | wxALL, 5);
 
-  m_closeTabButton = new wxButton(this, wxID_ANY, "Close Tab");
+  m_closeTabButton = new wxButton(this, wxID_ANY, "-", wxDefaultPosition, wxSize(30, 30));
   m_closeTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnCloseTab, this);
   topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
+
+  m_backButton = new wxButton(this, wxID_ANY, "←", wxDefaultPosition, wxSize(30, 30));
+  m_backButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnBack, this);
+  topSizer->Add(m_backButton, 0, wxEXPAND | wxALL, 5);
+
+  m_forwardButton = new wxButton(this, wxID_ANY, "→", wxDefaultPosition, wxSize(30, 30));
+  m_forwardButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnForward, this);
+  topSizer->Add(m_forwardButton, 0, wxEXPAND | wxALL, 5);
+
+  m_homeButton = new wxButton(this, wxID_ANY, "⌂", wxDefaultPosition, wxSize(30, 30));
+  m_homeButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnHome, this);
+  topSizer->Add(m_homeButton, 0, wxEXPAND | wxALL, 5);
 
   wxArrayString searchEngines;
   searchEngines.Add("DuckDuckGo");
   searchEngines.Add("Qwant");
   searchEngines.Add("Ecosia");
-  searchEngines.Add("Searx");
   searchEngines.Add("StartPage");
+  searchEngines.Add("Searx (.work)");
 
   m_searchEngineChoice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchEngines);
   m_searchEngineChoice->SetSelection(0);
@@ -46,6 +60,8 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   menuFile->Append(wxID_EXIT);
   m_toggleThemeItem = menuFile->Append(wxID_ANY, "Toggle Theme");
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
+
+  // Segfault my beloved Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
 
   auto *menuBar = new wxMenuBar;
   menuBar->Append(menuFile, "&File");

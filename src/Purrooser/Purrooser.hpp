@@ -1,9 +1,9 @@
-#ifndef PURROOSER_H
-#define PURROOSER_H
+#ifndef PURROOSER_HPP
+#define PURROOSER_HPP
 
 class Purrooser final : public wxApp {
 public:
   bool OnInit() override;
 };
 
-#endif // PURROOSER_H
+#endif // PURROOSER_HPP

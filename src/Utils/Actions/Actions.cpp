@@ -1,12 +1,10 @@
 #include "../../Main.hpp"
 
-const string FINAL_ENGINE = "https://" + DEFAULT_SEARCH + "." + SEARCH_TLD;
+wxWebView* PurrooserFrame::CreateNewTab(const wxString& url) {
+  auto* panel = new wxPanel(m_notebook);
+  auto* sizer = new wxBoxSizer(wxVERTICAL);
 
-wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
-  auto *panel = new wxPanel(m_notebook);
-  auto *sizer = new wxBoxSizer(wxVERTICAL);
-
-  auto *webView = wxWebView::New(panel, wxID_ANY, url);
+  auto* webView = wxWebView::New(panel, wxID_ANY, url);
   if (!webView) {
     cout << "Failed to create wxWebView" << endl;
     return nullptr;
@@ -16,11 +14,11 @@ wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
   panel->SetSizer(sizer);
   m_notebook->AddPage(panel, webView->GetCurrentTitle(), true);
 
-  webView->Bind(wxEVT_WEBVIEW_TITLE_CHANGED, [this, webView](wxWebViewEvent &) {
-    const int pageIndex = m_notebook->FindPage(webView->GetParent());
-    if (pageIndex != wxNOT_FOUND) {
-      m_notebook->SetPageText(pageIndex, webView->GetCurrentTitle());
-    }
+  webView->Bind(wxEVT_WEBVIEW_TITLE_CHANGED, [this, webView](wxWebViewEvent&) {
+      const int pageIndex = m_notebook->FindPage(webView->GetParent());
+      if (pageIndex != wxNOT_FOUND) {
+          m_notebook->SetPageText(pageIndex, webView->GetCurrentTitle());
+      }
   });
 
   if (m_currentTheme == Theme::DARK) {
@@ -75,7 +73,9 @@ void PurrooserFrame::OnSearch(wxCommandEvent &event) {
   wxString url = m_searchCtrl->GetValue();
   if (!url.StartsWith("https://") && !url.StartsWith("http://")) {
     if (url.find('.') == wxNOT_FOUND) {
-      url = FINAL_ENGINE + "/" + SEARCH_QUERY_TAG + url;
+      const int selectedIndex = m_searchEngineChoice->GetSelection();
+      const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
+      url = selectedEngine + "/" + SEARCH_QUERY_TAG + url;
     } else {
       url = "https://" + url;
     }
@@ -84,7 +84,9 @@ void PurrooserFrame::OnSearch(wxCommandEvent &event) {
 }
 
 void PurrooserFrame::OnNewTab(wxCommandEvent &event) {
-  CreateNewTab(FINAL_ENGINE);
+  const int selectedIndex = m_searchEngineChoice->GetSelection();
+  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
+  CreateNewTab(selectedEngine);
 }
 
 void PurrooserFrame::OnCloseTab(wxCommandEvent &event) {
@@ -100,12 +102,96 @@ void PurrooserFrame::OnToggleTheme(wxCommandEvent &event) {
 }
 
 void PurrooserFrame::OnQuit(wxCommandEvent & WXUNUSED(event)) {
+  const int selectedIndex = m_searchEngineChoice->GetSelection();
+  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
+
+  wxString homeDir = wxFileName::GetHomeDir();
+  wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
+
+  ofstream outFile(filePath.ToStdString());
+  if (outFile.is_open()) {
+    outFile << selectedEngine.ToStdString();
+    outFile.close();
+  } else {
+    Utils::Alert("Error", "Unable to save the settings!");
+  }
+
   cout << "Goodbye!" << endl;
   Close(true);
 }
 
 void PurrooserFrame::OnSearchEngineChange(wxCommandEvent &event) {
-  const wxString selectedEngine = m_searchEngineChoice->GetStringSelection();
+  const int selectedIndex = m_searchEngineChoice->GetSelection();
+  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
   OnCloseTab(event);
-  CreateNewTab("https://www." + selectedEngine + ".com");
+  CreateNewTab(selectedEngine);
 }
+
+void PurrooserFrame::OnBack(wxCommandEvent &event) {
+  if (m_notebook->GetPageCount() == 0) {
+    return;
+  }
+  const auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+  if (webView && webView->CanGoBack()) {
+    webView->GoBack();
+  }
+}
+
+void PurrooserFrame::OnForward(wxCommandEvent &event) {
+  if (m_notebook->GetPageCount() == 0) {
+    return;
+  }
+  const auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+  if (webView && webView->CanGoForward()) {
+    webView->GoForward();
+  }
+}
+
+void PurrooserFrame::OnHome(wxCommandEvent &event) {
+  const int selectedIndex = m_searchEngineChoice->GetSelection();
+  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
+  CreateNewTab(selectedEngine);
+}
+
+void PurrooserFrame::OnSaveSearchEngine(wxCommandEvent &event) {
+  const int selectedIndex = m_searchEngineChoice->GetSelection();
+  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
+
+  wxString homeDir = wxFileName::GetHomeDir();
+  wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
+
+  ofstream outFile(filePath.ToStdString());
+  if (outFile.is_open()) {
+    outFile << selectedEngine.ToStdString();
+    outFile.close();
+  } else {
+    Utils::Alert("Error", "Unable to save the settings!");
+  }
+}
+
+/*
+* FUCKING SEGMENTATION FAULT I SWEAR TO GOD
+void PurrooserFrame::LoadSearchEngine() {
+    wxString homeDir = wxFileName::GetHomeDir();
+    wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
+
+    if (wxFileName::FileExists(filePath)) {
+        ifstream inFile(filePath.ToStdString());
+        if (inFile.is_open()) {
+            string savedEngine;
+            getline(inFile, savedEngine);
+            inFile.close();
+            for (size_t i = 0; i < SEARCH_ENGINES_SIZE; ++i) {
+                if (SEARCH_ENGINES[i] == savedEngine) {
+                    m_searchEngineChoice->SetSelection(i);
+                    break;
+                }
+            }
+        } else {
+            cout << "Failed to open file: " << filePath.ToStdString() << endl;
+        }
+    } else {
+        cout << "File does not exist: " << filePath.ToStdString() << endl;
+    }
+}
+*/
