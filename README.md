@@ -10,8 +10,8 @@ mkdir .purroosertemp
 cd .purroosertemp
 git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
-chmod +x utils/build.sh
-./utils/build.sh
+chmod +x build-utils/build.sh
+./build-utils/build.sh
 sudo mv cmake-build-debug/Purrooser /usr/local/bin/purrooser
 source ~/.bashrc
 cd ~

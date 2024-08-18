@@ -10,9 +10,12 @@ add_executable(
         Purrooser
         src/Main.cpp
         src/Purrooser/Purrooser.cpp
-        src/Purrooser/Purrooser.hpp
         src/Window/PurrooserFrame.cpp
-        src/Window/PurrooserFrame.hpp
+        src/utils/Utils.cpp
+
         src/Main.hpp
+        src/Purrooser/Purrooser.hpp
+        src/Window/PurrooserFrame.hpp
+        src/utils/Utils.hpp
 )
 target_link_libraries(Purrooser ${wxWidgets_LIBRARIES})

@@ -18,7 +18,6 @@ bool Purrooser::OnInit() {
   auto *frame = new PurrooserFrame("Purrooser");
   frame->Show(true);
   wxCommandEvent event;
-  frame->OnToggleTheme(event);
   cout << "Purrooser started successfully!" << endl;
   return true;
 }

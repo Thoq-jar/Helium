@@ -3,12 +3,20 @@
 using namespace std;
 
 PurrooserFrame::PurrooserFrame(const wxString &title)
-  : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(width, height)), m_currentTheme(Theme::LIGHT) {
+  : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(width, height)), m_currentTheme(Theme::DARK) {
   cout << "Creating main frame..." << endl;
 
-  auto *sizer = new wxBoxSizer(wxVERTICAL);
+  #ifdef __WXMAC__
+    SetIcon(wxIcon("../assets/purr.icns"));
+  #elif defined(__UNIX__)
+    SetIcon(wxIcon("../assets/purr.png"));
+  #else
+    SetIcon(wxIcon("../assets/purr.ico"));
+  #endif
 
+  auto *sizer = new wxBoxSizer(wxVERTICAL);
   auto *topSizer = new wxBoxSizer(wxHORIZONTAL);
+
   m_searchCtrl = new wxSearchCtrl(this, wxID_ANY);
   m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
   topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
@@ -60,7 +68,7 @@ wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
   m_notebook->AddPage(panel, webView->GetCurrentTitle(), true);
 
   webView->Bind(wxEVT_WEBVIEW_TITLE_CHANGED, [this, webView](wxWebViewEvent &) {
-    int pageIndex = m_notebook->FindPage(webView->GetParent());
+    const int pageIndex = m_notebook->FindPage(webView->GetParent());
     if (pageIndex != wxNOT_FOUND) {
       m_notebook->SetPageText(pageIndex, webView->GetCurrentTitle());
     }
@@ -74,17 +82,18 @@ wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
 }
 
 void PurrooserFrame::ApplyTheme() {
-  wxColour backgroundColor;
-  wxColour textColor;
+  wxColor backgroundColor;
+  wxColor textColor;
 
   if (m_currentTheme == Theme::DARK) {
-    backgroundColor = wxColour(30, 30, 30);
-    textColor = wxColour(255, 255, 255);
+    backgroundColor = wxColor(30, 30, 30);
+    textColor = wxColor(255, 255, 255);
     m_notebook->SetBackgroundColour(backgroundColor);
     m_notebook->SetForegroundColour(textColor);
   } else {
-    backgroundColor = wxColour(255, 255, 255);
-    textColor = wxColour(0, 0, 0);
+    Utils::Alert("Purrooser", "Hey there! Light mode isn't currently finished! Please check back another time!");
+    // backgroundColor = wxColor(100, 100, 100);
+    // textColor = wxColor(230, 230, 230);
   }
 
   SetBackgroundColour(backgroundColor);
