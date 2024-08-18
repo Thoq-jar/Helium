@@ -6,28 +6,24 @@ enum class Theme {
   DARK
 };
 
-constexpr int width = 1600;
-constexpr int height = 900;
+constexpr int WIDTH = 1600;
+constexpr int HEIGHT = 900;
 
 class PurrooserFrame final : public wxFrame {
 public:
   explicit PurrooserFrame(const wxString &title);
-
   void OnToggleTheme(wxCommandEvent &event);
+  wxChoice *m_searchEngineChoice;
 
 private:
-  void OnQuit(wxCommandEvent &event);
-
+  wxWebView *CreateNewTab(const wxString &url);
   wxWebView *GetCurrentWebView() const;
 
+  void OnQuit(wxCommandEvent &event);
+  void OnSearchEngineChange(wxCommandEvent &event);
   void OnSearch(wxCommandEvent &event);
-
   void OnNewTab(wxCommandEvent &event);
-
   void OnCloseTab(wxCommandEvent &event);
-
-  wxWebView *CreateNewTab(const wxString &url);
-
   void ApplyTheme();
 
   wxButton *m_closeTabButton;

@@ -1,7 +1,5 @@
 #include "../Main.hpp"
 
-using namespace std;
-
 const string BANNER = R"(
 +-----------------------------+
 +    Welcome to Purrooser!    +
@@ -12,8 +10,7 @@ const string BANNER = R"(
 bool Purrooser::OnInit() {
   cout << BANNER << endl;
   cout << "Starting Purrooser..." << endl;
-  wxLog::AddTraceMask("all");
-  wxLog::SetLogLevel(wxLOG_Trace);
+  wxLog::SetLogLevel(wxLOG_FatalError);
 
   auto *frame = new PurrooserFrame("Purrooser");
   frame->Show(true);

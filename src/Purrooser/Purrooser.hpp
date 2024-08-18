@@ -5,4 +5,5 @@ class Purrooser final : public wxApp {
 public:
   bool OnInit() override;
 };
+
 #endif // PURROOSER_H

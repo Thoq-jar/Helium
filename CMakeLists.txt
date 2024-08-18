@@ -7,15 +7,22 @@ find_package(wxWidgets REQUIRED COMPONENTS core base webview)
 include(${wxWidgets_USE_FILE})
 
 add_executable(
+        # Executable
         Purrooser
+
+        # Sources
         src/Main.cpp
         src/Purrooser/Purrooser.cpp
         src/Window/PurrooserFrame.cpp
         src/utils/Utils.cpp
 
+        # Headers
         src/Main.hpp
         src/Purrooser/Purrooser.hpp
         src/Window/PurrooserFrame.hpp
         src/utils/Utils.hpp
+        src/Utils/Actions/Actions.cpp
+        src/Utils/Actions/Actions.hpp
 )
+
 target_link_libraries(Purrooser ${wxWidgets_LIBRARIES})
