@@ -1,11 +1,6 @@
 #ifndef PURROOSERFRAME_H
 #define PURROOSERFRAME_H
 
-#include <wx/wx.h>
-#include <wx/webview.h>
-#include <wx/notebook.h>
-#include <wx/srchctrl.h>
-
 enum class Theme {
   LIGHT,
   DARK

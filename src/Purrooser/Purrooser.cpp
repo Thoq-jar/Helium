@@ -1,6 +1,4 @@
-#include "Purrooser.h"
-#include "../Window/PurrooserFrame.h"
-#include <iostream>
+#include "../Main.hpp"
 
 using namespace std;
 

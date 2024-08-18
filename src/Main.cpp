@@ -1,4 +1,4 @@
-#include "Purrooser/Purrooser.h"
+#include "Main.hpp"
 
 int main(int argc, char **argv) {
   wxDISABLE_DEBUG_SUPPORT();
