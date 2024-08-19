@@ -86,11 +86,7 @@ void PurrooserFrame::OnSearch(wxCommandEvent &event) {
     const auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
     if (webView) {
       webView->LoadURL(url);
-    } else {
-      wxLogError("No web view found in the current tab.");
     }
-  } else {
-    wxLogError("No tabs open to load the URL.");
   }
 }
 
@@ -138,6 +134,16 @@ void PurrooserFrame::OnSearchEngineChange(wxCommandEvent &event) {
   CreateNewTab(selectedEngine);
 }
 
+void PurrooserFrame::OnForward(wxCommandEvent &event) {
+  if (m_notebook->GetPageCount() == 0) {
+    return;
+  }
+  const auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+  if (webView && webView->CanGoForward()) {
+    webView->GoForward();
+  }
+}
+
 void PurrooserFrame::OnBack(wxCommandEvent &event) {
   if (m_notebook->GetPageCount() == 0) {
     return;
@@ -148,13 +154,13 @@ void PurrooserFrame::OnBack(wxCommandEvent &event) {
   }
 }
 
-void PurrooserFrame::OnForward(wxCommandEvent &event) {
+void PurrooserFrame::OnReload(wxCommandEvent &event) {
   if (m_notebook->GetPageCount() == 0) {
     return;
   }
-  const auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
-  if (webView && webView->CanGoForward()) {
-    webView->GoForward();
+  auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+  if (webView) {
+    webView->Reload();
   }
 }
 
@@ -203,7 +209,7 @@ void PurrooserFrame::LoadSearchEngine() {
       wstrSavedEngine = trim(wstrSavedEngine);
 
       if (wstrSavedEngine.empty()) {
-        wxLogError("No engine found in file: %s", filePath);
+        return;
       }
 
       wxString wxStrSavedEngine(wstrSavedEngine.c_str());
@@ -217,21 +223,15 @@ void PurrooserFrame::LoadSearchEngine() {
     } else {
       wxLogError("Failed to open file: %s", filePath);
     }
-  } else {
-    wxLogError("File does not exist: %s", filePath);
   }
 }
 
 void PurrooserFrame::UpdateSearchBarWithCurrentURL(wxWebViewEvent &event) {
   if (m_notebook->GetPageCount() > 0) {
-    auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+    auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
     if (webView) {
-      wxString currentURL = webView->GetCurrentURL();
+      const wxString currentURL = webView->GetCurrentURL();
       m_searchCtrl->SetValue(currentURL);
-    } else {
-      wxLogError("No web view found in the current tab.");
     }
-  } else {
-    wxLogError("No tabs open to get the URL.");
   }
 }

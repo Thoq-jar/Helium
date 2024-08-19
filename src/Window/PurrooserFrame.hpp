@@ -40,6 +40,8 @@ private:
 
   void OnForward(wxCommandEvent &event);
 
+  void OnReload(wxCommandEvent &event);
+
   void OnSaveSearchEngine(wxCommandEvent &event);
 
   void LoadSearchEngine();
@@ -52,6 +54,7 @@ private:
   wxButton *m_backButton;
   wxButton *m_forwardButton;
   wxButton *m_homeButton;
+  wxButton *m_reloadButton;
   wxNotebook *m_notebook;
   wxMenuItem *m_toggleThemeItem;
   Theme m_currentTheme;

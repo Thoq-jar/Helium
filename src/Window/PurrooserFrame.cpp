@@ -21,6 +21,10 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   m_homeButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnHome, this);
   topSizer->Add(m_homeButton, 0, wxEXPAND | wxALL, 5);
 
+  m_reloadButton = new wxButton(this, wxID_ANY, "↻", wxDefaultPosition, wxSize(30, 30));
+  m_reloadButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnReload, this);
+  topSizer->Add(m_reloadButton, 0, wxEXPAND | wxALL, 5);
+
   m_searchCtrl = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
   m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
   topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
