@@ -11,18 +11,6 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
 
   LoadSearchEngine();
 
-  m_searchCtrl = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-  m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
-  topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
-
-  m_newTabButton = new wxButton(this, wxID_ANY, "+", wxDefaultPosition, wxSize(30, 30));
-  m_newTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnNewTab, this);
-  topSizer->Add(m_newTabButton, 0, wxEXPAND | wxALL, 5);
-
-  m_closeTabButton = new wxButton(this, wxID_ANY, "-", wxDefaultPosition, wxSize(30, 30));
-  m_closeTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnCloseTab, this);
-  topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
-
   m_backButton = new wxButton(this, wxID_ANY, "←", wxDefaultPosition, wxSize(30, 30));
   m_backButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnBack, this);
   topSizer->Add(m_backButton, 0, wxEXPAND | wxALL, 5);
@@ -34,6 +22,22 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   m_homeButton = new wxButton(this, wxID_ANY, "⌂", wxDefaultPosition, wxSize(30, 30));
   m_homeButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnHome, this);
   topSizer->Add(m_homeButton, 0, wxEXPAND | wxALL, 5);
+
+  m_searchCtrl = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+  m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
+  topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
+
+  m_closeTabButton = new wxButton(this, wxID_ANY, "⌕", wxDefaultPosition, wxSize(30, 30));
+  m_closeTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnSearch, this);
+  topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
+
+  m_newTabButton = new wxButton(this, wxID_ANY, "+", wxDefaultPosition, wxSize(30, 30));
+  m_newTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnNewTab, this);
+  topSizer->Add(m_newTabButton, 0, wxEXPAND | wxALL, 5);
+
+  m_closeTabButton = new wxButton(this, wxID_ANY, "-", wxDefaultPosition, wxSize(30, 30));
+  m_closeTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnCloseTab, this);
+  topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
 
   wxArrayString searchEngines;
   searchEngines.Add("DuckDuckGo");
@@ -50,7 +54,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   sizer->Add(topSizer, 0, wxEXPAND);
 
   m_notebook = new wxNotebook(this, wxID_ANY);
-  sizer->Add(m_notebook, 1, wxEXPAND | wxALL, 5);
+  sizer->Add(m_notebook, 1, wxEXPAND | wxALL, 0);
 
   SetSizer(sizer);
 
