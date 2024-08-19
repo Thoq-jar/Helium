@@ -12,7 +12,7 @@ git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
 chmod +x build-utils/build.sh
 ./build-utils/build.sh
-sudo mv cmake-build-debug/Purrooser /usr/local/bin/purrooser
+sudo mv cmake-build-minsizerel/Purrooser /usr/local/bin/purrooser
 source ~/.bashrc
 cd ~
 rm -rf .purroosertemp
