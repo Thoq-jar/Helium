@@ -11,7 +11,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
 
   LoadSearchEngine();
 
-  m_searchCtrl = new wxSearchCtrl(this, wxID_ANY);
+  m_searchCtrl = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
   m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
   topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
 

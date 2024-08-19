@@ -29,44 +29,42 @@ wxWebView* PurrooserFrame::CreateNewTab(const wxString& url) {
 }
 
 void PurrooserFrame::ApplyTheme() {
-  wxColor backgroundColor;
-  wxColor textColor;
+    wxColor backgroundColor;
+    wxColor textColor;
 
-  if (m_currentTheme == Theme::DARK) {
-    backgroundColor = wxColor(30, 30, 30);
-    textColor = wxColor(255, 255, 255);
-  } else if (m_currentTheme == Theme::LIGHT) {
-    Utils::Alert("Purrooser", "Hey there! Light mode isn't currently finished! Please check back another time!");
-    // backgroundColor = wxColor(100, 100, 100);
-    // textColor = wxColor(230, 230, 230);
-  } else {
-    Utils::Alert("Purrooser (FATAL ERROR)",
-                 "Oops! The theme you selected is invalid! Please restart the application and try again!");
-  }
-
-  if (backgroundColor.IsOk() && textColor.IsOk()) {
-    m_notebook->SetBackgroundColour(backgroundColor);
-    m_notebook->SetForegroundColour(textColor);
-    SetBackgroundColour(backgroundColor);
-    SetForegroundColour(textColor);
-    m_searchCtrl->SetBackgroundColour(backgroundColor);
-    m_searchCtrl->SetForegroundColour(textColor);
-    m_newTabButton->SetBackgroundColour(backgroundColor);
-    m_newTabButton->SetForegroundColour(textColor);
-
-    for (size_t i = 0; i < m_notebook->GetPageCount(); ++i) {
-      const auto panel = dynamic_cast<wxPanel *>(m_notebook->GetPage(i));
-      if (panel) {
-        panel->SetBackgroundColour(backgroundColor);
-        panel->SetForegroundColour(textColor);
-      }
+    if (m_currentTheme == Theme::DARK) {
+        backgroundColor = wxColor(30, 30, 30);
+        textColor = wxColor(255, 255, 255);
+    } else if (m_currentTheme == Theme::LIGHT) {
+        Utils::Alert("Purrooser", "Hey there! Light mode isn't currently finished! Please check back another time!");
+    } else {
+        Utils::Alert("Purrooser (FATAL ERROR)", "Oops! The theme you selected is invalid! Please restart the application and try again!");
     }
 
-    Refresh();
-    Update();
-  } else {
-    cout << "Invalid color detected in ApplyTheme" << endl;
-  }
+    if (backgroundColor.IsOk() && textColor.IsOk()) {
+        m_notebook->SetForegroundColour(textColor);
+        SetBackgroundColour(backgroundColor);
+        SetForegroundColour(textColor);
+        m_searchCtrl->SetForegroundColour(textColor);
+        m_newTabButton->SetForegroundColour(textColor);
+        m_closeTabButton->SetForegroundColour(textColor);
+        m_backButton->SetForegroundColour(textColor);
+        m_forwardButton->SetForegroundColour(textColor);
+        m_homeButton->SetForegroundColour(textColor);
+        m_searchEngineChoice->SetForegroundColour(textColor);
+
+        for (size_t i = 0; i < m_notebook->GetPageCount(); ++i) {
+            const auto panel = dynamic_cast<wxPanel *>(m_notebook->GetPage(i));
+            if (panel) {
+                panel->SetForegroundColour(textColor);
+            }
+        }
+
+        Refresh();
+        Update();
+    } else {
+        cout << "Invalid color detected in ApplyTheme" << endl;
+    }
 }
 
 void PurrooserFrame::OnSearch(wxCommandEvent &event) {
