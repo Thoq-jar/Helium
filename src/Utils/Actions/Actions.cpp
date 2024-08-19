@@ -169,23 +169,23 @@ void PurrooserFrame::OnSaveSearchEngine(wxCommandEvent &event) {
   }
 }
 
-std::wstring trim(const std::wstring& str) {
+wstring trim(const wstring& str) {
   const auto start = str.find_first_not_of(L" \t\n\r");
   const auto end = str.find_last_not_of(L" \t\n\r");
-  return (start == std::wstring::npos) ? L"" : str.substr(start, end - start + 1);
+  return (start == wstring::npos) ? L"" : str.substr(start, end - start + 1);
 }
 
 void PurrooserFrame::LoadSearchEngine() {
   wxString homeDir = wxFileName::GetHomeDir();
-  wxString filePath = homeDir.Append(wxT("/purr_settings.txt"));
+  wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
 
   if (wxFileName::FileExists(filePath)) {
-    std::wstring wstrFilePath = filePath.ToStdWstring();
+    wstring wstrFilePath = filePath.ToStdWstring();
 
-    std::wifstream inFile(reinterpret_cast<const char *>(wstrFilePath.c_str()), std::ios::in | std::ios::binary);
+    wifstream inFile(reinterpret_cast<const char *>(wstrFilePath.c_str()), ios::in | ios::binary);
     if (inFile.is_open()) {
-      std::wstring wstrSavedEngine;
-      std::getline(inFile, wstrSavedEngine, L'\n');
+      wstring wstrSavedEngine;
+      getline(inFile, wstrSavedEngine, L'\n');
       inFile.close();
 
       wstrSavedEngine = trim(wstrSavedEngine);
