@@ -14,9 +14,9 @@ if ! command_exists wx-config; then
     exit 1
 fi
 
-mkdir -p cmake-build-debug
+mkdir -p cmake-build-minsizerel
 # shellcheck disable=SC2164
-cd cmake-build-debug
+cd cmake-build-minsizerel
 
 cmake ..
 # shellcheck disable=SC2046

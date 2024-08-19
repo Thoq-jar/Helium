@@ -15,7 +15,7 @@ if ! command_exists wx-config; then
 fi
 
 # shellcheck disable=SC2164
-cd cmake-build-debug
+cd cmake-build-minsizerel
 
 # shellcheck disable=SC2035
 rm -rf *
