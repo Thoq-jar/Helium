@@ -9,7 +9,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   auto *sizer = new wxBoxSizer(wxVERTICAL);
   auto *topSizer = new wxBoxSizer(wxHORIZONTAL);
 
-  // This segfaults 👍-> LoadSearchEngine();
+  LoadSearchEngine();
 
   m_searchCtrl = new wxSearchCtrl(this, wxID_ANY);
   m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
@@ -61,7 +61,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   m_toggleThemeItem = menuFile->Append(wxID_ANY, "Toggle Theme");
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
 
-  // Segfault my beloved Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
 
   auto *menuBar = new wxMenuBar;
   menuBar->Append(menuFile, "&File");

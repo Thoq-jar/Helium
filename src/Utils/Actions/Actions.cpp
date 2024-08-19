@@ -169,29 +169,43 @@ void PurrooserFrame::OnSaveSearchEngine(wxCommandEvent &event) {
   }
 }
 
-/*
-* FUCKING SEGMENTATION FAULT I SWEAR TO GOD
-void PurrooserFrame::LoadSearchEngine() {
-    wxString homeDir = wxFileName::GetHomeDir();
-    wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
-
-    if (wxFileName::FileExists(filePath)) {
-        ifstream inFile(filePath.ToStdString());
-        if (inFile.is_open()) {
-            string savedEngine;
-            getline(inFile, savedEngine);
-            inFile.close();
-            for (size_t i = 0; i < SEARCH_ENGINES_SIZE; ++i) {
-                if (SEARCH_ENGINES[i] == savedEngine) {
-                    m_searchEngineChoice->SetSelection(i);
-                    break;
-                }
-            }
-        } else {
-            cout << "Failed to open file: " << filePath.ToStdString() << endl;
-        }
-    } else {
-        cout << "File does not exist: " << filePath.ToStdString() << endl;
-    }
+std::wstring trim(const std::wstring& str) {
+  const auto start = str.find_first_not_of(L" \t\n\r");
+  const auto end = str.find_last_not_of(L" \t\n\r");
+  return (start == std::wstring::npos) ? L"" : str.substr(start, end - start + 1);
 }
-*/
+
+void PurrooserFrame::LoadSearchEngine() {
+  wxString homeDir = wxFileName::GetHomeDir();
+  wxString filePath = homeDir.Append(wxT("/purr_settings.txt"));
+
+  if (wxFileName::FileExists(filePath)) {
+    std::wstring wstrFilePath = filePath.ToStdWstring();
+
+    std::wifstream inFile(reinterpret_cast<const char *>(wstrFilePath.c_str()), std::ios::in | std::ios::binary);
+    if (inFile.is_open()) {
+      std::wstring wstrSavedEngine;
+      std::getline(inFile, wstrSavedEngine, L'\n');
+      inFile.close();
+
+      wstrSavedEngine = trim(wstrSavedEngine);
+
+      if (wstrSavedEngine.empty()) {
+        wxLogError("No engine found in file: %s", filePath);
+      }
+
+      wxString wxStrSavedEngine(wstrSavedEngine.c_str());
+
+      for (size_t i = 0; i < SEARCH_ENGINES_SIZE; ++i) {
+        if (SEARCH_ENGINES[i] == wxStrSavedEngine) {
+          m_searchEngineChoice->SetSelection(i);
+          return;
+        }
+      }
+    } else {
+      wxLogError("Failed to open file: %s", filePath);
+    }
+  } else {
+    wxLogError("File does not exist: %s", filePath);
+  }
+}

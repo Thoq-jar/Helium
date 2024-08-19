@@ -40,7 +40,7 @@ private:
 
   void OnSaveSearchEngine(wxCommandEvent &event);
 
-  // This segfaults 👍-> void LoadSearchEngine();
+  void LoadSearchEngine();
 
   void ApplyTheme();
 
