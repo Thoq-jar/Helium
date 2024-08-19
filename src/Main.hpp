@@ -34,9 +34,9 @@ const std::string SEARCH_QUERY_TAG = "?q=";
 const std::string SEARCH_ENGINES[] = {
   "https://www.duckduckgo.com",
   "https://www.qwant.com",
+  "https://searx.work",
   "https://www.ecosia.org",
   "https://www.startpage.com",
-  "https://searx.work",
 };
 
 #endif //MAIN_HPP

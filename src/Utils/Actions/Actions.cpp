@@ -70,7 +70,7 @@ void PurrooserFrame::ApplyTheme() {
 
 void PurrooserFrame::OnSearch(wxCommandEvent &event) {
   wxString url = m_searchCtrl->GetValue();
-  url.Replace(" ", "%");
+  url.Replace(" ", "+");
 
   if (!url.StartsWith("http://") && !url.StartsWith("https://")) {
     if (!url.Contains(".")) {
@@ -219,5 +219,19 @@ void PurrooserFrame::LoadSearchEngine() {
     }
   } else {
     wxLogError("File does not exist: %s", filePath);
+  }
+}
+
+void PurrooserFrame::UpdateSearchBarWithCurrentURL(wxWebViewEvent &event) {
+  if (m_notebook->GetPageCount() > 0) {
+    auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+    if (webView) {
+      wxString currentURL = webView->GetCurrentURL();
+      m_searchCtrl->SetValue(currentURL);
+    } else {
+      wxLogError("No web view found in the current tab.");
+    }
+  } else {
+    wxLogError("No tabs open to get the URL.");
   }
 }

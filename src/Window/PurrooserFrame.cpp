@@ -9,8 +9,6 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   auto *sizer = new wxBoxSizer(wxVERTICAL);
   auto *topSizer = new wxBoxSizer(wxHORIZONTAL);
 
-  LoadSearchEngine();
-
   m_backButton = new wxButton(this, wxID_ANY, "←", wxDefaultPosition, wxSize(30, 30));
   m_backButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnBack, this);
   topSizer->Add(m_backButton, 0, wxEXPAND | wxALL, 5);
@@ -42,9 +40,9 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   wxArrayString searchEngines;
   searchEngines.Add("DuckDuckGo");
   searchEngines.Add("Qwant");
+  searchEngines.Add("Searx (.work)");
   searchEngines.Add("Ecosia");
   searchEngines.Add("StartPage");
-  searchEngines.Add("Searx (.work)");
 
   m_searchEngineChoice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchEngines);
   m_searchEngineChoice->SetSelection(0);
@@ -57,6 +55,9 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   sizer->Add(m_notebook, 1, wxEXPAND | wxALL, 0);
 
   SetSizer(sizer);
+
+  m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::UpdateSearchBarWithCurrentURL, this);
+  LoadSearchEngine();
 
   CreateNewTab("https://www." + DEFAULT_SEARCH + "." + SEARCH_TLD);
 
