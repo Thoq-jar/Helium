@@ -20,8 +20,9 @@ public:
   wxChoice *m_searchEngineChoice;
 
 private:
-  wxWebView *CreateNewTab(const wxString &url);
+  bool m_isLoading;
 
+  wxWebView *CreateNewTab(const wxString &url);
   wxWebView *GetCurrentWebView() const;
 
   void OnQuit(wxCommandEvent &event);
@@ -41,6 +42,12 @@ private:
   void OnForward(wxCommandEvent &event);
 
   void OnReload(wxCommandEvent &event);
+
+  void OnStop(wxCommandEvent &event);
+
+  void OnSiteLoading(wxWebViewEvent &event);
+
+  void OnSiteLoaded(wxWebViewEvent &event);
 
   void OnSaveSearchEngine(wxCommandEvent &event);
 

@@ -11,6 +11,9 @@ wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
   }
   sizer->Add(webView, 1, wxEXPAND);
 
+  webView->Bind(wxEVT_WEBVIEW_NAVIGATING, &PurrooserFrame::OnSiteLoading, this);
+  webView->Bind(wxEVT_WEBVIEW_LOADED, &PurrooserFrame::OnSiteLoaded, this);
+
   panel->SetSizer(sizer);
   m_notebook->AddPage(panel, webView->GetCurrentTitle(), true);
 
@@ -155,13 +158,37 @@ void PurrooserFrame::OnBack(wxCommandEvent &event) {
 }
 
 void PurrooserFrame::OnReload(wxCommandEvent &event) {
-  if (m_notebook->GetPageCount() == 0) {
-    return;
+  if (m_isLoading) {
+    auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+    if (webView) {
+      webView->Stop();
+    }
+  } else {
+    if (m_notebook->GetPageCount() == 0) {
+      return;
+    }
+    auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+    if (webView) {
+      webView->Reload();
+    }
   }
+}
+
+void PurrooserFrame::OnStop(wxCommandEvent &event) {
   auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
   if (webView) {
-    webView->Reload();
+    webView->Stop();
   }
+}
+
+void PurrooserFrame::OnSiteLoading(wxWebViewEvent &event) {
+  m_isLoading = true;
+  m_reloadButton->SetLabel("⏹");
+}
+
+void PurrooserFrame::OnSiteLoaded(wxWebViewEvent &event) {
+  m_isLoading = false;
+  m_reloadButton->SetLabel("↻");
 }
 
 void PurrooserFrame::OnHome(wxCommandEvent &event) {
