@@ -60,20 +60,33 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
 
   SetSizer(sizer);
 
-  m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::OnSiteNavigated, this);
   LoadSearchEngine();
+  m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::OnSiteNavigated, this);
 
   CreateNewTab("https://www." + DEFAULT_SEARCH + "." + SEARCH_TLD);
 
   auto *menuFile = new wxMenu;
+
   menuFile->Append(wxID_EXIT);
   m_toggleThemeItem = menuFile->Append(wxID_ANY, "Toggle Theme");
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
+
+  auto *menuNavigation = new wxMenu;
+  menuNavigation->Append(wxID_BACKWARD, "Back\tAlt+Left");
+  menuNavigation->Append(wxID_NEW, "New Tab\tCtrl+T");
+  menuNavigation->Append(wxID_CLOSE, "Close Tab\tCtrl+W");
+  menuNavigation->Append(wxID_REFRESH, RELOAD_STOP_KEYBIND);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnBack, this, wxID_BACKWARD);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnForward, this, wxID_FORWARD);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnReload, this, wxID_REFRESH);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnNewTab, this, wxID_NEW);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnCloseTab, this, wxID_CLOSE);
 
   Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
 
   auto *menuBar = new wxMenuBar;
   menuBar->Append(menuFile, "&File");
+  menuBar->Append(menuNavigation, "&Navigation");
   wxFrameBase::SetMenuBar(menuBar);
   wxFrameBase::CreateStatusBar();
   Bind(wxEVT_MENU, &PurrooserFrame::OnQuit, this, wxID_EXIT);

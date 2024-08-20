@@ -16,6 +16,16 @@
 #include "./Utils/Actions/Actions.hpp"
 #include "./Window/PurrooserFrame.hpp"
 
+#ifdef defined__WXGTK__
+#define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
+#elif defined(__WXOSX__)
+#define RELOAD_STOP_KEYBIND "Reload/Stop\tCtrl+R"
+#elif __WXMSW__ // Windows
+#define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
+#else
+  #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
+#endif
+
 constexpr int ID_SAVE_SEARCH_ENGINE = wxID_HIGHEST + 1;
 constexpr size_t SEARCH_ENGINES_SIZE = 5;
 

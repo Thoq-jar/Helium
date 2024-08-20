@@ -158,27 +158,33 @@ void PurrooserFrame::OnBack(wxCommandEvent &event) {
   }
 }
 
-void PurrooserFrame::OnReload(wxCommandEvent &event) {
-  if (m_isLoading) {
-    auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
-    if (webView) {
-      webView->Stop();
-    }
-  } else {
-    if (m_notebook->GetPageCount() == 0) {
-      return;
-    }
-    auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
-    if (webView) {
-      webView->Reload();
-    }
-  }
-}
-
 void PurrooserFrame::OnStop(wxCommandEvent &event) {
+  if (m_notebook->GetPageCount() == 0) {
+    return;
+  }
   auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
   if (webView) {
     webView->Stop();
+    m_isLoading = false;
+    m_reloadButton->SetLabel("↻");
+  }
+}
+
+void PurrooserFrame::OnReload(wxCommandEvent &event) {
+  if (m_notebook->GetPageCount() == 0) {
+    return;
+  }
+  auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+  if (webView) {
+    if (m_isLoading) {
+      webView->Stop();
+      m_isLoading = false;
+      m_reloadButton->SetLabel("↻");
+    } else {
+      webView->Reload();
+      m_isLoading = true;
+      m_reloadButton->SetLabel("⏹");
+    }
   }
 }
 
