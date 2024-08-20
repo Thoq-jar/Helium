@@ -15,13 +15,13 @@ add_executable(
         src/Purrooser/Purrooser.cpp
         src/Window/PurrooserFrame.cpp
         src/utils/Utils.cpp
+        src/Utils/Actions/Actions.cpp
 
         # Headers
         src/Main.hpp
         src/Purrooser/Purrooser.hpp
         src/Window/PurrooserFrame.hpp
         src/utils/Utils.hpp
-        src/Utils/Actions/Actions.cpp
         src/Utils/Actions/Actions.hpp
 )
 
