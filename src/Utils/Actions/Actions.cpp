@@ -13,6 +13,7 @@ wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
 
   webView->Bind(wxEVT_WEBVIEW_NAVIGATING, &PurrooserFrame::OnSiteLoading, this);
   webView->Bind(wxEVT_WEBVIEW_LOADED, &PurrooserFrame::OnSiteLoaded, this);
+  webView->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::OnSiteNavigated, this);
 
   panel->SetSizer(sizer);
   m_notebook->AddPage(panel, webView->GetCurrentTitle(), true);
@@ -251,10 +252,10 @@ void PurrooserFrame::LoadSearchEngine() {
   }
 }
 
-void PurrooserFrame::UpdateSearchBarWithCurrentURL(wxWebViewEvent &event) {
+void PurrooserFrame::OnSiteNavigated(wxWebViewEvent &event) {
   if (m_notebook->GetPageCount() > 0) {
     auto const webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
-    if (webView) {
+    if (webView && m_searchCtrl) {
       const wxString currentURL = webView->GetCurrentURL();
       m_searchCtrl->SetValue(currentURL);
     }

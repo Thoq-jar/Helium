@@ -60,7 +60,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
 
   SetSizer(sizer);
 
-  m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::UpdateSearchBarWithCurrentURL, this);
+  m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::OnSiteNavigated, this);
   LoadSearchEngine();
 
   CreateNewTab("https://www." + DEFAULT_SEARCH + "." + SEARCH_TLD);

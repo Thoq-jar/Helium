@@ -13,8 +13,6 @@ class PurrooserFrame final : public wxFrame {
 public:
   explicit PurrooserFrame(const wxString &title);
 
-  void UpdateSearchBarWithCurrentURL(wxWebViewEvent &event);
-
   void OnToggleTheme(wxCommandEvent &event);
 
   wxChoice *m_searchEngineChoice;
@@ -52,6 +50,8 @@ private:
   void OnSaveSearchEngine(wxCommandEvent &event);
 
   void LoadSearchEngine();
+
+  void OnSiteNavigated(wxWebViewEvent &event);
 
   void ApplyTheme();
 
