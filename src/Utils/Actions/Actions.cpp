@@ -220,8 +220,6 @@ void PurrooserFrame::LoadSearchEngine() {
           return;
         }
       }
-    } else {
-      wxLogError("Failed to open file: %s", filePath);
     }
   }
 }
