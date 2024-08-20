@@ -72,12 +72,14 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
 
   auto *menuNavigation = new wxMenu;
+  menuNavigation->Append(wxID_FORWARD, "Forward\tAlt+Right");
   menuNavigation->Append(wxID_BACKWARD, "Back\tAlt+Left");
   menuNavigation->Append(wxID_NEW, "New Tab\tCtrl+T");
   menuNavigation->Append(wxID_CLOSE, "Close Tab\tCtrl+W");
   menuNavigation->Append(wxID_REFRESH, RELOAD_STOP_KEYBIND);
-  Bind(wxEVT_MENU, &PurrooserFrame::OnBack, this, wxID_BACKWARD);
+
   Bind(wxEVT_MENU, &PurrooserFrame::OnForward, this, wxID_FORWARD);
+  Bind(wxEVT_MENU, &PurrooserFrame::OnBack, this, wxID_BACKWARD);
   Bind(wxEVT_MENU, &PurrooserFrame::OnReload, this, wxID_REFRESH);
   Bind(wxEVT_MENU, &PurrooserFrame::OnNewTab, this, wxID_NEW);
   Bind(wxEVT_MENU, &PurrooserFrame::OnCloseTab, this, wxID_CLOSE);
