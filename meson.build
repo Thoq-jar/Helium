@@ -1,8 +1,9 @@
-project('Purrooser', 'cpp', default_options: ['cpp_std=c++14'])
+project('Purrooser', 'cpp', default_options : ['cpp_std=c++14'])
 
-wxwidgets_dep = dependency('wxwidgets', modules: ['core', 'base', 'webview'])
+wxwidgets_dep = dependency('wxwidgets', modules : ['core', 'base', 'webview'])
 
-executable('Purrooser',
+executable(
+  'Purrooser',
   'src/Main.cpp',
   'src/Main.hpp',
   'src/Purrooser/Purrooser.cpp',
@@ -13,6 +14,7 @@ executable('Purrooser',
   'src/Utils/Utils.hpp',
   'src/Window/PurrooserFrame.cpp',
   'src/Window/PurrooserFrame.hpp',
-  include_directories: ['src'],
-  dependencies: [wxwidgets_dep]
+  include_directories : ['src'],
+  dependencies : [wxwidgets_dep],
+  # link_args : ['-static'] # Uncomment this line when using buildforwindows.sh
 )

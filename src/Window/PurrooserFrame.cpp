@@ -9,36 +9,31 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   auto *sizer = new wxBoxSizer(wxVERTICAL);
   auto *topSizer = new wxBoxSizer(wxHORIZONTAL);
 
-  m_backButton = new wxButton(this, wxID_ANY, "←", wxDefaultPosition, wxSize(30, 30));
-  m_backButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnBack, this);
-  topSizer->Add(m_backButton, 0, wxEXPAND | wxALL, 5);
-
-  m_forwardButton = new wxButton(this, wxID_ANY, "→", wxDefaultPosition, wxSize(30, 30));
-  m_forwardButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnForward, this);
-  topSizer->Add(m_forwardButton, 0, wxEXPAND | wxALL, 5);
-
-  m_homeButton = new wxButton(this, wxID_ANY, "⌂", wxDefaultPosition, wxSize(30, 30));
-  m_homeButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnHome, this);
-  topSizer->Add(m_homeButton, 0, wxEXPAND | wxALL, 5);
-
-  m_reloadButton = new wxButton(this, wxID_ANY, "↻", wxDefaultPosition, wxSize(30, 30));
-  m_reloadButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnReload, this);
-  topSizer->Add(m_reloadButton, 0, wxEXPAND | wxALL, 5);
-
+  m_backButton = new wxButton(this, ID_BACK_BUTTON, wxString::FromUTF8("←"), wxDefaultPosition, wxSize(30, 30));
+  m_forwardButton = new wxButton(this, ID_FORWARD_BUTTON, wxString::FromUTF8("→"), wxDefaultPosition, wxSize(30, 30));
+  m_homeButton = new wxButton(this, ID_HOME_BUTTON, wxString::FromUTF8("⌂"), wxDefaultPosition, wxSize(30, 30));
+  m_reloadButton = new wxButton(this, ID_RELOAD_BUTTON, wxString::FromUTF8("↻"), wxDefaultPosition, wxSize(30, 30));
+  m_searchButton = new wxButton(this, ID_SEARCH_BUTTON, wxString::FromUTF8("⌕"), wxDefaultPosition, wxSize(30, 30));
+  m_newTabButton = new wxButton(this, ID_NEW_TAB_BUTTON, wxString::FromUTF8("+"), wxDefaultPosition, wxSize(30, 30));
+  m_closeTabButton = new wxButton(this, ID_CLOSE_TAB_BUTTON, wxString::FromUTF8("-"), wxDefaultPosition, wxSize(30, 30));
   m_searchCtrl = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-  m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
-  topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
 
-  m_searchButton = new wxButton(this, wxID_ANY, "⌕", wxDefaultPosition, wxSize(30, 30));
+  m_backButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnBack, this);
+  m_forwardButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnForward, this);
+  m_homeButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnHome, this);
+  m_reloadButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnReload, this);
   m_searchButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnSearch, this);
-  topSizer->Add(m_searchButton, 0, wxEXPAND | wxALL, 5);
-
-  m_newTabButton = new wxButton(this, wxID_ANY, "+", wxDefaultPosition, wxSize(30, 30));
   m_newTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnNewTab, this);
-  topSizer->Add(m_newTabButton, 0, wxEXPAND | wxALL, 5);
-
-  m_closeTabButton = new wxButton(this, wxID_ANY, "-", wxDefaultPosition, wxSize(30, 30));
   m_closeTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnCloseTab, this);
+  m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
+
+  topSizer->Add(m_backButton, 0, wxEXPAND | wxALL, 5);
+  topSizer->Add(m_forwardButton, 0, wxEXPAND | wxALL, 5);
+  topSizer->Add(m_homeButton, 0, wxEXPAND | wxALL, 5);
+  topSizer->Add(m_reloadButton, 0, wxEXPAND | wxALL, 5);
+  topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
+  topSizer->Add(m_searchButton, 0, wxEXPAND | wxALL, 5);
+  topSizer->Add(m_newTabButton, 0, wxEXPAND | wxALL, 5);
   topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
 
   wxArrayString searchEngines;
@@ -68,7 +63,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   auto *menuFile = new wxMenu;
 
   menuFile->Append(wxID_EXIT);
-  m_toggleThemeItem = menuFile->Append(wxID_ANY, "Toggle Theme");
+  m_toggleThemeItem = menuFile->Append(ID_THEME_TOGGLE, "Toggle Theme");
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
 
   auto *menuNavigation = new wxMenu;
@@ -77,14 +72,14 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   menuNavigation->Append(wxID_NEW, "New Tab\tCtrl+T");
   menuNavigation->Append(wxID_CLOSE, "Close Tab\tCtrl+W");
   menuNavigation->Append(wxID_REFRESH, RELOAD_STOP_KEYBIND);
-  menuNavigation->Append(wxID_ANY, FULLSCREEN_KEYBIND);
+  menuNavigation->Append(ID_FULLSCREEN_TOGGLE, FULLSCREEN_KEYBIND);
 
   Bind(wxEVT_MENU, &PurrooserFrame::OnForward, this, wxID_FORWARD);
   Bind(wxEVT_MENU, &PurrooserFrame::OnBack, this, wxID_BACKWARD);
   Bind(wxEVT_MENU, &PurrooserFrame::OnReload, this, wxID_REFRESH);
   Bind(wxEVT_MENU, &PurrooserFrame::OnNewTab, this, wxID_NEW);
   Bind(wxEVT_MENU, &PurrooserFrame::OnCloseTab, this, wxID_CLOSE);
-  Bind(wxEVT_MENU, &PurrooserFrame::FullScreenToggle, this, wxID_ANY);
+  Bind(wxEVT_MENU, &PurrooserFrame::FullScreenToggle, this, ID_FULLSCREEN_TOGGLE);
   Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
 
   auto *menuBar = new wxMenuBar;
