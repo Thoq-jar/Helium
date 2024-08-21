@@ -6,16 +6,26 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(WIDTH, HEIGHT)), m_currentTheme(Theme::DARK) {
   cout << "Creating main frame..." << endl;
 
+#ifdef defined__WXGTK__
+  wxSize buttonSize(35, 35);
+#elif defined(__WXOSX__)
+  wxSize buttonSize(30, 30);
+#elif __WXMSW__
+  wxSize buttonSize(35, 35);
+#else
+  wxSize buttonSize(35, 35);
+#endif
+
   auto *sizer = new wxBoxSizer(wxVERTICAL);
   auto *topSizer = new wxBoxSizer(wxHORIZONTAL);
 
-  m_backButton = new wxButton(this, ID_BACK_BUTTON, wxString::FromUTF8("←"), wxDefaultPosition, wxSize(30, 30));
-  m_forwardButton = new wxButton(this, ID_FORWARD_BUTTON, wxString::FromUTF8("→"), wxDefaultPosition, wxSize(30, 30));
-  m_homeButton = new wxButton(this, ID_HOME_BUTTON, wxString::FromUTF8("⌂"), wxDefaultPosition, wxSize(30, 30));
-  m_reloadButton = new wxButton(this, ID_RELOAD_BUTTON, wxString::FromUTF8("↻"), wxDefaultPosition, wxSize(30, 30));
-  m_searchButton = new wxButton(this, ID_SEARCH_BUTTON, wxString::FromUTF8("⌕"), wxDefaultPosition, wxSize(30, 30));
-  m_newTabButton = new wxButton(this, ID_NEW_TAB_BUTTON, wxString::FromUTF8("+"), wxDefaultPosition, wxSize(30, 30));
-  m_closeTabButton = new wxButton(this, ID_CLOSE_TAB_BUTTON, wxString::FromUTF8("-"), wxDefaultPosition, wxSize(30, 30));
+  m_backButton = new wxButton(this, ID_BACK_BUTTON, wxString::FromUTF8("←"), wxDefaultPosition, buttonSize);
+  m_forwardButton = new wxButton(this, ID_FORWARD_BUTTON, wxString::FromUTF8("→"), wxDefaultPosition, buttonSize);
+  m_homeButton = new wxButton(this, ID_HOME_BUTTON, wxString::FromUTF8("⌂"), wxDefaultPosition, buttonSize);
+  m_reloadButton = new wxButton(this, ID_RELOAD_BUTTON, wxString::FromUTF8(RELOAD_ICON), wxDefaultPosition, buttonSize);
+  m_searchButton = new wxButton(this, ID_SEARCH_BUTTON, wxString::FromUTF8("⌕"), wxDefaultPosition, buttonSize);
+  m_newTabButton = new wxButton(this, ID_NEW_TAB_BUTTON, wxString::FromUTF8("+"), wxDefaultPosition, buttonSize);
+  m_closeTabButton = new wxButton(this, ID_CLOSE_TAB_BUTTON, wxString::FromUTF8("-"), wxDefaultPosition, buttonSize);
   m_searchCtrl = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 
   m_backButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnBack, this);
@@ -62,7 +72,7 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
 
   auto *menuFile = new wxMenu;
 
-  menuFile->Append(wxID_EXIT);
+  menuFile->Append(wxID_EXIT, QUIT_KEYBIND);
   m_toggleThemeItem = menuFile->Append(ID_THEME_TOGGLE, "Toggle Theme");
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
 

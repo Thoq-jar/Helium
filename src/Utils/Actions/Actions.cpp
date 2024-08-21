@@ -166,7 +166,7 @@ void PurrooserFrame::OnStop(wxCommandEvent &event) {
   if (webView) {
     webView->Stop();
     m_isLoading = false;
-    m_reloadButton->SetLabel("↻");
+      m_reloadButton->SetLabel(RELOAD_ICON);
   }
 }
 
@@ -179,11 +179,11 @@ void PurrooserFrame::OnReload(wxCommandEvent &event) {
     if (m_isLoading) {
       webView->Stop();
       m_isLoading = false;
-      m_reloadButton->SetLabel("↻");
+      m_reloadButton->SetLabel(RELOAD_ICON);
     } else {
       webView->Reload();
       m_isLoading = true;
-      m_reloadButton->SetLabel("⏹");
+      m_reloadButton->SetLabel(STOP_ICON);
     }
   }
 }
