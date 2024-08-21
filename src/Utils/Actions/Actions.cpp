@@ -112,7 +112,7 @@ void PurrooserFrame::OnToggleTheme(wxCommandEvent &event) {
   ApplyTheme();
 }
 
-void PurrooserFrame::OnQuit(wxCommandEvent & WXUNUSED(event)) {
+void PurrooserFrame::OnQuit(wxCommandEvent &WXUNUSED(event)) {
   const int selectedIndex = m_searchEngineChoice->GetSelection();
   const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
 
@@ -266,4 +266,28 @@ void PurrooserFrame::OnSiteNavigated(wxWebViewEvent &event) {
       m_searchCtrl->SetValue(currentURL);
     }
   }
+}
+
+void PurrooserFrame::FullScreenToggle(wxCommandEvent &event) {
+  if (m_notebook->GetPageCount() > 0) {
+    const auto webView = dynamic_cast<wxWebView *>(m_notebook->GetCurrentPage()->GetChildren()[0]);
+    if (webView) {
+      const bool isFullScreen = IsFullScreen();
+      ShowFullScreen(!isFullScreen, wxFULLSCREEN_NOBORDER | wxFULLSCREEN_NOCAPTION);
+      ToggleUIElements(isFullScreen);
+    }
+  }
+}
+
+void PurrooserFrame::ToggleUIElements(bool show) {
+  m_backButton->Show(show);
+  m_forwardButton->Show(show);
+  m_homeButton->Show(show);
+  m_reloadButton->Show(show);
+  m_searchButton->Show(show);
+  m_searchCtrl->Show(show);
+  m_newTabButton->Show(show);
+  m_closeTabButton->Show(show);
+  m_searchEngineChoice->Show(show);
+  Layout();
 }

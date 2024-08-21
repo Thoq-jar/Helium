@@ -29,9 +29,9 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   m_searchCtrl->Bind(wxEVT_TEXT_ENTER, &PurrooserFrame::OnSearch, this);
   topSizer->Add(m_searchCtrl, 1, wxEXPAND | wxALL, 5);
 
-  m_closeTabButton = new wxButton(this, wxID_ANY, "⌕", wxDefaultPosition, wxSize(30, 30));
-  m_closeTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnSearch, this);
-  topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
+  m_searchButton = new wxButton(this, wxID_ANY, "⌕", wxDefaultPosition, wxSize(30, 30));
+  m_searchButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnSearch, this);
+  topSizer->Add(m_searchButton, 0, wxEXPAND | wxALL, 5);
 
   m_newTabButton = new wxButton(this, wxID_ANY, "+", wxDefaultPosition, wxSize(30, 30));
   m_newTabButton->Bind(wxEVT_BUTTON, &PurrooserFrame::OnNewTab, this);
@@ -77,13 +77,14 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   menuNavigation->Append(wxID_NEW, "New Tab\tCtrl+T");
   menuNavigation->Append(wxID_CLOSE, "Close Tab\tCtrl+W");
   menuNavigation->Append(wxID_REFRESH, RELOAD_STOP_KEYBIND);
+  menuNavigation->Append(wxID_ANY, FULLSCREEN_KEYBIND);
 
   Bind(wxEVT_MENU, &PurrooserFrame::OnForward, this, wxID_FORWARD);
   Bind(wxEVT_MENU, &PurrooserFrame::OnBack, this, wxID_BACKWARD);
   Bind(wxEVT_MENU, &PurrooserFrame::OnReload, this, wxID_REFRESH);
   Bind(wxEVT_MENU, &PurrooserFrame::OnNewTab, this, wxID_NEW);
   Bind(wxEVT_MENU, &PurrooserFrame::OnCloseTab, this, wxID_CLOSE);
-
+  Bind(wxEVT_MENU, &PurrooserFrame::FullScreenToggle, this, wxID_ANY);
   Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
 
   auto *menuBar = new wxMenuBar;

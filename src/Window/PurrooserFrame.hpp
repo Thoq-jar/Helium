@@ -18,7 +18,7 @@ public:
   wxChoice *m_searchEngineChoice;
 
 private:
-  bool m_isLoading;
+  bool m_isLoading{};
 
   wxWebView *CreateNewTab(const wxString &url);
   wxWebView *GetCurrentWebView() const;
@@ -53,6 +53,10 @@ private:
 
   void OnSiteNavigated(wxWebViewEvent &event);
 
+  void FullScreenToggle(wxCommandEvent &event);
+
+  void ToggleUIElements(bool show);
+
   void ApplyTheme();
 
   wxSearchCtrl *m_searchCtrl;
@@ -61,6 +65,7 @@ private:
   wxButton *m_backButton;
   wxButton *m_forwardButton;
   wxButton *m_homeButton;
+  wxButton *m_searchButton;
   wxButton *m_reloadButton;
   wxNotebook *m_notebook;
   wxMenuItem *m_toggleThemeItem;

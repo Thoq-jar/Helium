@@ -18,12 +18,16 @@
 
 #ifdef defined__WXGTK__
 #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
+#define FULLSCREEN_KEYBIND "Fullscreen\tF11"
 #elif defined(__WXOSX__)
 #define RELOAD_STOP_KEYBIND "Reload/Stop\tCtrl+R"
+#define FULLSCREEN_KEYBIND "Fullscreen\tCtrl+F"
 #elif __WXMSW__ // Windows
 #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
+#define FULLSCREEN_KEYBIND "Fullscreen\tF11"
 #else
   #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
+  #define FULLSCREEN_KEYBIND "Fullscreen\tF11"
 #endif
 
 constexpr int ID_SAVE_SEARCH_ENGINE = wxID_HIGHEST + 1;
