@@ -15,8 +15,8 @@ mkdir .purroosertemp
 cd .purroosertemp
 git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
-chmod +x build-utils/build.sh
-./build-utils/build.sh
+chmod +x build-utils/native_build.sh
+sh build-utils/native_build.sh
 sudo mv builddir/Purrooser /usr/local/bin/purrooser
 source ~/.bashrc
 cd ~

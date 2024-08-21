@@ -16,5 +16,5 @@ executable(
   'src/Window/PurrooserFrame.hpp',
   include_directories : ['src'],
   dependencies : [wxwidgets_dep],
-  # link_args : ['-static'] # Uncomment this line when using buildforwindows.sh
+  # link_args : ['-static'] # Uncomment this line when using windows_cc.sh
 )

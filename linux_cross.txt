@@ -1,0 +1,15 @@
+[binaries]
+c = '/opt/homebrew/bin/x86_64-linux-musl-gcc'
+cpp = '/opt/homebrew/bin/x86_64-linux-musl-g++'
+ar = '/opt/homebrew/bin/x86_64-linux-musl-ar'
+strip = '/opt/homebrew/bin/x86_64-linux-musl-strip'
+pkgconfig = 'pkg-config'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
+
+[built-in options]
+prefix = '/usr/x86_64-linux-musl'
