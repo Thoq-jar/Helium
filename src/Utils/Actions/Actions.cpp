@@ -91,6 +91,8 @@ void PurrooserFrame::OnSearch(wxCommandEvent &event) {
     if (webView) {
       webView->LoadURL(url);
     }
+  } else {
+    CreateNewTab(url);
   }
 }
 
