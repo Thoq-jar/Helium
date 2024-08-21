@@ -5,7 +5,7 @@ command_exists() {
 }
 
 if ! command_exists meson; then
-    echo "CMake is not installed. Please install CMake and try again."
+    echo "Meson is not installed. Please install Meson and try again."
     exit 1
 fi
 
