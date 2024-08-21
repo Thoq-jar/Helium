@@ -1,6 +1,13 @@
 project('Purrooser', 'cpp', default_options : ['cpp_std=c++14'])
 
-wxwidgets_dep = dependency('wxwidgets', modules : ['core', 'base', 'webview'])
+wxwidgets_dep = dependency(
+  'wxwidgets', modules : [
+    'core',
+    'base',
+    'webview'
+  ],
+  required : true
+)
 
 executable(
   'Purrooser',
