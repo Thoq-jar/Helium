@@ -4,4 +4,6 @@
 sudo mv buildDir/purrooser /usr/local/bin/purrooser
 cd ~
 rm -rf .purroosertemp
+cd ~
 purrooser
+cd ~
