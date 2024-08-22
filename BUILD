@@ -58,7 +58,7 @@ genrule(
 genrule(
     name = "postinstall",
     srcs = [],
-    outs = ["install_build_output.txt"],
+    outs = ["postinstall_build_output.txt"],
     cmd = """
     cd ~
     rm -rf .purroosertemp
