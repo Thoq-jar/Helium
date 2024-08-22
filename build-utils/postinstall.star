@@ -1,0 +1,6 @@
+#!/bin/bash
+### I AM AWARE THIS IS NOT STARLARK,
+### I HAVE PLANS TO CONVERT THIS TO STARLARK IN THE FUTURE
+
+cd ~
+rm -rf .purroosertemp
