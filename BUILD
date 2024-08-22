@@ -51,7 +51,6 @@ genrule(
     srcs = [],
     outs = ["install_build_output.txt"],
     cmd = """
-    cd Purrooser
     bazel build //:Purrooser --spawn_strategy=standalone
     """,
 )
