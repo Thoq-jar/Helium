@@ -4,6 +4,7 @@ const string BANNER = R"(
 +-----------------------------+
 +    Welcome to Purrooser!    +
 +      Developed by Thoq      +
++       &  Contributors       +
 +-----------------------------+
 )";
 
