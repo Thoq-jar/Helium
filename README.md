@@ -16,7 +16,7 @@ cd .purroosertemp
 git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
 bazel build //:Purrooser --spawn_strategy=standalone
-sudo mv bazel-Purrooser/build/Purrooser /usr/local/bin/purrooser
+sudo mv bazel-Purrooser/Purrooser /usr/local/bin/purrooser
 cd ~
 rm -rf .purroosertemp
 purrooser
