@@ -7,7 +7,7 @@ else
     meson compile -C buildDir
     ./buildDir/purrooser
 fi
-echo "Build completed" > $@  # Ensure the output file is created
+touch $@  # Ensure the output file is created
 """
 
 window_crosscompile = """
@@ -19,7 +19,7 @@ meson setup buildWindows --cross-file windows_cross.txt
 cd buildWindows || exit
 ninja
 cd ..
-echo "Windows build completed" > $@  # Ensure the output file is created
+touch $@  # Ensure the output file is created
 """
 
 linux_crosscompile = """
@@ -31,7 +31,7 @@ meson setup buildLinux --cross-file linux_cross.txt
 cd buildLinux || exit
 ninja
 cd ..
-echo "Linux build completed" > $@  # Ensure the output file is created
+touch $@  # Ensure the output file is created
 """
 
 install_code = """
@@ -42,13 +42,13 @@ else
     meson setup buildDir
     meson compile -C buildDir
 fi
-echo "Install build completed" > $@  # Ensure the output file is created
+touch $@  # Ensure the output file is created
 """
 
-postinstall = """
+post_install = """
 cd ~
 rm -rf .purroosertemp
-echo "Done!" > $@  # Ensure the output file is created
+touch $@  # Ensure the output file is created
 """
 
 genrule(
@@ -83,5 +83,5 @@ genrule(
     name = "postinstall",
     srcs = [],
     outs = ["postinstall_build_output.txt"],
-    cmd = postinstall,
+    cmd = post_install,
 )
