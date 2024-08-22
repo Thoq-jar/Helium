@@ -26,3 +26,10 @@ genrule(
     cmd = purrooser_cmd,
     tools = ["//:Build"],
 )
+
+genrule(
+    name = "Run",
+    outs = ["Run.txt"],
+    cmd = "./Purrooser > $(OUTS)",
+    tools = ["//:Purrooser"],
+)
