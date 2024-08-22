@@ -51,7 +51,8 @@ genrule(
     srcs = [],
     outs = ["install_build_output.txt"],
     cmd = """
-    bazel build //:Purrooser --spawn_strategy=standalone
+    meson setup buildDir
+    meson compile -C buildDir
     """,
 )
 
@@ -62,6 +63,6 @@ genrule(
     cmd = """
     cd ~
     rm -rf .purroosertemp
-    purrooser
+    purrooser > postinstall_build_output.txt
     """,
 )
