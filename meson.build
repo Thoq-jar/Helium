@@ -6,7 +6,6 @@ wxwidgets_dep = dependency(
     'base',
     'webview'
   ],
-  required : true
 )
 
 executable(

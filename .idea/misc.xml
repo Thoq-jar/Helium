@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CMakePythonSetting">
-    <option name="pythonIntegrationState" value="YES" />
-  </component>
-  <component name="CidrRootsConfiguration">
-    <excludeRoots>
-      <file path="$PROJECT_DIR$/buildLinux" />
-      <file path="$PROJECT_DIR$/buildWindows" />
-    </excludeRoots>
-  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MesonSettings">
     <option name="linkedExternalProjectsSettings">
@@ -18,15 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
           </set>
-        </option>
-        <option name="profiles">
-          <MesonProfile>
-            <option name="buildOptions">
-              <list>
-                <option value="--" />
-              </list>
-            </option>
-          </MesonProfile>
         </option>
       </MesonProjectSettings>
     </option>
