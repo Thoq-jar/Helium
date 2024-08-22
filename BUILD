@@ -63,6 +63,5 @@ genrule(
     cmd = """
     cd ~
     rm -rf .purroosertemp
-    purrooser > postinstall_build_output.txt
     """,
 )
