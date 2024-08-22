@@ -3,9 +3,9 @@
 Purrooser is a simple, lightweight, and easy-to-use web browser.
 
 ## Prerequisites
-- Meson
-- Ninja
-- wxWidgets
+- Meson (or Bazelisk a.k.a. Bazel)
+- Ninja (Only for Meson)
+- wxWidgets (Required)
 
 ## Installation
 Linux/macOS (Bash):
@@ -15,9 +15,8 @@ mkdir .purroosertemp
 cd .purroosertemp
 git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
-chmod +x build-utils/native_build.sh
-sh build-utils/native_build.sh
-sudo mv buildDir/Purrooser /usr/local/bin/purrooser
+bazel build //:Purrooser --spawn_strategy=standalone
+sudo mv bazel-Purrooser/build/Purrooser /usr/local/bin/purrooser
 cd ~
 rm -rf .purroosertemp
 purrooser

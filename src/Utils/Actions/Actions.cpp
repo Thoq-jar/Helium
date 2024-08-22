@@ -1,4 +1,11 @@
 #include "../../Main.hpp"
+#include <wx/msgdlg.h>
+#include <wx/notebook.h>
+#include <wx/srchctrl.h>
+#include <wx/webview.h>
+#include <wx/wx.h>
+#include <wx/choice.h>
+#include <wx/filename.h>
 
 wxWebView *PurrooserFrame::CreateNewTab(const wxString &url) {
   auto *panel = new wxPanel(m_notebook);
