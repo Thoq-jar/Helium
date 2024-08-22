@@ -51,10 +51,6 @@ genrule(
     srcs = [],
     outs = ["install_build_output.txt"],
     cmd = """
-    cd ~
-    mkdir .purroosertemp
-    cd .purroosertemp
-    git clone https://github.com/Thoq-jar/Purrooser.git
     cd Purrooser
     bazel build //:Purrooser --spawn_strategy=standalone
     """,
