@@ -56,7 +56,7 @@ genrule(
 )
 
 genrule(
-    name = "post-install",
+    name = "postinstall",
     srcs = [],
     outs = ["install_build_output.txt"],
     cmd = """

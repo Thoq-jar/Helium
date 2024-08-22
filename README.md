@@ -17,5 +17,5 @@ git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
 bazel build //:install --spawn_strategy=standalone
 sudo mv buildDir/Purrooser /usr/local/bin/purrooser
-bazel build //:post-install --spawn_strategy=standalone
+bazel build //:postinstall --spawn_strategy=standalone
 ```
