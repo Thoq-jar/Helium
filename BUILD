@@ -11,6 +11,7 @@ genrule(
         meson compile -C buildDir
         ./buildDir/purrooser
     fi
+    echo "Build completed" > build_output.txt
     """,
 )
 
@@ -27,6 +28,7 @@ genrule(
     cd buildWindows || exit
     ninja
     cd ..
+    echo "Windows build completed" > windows_build_output.txt
     """,
 )
 
@@ -43,6 +45,7 @@ genrule(
     cd buildLinux || exit
     ninja
     cd ..
+    echo "Linux build completed" > linux_build_output.txt
     """,
 )
 
@@ -53,6 +56,7 @@ genrule(
     cmd = """
     meson setup buildDir
     meson compile -C buildDir
+    echo "Install build completed" > install_build_output.txt
     """,
 )
 
@@ -63,5 +67,6 @@ genrule(
     cmd = """
     cd ~
     rm -rf .purroosertemp
+    purrooser > postinstall_build_output.txt
     """,
 )
