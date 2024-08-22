@@ -6,6 +6,7 @@ Purrooser is a simple, lightweight, and easy-to-use web browser.
 - Meson
 - Ninja
 - wxWidgets
+- Bazelisk (aka Bazel)
 
 ## Installation
 Linux/macOS (Bash):
