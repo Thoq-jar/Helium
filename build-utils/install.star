@@ -9,3 +9,4 @@ else
     meson setup buildDir
     meson compile -C buildDir
 fi
+sh build-utils/postinstall.star

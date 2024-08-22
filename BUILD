@@ -15,14 +15,6 @@ genrule(
 )
 
 genrule(
-    name = "Postinstall",
-    srcs = ["build-utils/postinstall.star"],
-    outs = ["PurrooserPostinstall.txt"],
-    cmd = "sh build-utils/postinstall.star && touch $@",
-    visibility = ["//visibility:public"],
-)
-
-genrule(
     name = "WindowsCC",
     srcs = ["build-utils/windows_cc.star"],
     outs = ["PurrooserWindowsCC.txt"],
