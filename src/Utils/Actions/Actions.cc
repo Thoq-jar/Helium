@@ -1,4 +1,4 @@
-#include "../../Main.hpp"
+#include "../../Main.hh"
 #include <wx/msgdlg.h>
 #include <wx/notebook.h>
 #include <wx/srchctrl.h>

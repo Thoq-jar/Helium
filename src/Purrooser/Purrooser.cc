@@ -1,4 +1,4 @@
-#include "../Main.hpp"
+#include "../Main.hh"
 
 const string BANNER = R"(
 +-----------------------------+

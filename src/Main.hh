@@ -1,5 +1,5 @@
-#ifndef MAIN_HPP
-#define MAIN_HPP
+#ifndef MAIN_HH
+#define MAIN_HH
 
 #include <iostream>
 #include <fstream>
@@ -11,10 +11,10 @@
 #include <wx/choice.h>
 #include <wx/filename.h>
 
-#include "./Purrooser/Purrooser.hpp"
-#include "./Utils/Utils.hpp"
-#include "./Utils/Actions/Actions.hpp"
-#include "./Window/PurrooserFrame.hpp"
+#include "./Purrooser/Purrooser.hh"
+#include "./Utils/Utils.hh"
+#include "./Utils/Actions/Actions.hh"
+#include "./Window/PurrooserFrame.hh"
 
 #ifdef defined__WXGTK__
 #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
@@ -74,4 +74,4 @@ const std::string SEARCH_ENGINES[] = {
   "https://www.startpage.com",
 };
 
-#endif //MAIN_HPP
+#endif //MAIN_HH
