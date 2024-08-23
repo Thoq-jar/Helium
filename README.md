@@ -15,9 +15,8 @@ mkdir .purroosertemp
 cd .purroosertemp
 git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
-bazel clean --expunge
-bazel build //:Purrooser --spawn_strategy=standalone
-sudo mv bazel-Purrooser/Purrooser /usr/local/bin/purrooser
+bazel build //:PurrooserBuild --spawn_strategy=standalone
+sudo mv bazel-Purrooser/buildDir/Purrooser /usr/local/bin/purrooser
 cd ~
 rm -rf .purroosertemp
 purrooser

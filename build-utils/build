@@ -1,0 +1,11 @@
+rm -rf bazel-Purrooser
+clang++ \
+    -std=c++14 \
+    -o Purrooser \
+    src/Main.cpp \
+    src/Purrooser/Purrooser.cpp \
+    src/Utils/Actions/Actions.cpp \
+    src/Utils/Utils.cpp \
+    src/Window/PurrooserFrame.cpp \
+    $(wx-config --cxxflags) \
+    $(wx-config --libs core base webview)

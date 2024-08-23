@@ -1,35 +1,22 @@
 build_cmd = """
-clang++ \
-    -std=c++14 \
-    -o Purrooser \
-    src/Main.cpp \
-    src/Purrooser/Purrooser.cpp \
-    src/Utils/Actions/Actions.cpp \
-    src/Utils/Utils.cpp \
-    src/Window/PurrooserFrame.cpp \
-    `wx-config --cxxflags --libs core base webview` > $(OUTS)
+meson configure buildDir --buildtype=release
+meson compile -C buildDir > $@
 """
 
-purrooser_cmd = """
-echo "Building..." > $(OUTS)
+build_run_cmd = """
+meson configure buildDir --buildtype=release
+meson compile -C buildDir > $@
+./buildDir/Purrooser
 """
 
 genrule(
-    name = "Build",
-    outs = ["Purrooser.txt"],
+    name = "PurrooserBuild",
+    outs = ["build"],
     cmd = build_cmd,
 )
 
 genrule(
-    name = "Purrooser",
-    outs = ["BuildMain.txt"],
-    cmd = purrooser_cmd,
-    tools = ["//:Build"],
-)
-
-genrule(
-    name = "Run",
-    outs = ["Run.txt"],
-    cmd = "./Purrooser > $(OUTS)",
-    tools = ["//:Purrooser"],
+    name = "PurrooserRun",
+    outs = ["Purrooser"],
+    cmd = build_run_cmd,
 )
