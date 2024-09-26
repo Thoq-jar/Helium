@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPush
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl, Qt
 import sys
+import os
 
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
@@ -109,24 +110,13 @@ class MainWindow(QMainWindow):
         self.current_web_view().load(QUrl("http://localhost:54365/index.html"))
 
     def set_dark_mode(self):
-        dark_stylesheet = """
-        QMainWindow {
-            background-color: #2E2E2E;
-        }
-        QToolBar {
-            background-color: #3C3C3C;
-        }
-        QPushButton {
-            background-color: #4C4C4C;
-            color: white;
-            border: none;
-            padding: 5px;
-        }
-        QPushButton:hover {
-            background-color: #5C5C5C;
-        }
-        """
-        self.setStyleSheet(dark_stylesheet)
+        css_file_path = os.path.join('ui', 'core', 'core.css')
+        if os.path.exists(css_file_path):
+            with open(css_file_path, 'r') as css_file:
+                dark_stylesheet = css_file.read()
+            self.setStyleSheet(dark_stylesheet)
+        else:
+            print(f"CSS file not found: {css_file_path}")
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
