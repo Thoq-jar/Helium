@@ -1,5 +1,3 @@
-// noinspection JSUnresolvedReference
-
 import '../lib/std.js';
 
 const sysLinks = [
@@ -16,7 +14,7 @@ $(document).ready(function () {
         if (query) {
             if (query.startsWith('purr://')) {
                 parseSysLink(query);
-            } else if (query.includes('.')) {
+            } else if (isValidUrl(query)) {
                 window.location.href = query.startsWith('http://') || query.startsWith('https://') ? query : 'https://' + query;
             } else {
                 window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
@@ -31,6 +29,13 @@ $(document).ready(function () {
     function parseSysLink(link) {
         const sysLink = link.replace('purr://', '');
         if (sysLinks.includes(sysLink)) window.location.href = `${sysLink}.html`;
+    }
+
+    function isValidUrl(query) {
+        const hasSpace = query.includes(' ');
+        const hasDot = query.includes('.');
+        const isValidFormat = /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(query);
+        return !hasSpace && hasDot && isValidFormat;
     }
 });
 
@@ -65,38 +70,35 @@ $(document).ready(() => {
             $.getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${locationData.latitude}&longitude=${locationData.longitude}&current_weather=true`, function (weatherData) {
                 const temperature = Math.round((weatherData.current_weather.temperature * 1.8) + 32);
                 const weatherCode = weatherData.current_weather.weathercode;
-                const {description, iconUrl} = getWeatherConditionDescription(weatherCode);
+                const { description, iconUrl } = getWeatherConditionDescription(weatherCode);
 
                 $city.text(city);
                 $temperature.text(`${temperature}°F`);
                 $weatherIcon.attr('src', iconUrl);
                 $weatherDescription.text(description);
 
-                $weatherContainer.css({'display': 'flex'})
+                $weatherContainer.css({ 'display': 'flex' })
                 $weatherDescription.show();
-            }).fail(() => console.error('Error fetching weather data'));
-        }).fail(() => console.error('Error fetching location data'));
+            }).fail(() => window.location.href = 'http://localhost:54365/error.html');
+        }).fail(() => window.location.href = 'http://localhost:54365/error.html');
     }
 
     function getWeatherConditionDescription(weatherCode) {
         const weatherConditions = {
-            "0": {description: "Clear", iconUrl: "https://openweathermap.org/img/wn/01d@2x.png"},
-            "1": {description: "Mainly clear", iconUrl: "https://openweathermap.org/img/wn/02d@2x.png"},
-            "2": {description: "Partly cloudy", iconUrl: "https://openweathermap.org/img/wn/03d@2x.png"},
-            "3": {description: "Overcast", iconUrl: "https://openweathermap.org/img/wn/04d@2x.png"},
-            "01": {description: "Clear sky tonight", iconUrl: "https://openweathermap.org/img/wn/01n@2x.png"},
-            "02": {description: "Mainly clear tonight", iconUrl: "https://openweathermap.org/img/wn/02n@2x.png"},
-            "03": {description: "Partly cloudy tonight", iconUrl: "https://openweathermap.org/img/wn/03n@2x.png"},
-            "04": {description: "Overcast tonight", iconUrl: "https://openweathermap.org/img/wn/04n@2x.png"},
-            "50": {description: "Unknown weather condition", iconUrl: ""},
-            "51": {description: "Light drizzle", iconUrl: "https://openweathermap.org/img/wn/09d@2x.png"},
-            "95": {description: "Thunderstorms", iconUrl: "https://openweathermap.org/img/wn/11d@2x.png"},
-            "96": {description: "Thunderstorms with hail", iconUrl: "https://openweathermap.org/img/wn/11d@2x.png"},
-            "99": {
-                description: "Thunderstorms with heavy hail",
-                iconUrl: "https://openweathermap.org/img/wn/11d@2x.png"
-            },
-            _: {description: "Unknown weather condition", iconUrl: ""}
+            "0": { description: "Clear", iconUrl: "https://openweathermap.org/img/wn/01d@2x.png" },
+            "1": { description: "Mainly clear", iconUrl: "https://openweathermap.org/img/wn/02d@2x.png" },
+            "2": { description: "Partly cloudy", iconUrl: "https://openweathermap.org/img/wn/03d@2x.png" },
+            "3": { description: "Overcast", iconUrl: "https://openweathermap.org/img/wn/04d@2x.png" },
+            "01": { description: "Clear sky tonight", iconUrl: "https://openweathermap.org/img/wn/01n@2x.png" },
+            "02": { description: "Mainly clear tonight", iconUrl: "https://openweathermap.org/img/wn/02n@2x.png" },
+            "03": { description: "Partly cloudy tonight", iconUrl: "https://openweathermap.org/img/wn/03n@2x.png" },
+            "04": { description: "Overcast tonight", iconUrl: "https://openweathermap.org/img/wn/04n@2x.png" },
+            "50": { description: "Unknown weather condition", iconUrl: "" },
+            "51": { description: "Light drizzle", iconUrl: "https://openweathermap.org/img/wn/09d@2x.png" },
+            "95": { description: "Thunderstorms", iconUrl: "https://openweathermap.org/img/wn/11d@2x.png" },
+            "96": { description: "Thunderstorms with hail", iconUrl: "https://openweathermap.org/img/wn/11d@2x.png" },
+            "99": { description: "Thunderstorms with heavy hail", iconUrl: "https://openweathermap.org/img/wn/11d@2x.png" },
+            _: { description: "Unknown weather condition", iconUrl: "" }
         };
 
         return weatherConditions[weatherCode] || weatherConditions["_"];

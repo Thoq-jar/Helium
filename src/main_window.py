@@ -1,6 +1,7 @@
-﻿from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton
+﻿from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl, Qt
+import sys
 
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
@@ -21,41 +22,90 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
         central_widget.setLayout(layout)
 
-        self.web_view = QWebEngineView()
-        layout.addWidget(self.web_view)
+        self.tab_widget = QTabWidget()
+        layout.addWidget(self.tab_widget)
+
+        self.add_new_tab()
 
         toolbar = QToolBar()
         self.addToolBar(toolbar)
 
-        # Back button
         back_button = QPushButton("<")
-        back_button.clicked.connect(self.web_view.back)
+        back_button.clicked.connect(self.current_web_view().back)
         toolbar.addWidget(back_button)
 
-        # Forward button
         forward_button = QPushButton(">")
-        forward_button.clicked.connect(self.web_view.forward)
+        forward_button.clicked.connect(self.current_web_view().forward)
         toolbar.addWidget(forward_button)
 
-         # Reload button
         reload_button = QPushButton("↻")
-        reload_button.clicked.connect(self.web_view.reload)
+        reload_button.clicked.connect(self.current_web_view().reload)
         toolbar.addWidget(reload_button)
 
-        # Home button
         home_button = QPushButton("⌂")
         home_button.clicked.connect(self.load_local_file)
         toolbar.addWidget(home_button)
 
-        self.web_view.loadFinished.connect(self.on_load_finished)
+        new_tab_button = QPushButton("+")
+        new_tab_button.clicked.connect(self.add_new_tab)
+        toolbar.addWidget(new_tab_button)
+
+        close_tab_button = QPushButton("X")
+        close_tab_button.clicked.connect(self.close_current_tab)
+        toolbar.addWidget(close_tab_button)
+
+        self.tab_widget.currentChanged.connect(self.update_buttons)
 
         self.set_dark_mode()
 
-    def on_load_finished(self):
-        pass
+    def add_new_tab(self):
+        new_tab = QWebEngineView()
+        self.tab_widget.addTab(new_tab, "New Tab")
+        self.tab_widget.setCurrentWidget(new_tab)
+        new_tab.loadFinished.connect(self.on_load_finished)
+
+        new_tab.load(QUrl("http://localhost:54365/index.html"))
+
+    def on_load_finished(self, success):
+        if not success:self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
+
+    def create_tab_label(self, title):
+        tab_label = QWidget()
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        title_label = QLabel(title)
+        layout.addWidget(title_label)
+
+        close_button = QPushButton("X")
+        close_button.setFixedSize(20, 20)
+        close_button.clicked.connect(lambda: self.close_tab(title))
+        layout.addWidget(close_button)
+
+        tab_label.setLayout(layout)
+        return tab_label
+
+    def close_current_tab(self):
+        current_index = self.tab_widget.currentIndex()
+        if current_index != -1:
+            self.tab_widget.removeTab(current_index)
+
+    def close_tab(self, title):
+        index = self.tab_widget.indexOf(self.tab_widget.findChild(QWidget, title))
+        if index != -1:
+            self.tab_widget.removeTab(index)
+
+    def current_web_view(self):
+        return self.tab_widget.currentWidget()
+
+    def update_buttons(self):
+        current_view = self.current_web_view()
+        if current_view:
+            self.back_button.setEnabled(current_view.history().canGoBack())
+            self.forward_button.setEnabled(current_view.history().canGoForward())
 
     def load_local_file(self):
-        self.web_view.load(QUrl("http://localhost:54365/index.html"))
+        self.current_web_view().load(QUrl("http://localhost:54365/index.html"))
 
     def set_dark_mode(self):
         dark_stylesheet = """
@@ -79,4 +129,10 @@ class MainWindow(QMainWindow):
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
-            self.web_view.reload()
+            self.current_web_view().reload()
+        elif event.key() == Qt.Key_T and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+            self.add_new_tab()
+        elif event.key() == Qt.Key_W and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+            self.close_current_tab()
+        elif event.key() == Qt.Key_Q and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+            self.close()
