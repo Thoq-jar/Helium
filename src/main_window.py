@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
         tab_label.setLayout(layout)
         return tab_label
 
-      def on_load_finished(self, success):
+    def on_load_finished(self, success):
         pass
           
     def close_current_tab(self):
