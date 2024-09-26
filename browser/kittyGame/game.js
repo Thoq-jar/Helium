@@ -1,5 +1,3 @@
-import '../lib/std.js';
-
 $(document).ready(function () {
     let score = 0;
     let isJumping = false;
