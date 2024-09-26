@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication
-from src.http_server import HttpServer
-from src.main_window import MainWindow
+from core.http_server import HttpServer
+from core.main_window import MainWindow
 
 if __name__ == "__main__":
     try:

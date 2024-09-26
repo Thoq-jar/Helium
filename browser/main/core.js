@@ -10,13 +10,16 @@ $(document).ready(function () {
     $('#searchButton').on('click', () => {
         const query = $('#searchBar').val().trim();
         if (query) {
-            if (query.startsWith('purr://')) {
-                parseSysLink(query);
-            } else if (isValidUrl(query)) {
-                window.location.href = query.startsWith('http://') || query.startsWith('https://') ? query : 'https://' + query;
+            const lowerCaseQuery = query.toLowerCase();
+            if (lowerCaseQuery.startsWith('purr://')) {
+                parseSysLink(lowerCaseQuery);
+            } else if (isValidUrl(query) || lowerCaseQuery.startsWith('http://') || lowerCaseQuery.startsWith('https://')) {
+                window.location.href = lowerCaseQuery.startsWith('http://') || lowerCaseQuery.startsWith('https://') ? query : 'https://' + query;
             } else {
                 window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
             }
+        } else {
+            alert("Please enter a search term.");
         }
     });
 

@@ -28,7 +28,7 @@ pip install -r requirements.txt
 ## Run
 Any OS *(Make sure if on Unix-Like system you are in venv)*: 
 ```
-python -m src.main
+python -m core.main
 ```
 
 ## License
