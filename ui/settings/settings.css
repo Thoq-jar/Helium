@@ -10,6 +10,11 @@ body {
     width: 100%;
 }
 
+.blur-background {
+    filter: blur(10px);
+    transition: filter 0.3s ease;
+}
+
 .left-wrapper {
     width: 25%;
     height: 100%;
