@@ -62,7 +62,7 @@ $(document).ready(() => {
     }
 
     function fetchWeather() {
-        $.getJSON('https://ip-api.com/json', (locationData) => {
+        $.getJSON('http://ip-api.com/json', (locationData) => {
             const city = locationData.city;
 
             $.getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${locationData.lat}&longitude=${locationData.lon}&current_weather=true`, function (weatherData) {
