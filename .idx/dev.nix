@@ -10,7 +10,7 @@
       };
 
       onStart = {
-        preview = "cd browser && python3 -m http.server";
+        preview = "cd ui && python3 -m http.server";
       };
     };
   };
