@@ -1,4 +1,4 @@
-﻿from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl, Qt
 import sys
@@ -66,6 +66,10 @@ class MainWindow(QMainWindow):
 
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
+    def on_load_finished(self, success):
+        if not success:
+            self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
+
     def create_tab_label(self, title):
         tab_label = QWidget()
         layout = QHBoxLayout()
@@ -82,9 +86,6 @@ class MainWindow(QMainWindow):
         tab_label.setLayout(layout)
         return tab_label
 
-    def on_load_finished(self, success):
-        pass
-          
     def close_current_tab(self):
         current_index = self.tab_widget.currentIndex()
         if current_index != -1:
