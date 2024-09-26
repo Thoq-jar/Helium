@@ -77,8 +77,8 @@ $(document).ready(() => {
 
                 $weatherContainer.css({ 'display': 'flex' });
                 $weatherDescription.show();
-            }).fail(() => window.location.href = 'http://localhost:54365/error.html');
-        }).fail(() => window.location.href = 'http://localhost:54365/error.html');
+            }).fail(() => console.log("Error loading weather")
+        }).fail(() => console.log("Error getting ip");
     }
 
     function getWeatherConditionDescription(weatherCode) {
