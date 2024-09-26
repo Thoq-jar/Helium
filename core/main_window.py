@@ -1,7 +1,9 @@
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel # type: ignore
-from PySide6.QtWebEngineWidgets import QWebEngineView # type: ignore
-from PySide6.QtCore import QUrl, Qt # type: ignore
 import os
+
+from PySide6.QtCore import QUrl, Qt
+from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
 
 
 class MainWindow(QMainWindow):
@@ -12,9 +14,19 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Purrooser")
         self.setGeometry(100, 100, 1600, 900)
 
+        self.setup_profile()
         self.setup_ui()
         self.http_server.start()
         self.load_local_file()
+
+    def setup_profile(self):
+        storage_path = os.path.join(os.getcwd(), "web_storage")
+        if not os.path.exists(storage_path):
+            os.makedirs(storage_path)
+
+        self.profile = QWebEngineProfile(storage_path)
+        self.profile.setPersistentStoragePath(storage_path)
+        print(f"Profile created with storage path: {storage_path}")
 
     def setup_ui(self):
         central_widget = QWidget()
@@ -63,6 +75,7 @@ class MainWindow(QMainWindow):
 
     def add_new_tab(self):
         new_tab = QWebEngineView()
+        new_tab.setPage(QWebEnginePage(self.profile))
         self.tab_widget.addTab(new_tab, "New Tab")
         self.tab_widget.setCurrentWidget(new_tab)
         new_tab.loadFinished.connect(self.on_load_finished)
@@ -73,31 +86,10 @@ class MainWindow(QMainWindow):
         if not success:
             self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
 
-    def create_tab_label(self, title):
-        tab_label = QWidget()
-        layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-
-        title_label = QLabel(title)
-        layout.addWidget(title_label)
-
-        close_button = QPushButton("X")
-        close_button.setFixedSize(20, 20)
-        close_button.clicked.connect(lambda: self.close_tab(title))
-        layout.addWidget(close_button)
-
-        tab_label.setLayout(layout)
-        return tab_label
-
     def close_current_tab(self):
         current_index = self.tab_widget.currentIndex()
         if current_index != -1:
             self.tab_widget.removeTab(current_index)
-
-    def close_tab(self, title):
-        index = self.tab_widget.indexOf(self.tab_widget.findChild(QWidget, title))
-        if index != -1:
-            self.tab_widget.removeTab(index)
 
     def current_web_view(self):
         return self.tab_widget.currentWidget()
@@ -113,11 +105,7 @@ class MainWindow(QMainWindow):
         if current_view:
             current_view.load(QUrl("http://localhost:54365/index.html"))
         else:
-            new_tab = QWebEngineView()
-            self.tab_widget.addTab(new_tab, "New Tab")
-            self.tab_widget.setCurrentWidget(new_tab)
-            new_tab.loadFinished.connect(self.on_load_finished)
-            new_tab.load(QUrl("http://localhost:54365/index.html"))
+            self.add_new_tab()
 
     def set_dark_mode(self):
         css_file_path = os.path.join('ui', 'core', 'window.css')
@@ -129,10 +117,7 @@ class MainWindow(QMainWindow):
             print(f"CSS file not found: {css_file_path}")
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_F5 or (event.key() == 
-                                        Qt.Key_R and (event.modifiers() & 
-                                                      Qt.ControlModifier or event.modifiers() & 
-                                                      Qt.MetaModifier)):
+        if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
             self.current_web_view().reload()
         elif event.key() == Qt.Key_T and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.add_new_tab()
@@ -140,4 +125,3 @@ class MainWindow(QMainWindow):
             self.close_current_tab()
         elif event.key() == Qt.Key_Q and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close()
-

@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    $('.tab').click(() => {
+    $('.tab').click(function() {
         const contentId = $(this).data('content');
         $('.content').hide();
         $('#' + contentId).show();
@@ -7,7 +7,7 @@ $(document).ready(() => {
         $(this).addClass('active');
     });
 
-    $('#search-bar').on('input', () => {
+    $('#search-bar').on('input', function()  {
         const searchTerm = $(this).val().toLowerCase();
         $('.content').each(() => {
             const isVisible = $(this).text().toLowerCase().includes(searchTerm);
