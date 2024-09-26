@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl, Qt
-import sys
-import os
+import os  # Remove this if not used
+
 
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
@@ -137,3 +137,4 @@ class MainWindow(QMainWindow):
             self.close_current_tab()
         elif event.key() == Qt.Key_Q and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close()
+
