@@ -49,10 +49,6 @@ body {
   transition: all 0.3s ease;
 }
 
-.search-container:focus-within {
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
-}
-
 input[type="text"] {
   width: 500px;
   padding: 15px;
@@ -63,12 +59,10 @@ input[type="text"] {
   font-family: inherit;
   font-size: 20px;
   transition: background-color 0.3s ease;
-  text-shadow: inherit;
 }
 
 input[type="text"]::placeholder {
   color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 0 0 transparent;
 }
 
 input[type="text"]:hover {
@@ -83,7 +77,6 @@ input[type="text"]:focus {
   border: 1px #777 solid;
   background-color: rgba(32, 33, 36, 0.5);
   color: white;
-  text-shadow: inherit;
 }
 
 .go:hover {
@@ -102,7 +95,7 @@ button {
 
 .weather-container {
   position: absolute;
-  top: 20px;
+  top: 15px;
   right: 20px;
   color: white;
   font-size: 22px;
@@ -113,26 +106,31 @@ button {
   display: none;
 }
 
+.unit {
+    font-size: 15px;
+}
+
 .weather-description {
   position: absolute;
-  bottom: 25px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   color: white;
-  font-size: 22px;
+  font-size: 17px;
   text-align: center;
-  border: 0.01rem solid white;
+  border: 0.1rem solid rgb(128, 128, 128);
   background: transparent;
-  padding: 5px;
+  padding: 5px 10px;
   border-radius: 5px;
   display: none;
   z-index: 2;
 }
 
 .weather-icon {
-  width: 50px;
-  height: 50px;
-  margin-left: 5px;
+  width: 60px;
+  height: 60px;
+  margin-left: 3px;
+  margin-top: 10px;
   border: none;
   outline: none;
 }

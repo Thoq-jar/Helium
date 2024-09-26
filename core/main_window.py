@@ -34,10 +34,12 @@ class MainWindow(QMainWindow):
         back_button = QPushButton("<")
         back_button.clicked.connect(self.current_web_view().back)
         toolbar.addWidget(back_button)
+        self.back_button = back_button
 
         forward_button = QPushButton(">")
         forward_button.clicked.connect(self.current_web_view().forward)
         toolbar.addWidget(forward_button)
+        self.forward_button = forward_button
 
         reload_button = QPushButton("↻")
         reload_button.clicked.connect(self.current_web_view().reload)
@@ -107,10 +109,18 @@ class MainWindow(QMainWindow):
             self.forward_button.setEnabled(current_view.history().canGoForward())
 
     def load_local_file(self):
-        self.current_web_view().load(QUrl("http://localhost:54365/index.html"))
+        current_view = self.current_web_view()
+        if current_view:
+            current_view.load(QUrl("http://localhost:54365/index.html"))
+        else:
+            new_tab = QWebEngineView()
+            self.tab_widget.addTab(new_tab, "New Tab")
+            self.tab_widget.setCurrentWidget(new_tab)
+            new_tab.loadFinished.connect(self.on_load_finished)
+            new_tab.load(QUrl("http://localhost:54365/index.html"))
 
     def set_dark_mode(self):
-        css_file_path = os.path.join('ui', 'core', 'core.css')
+        css_file_path = os.path.join('ui', 'core', 'window.css')
         if os.path.exists(css_file_path):
             with open(css_file_path, 'r') as css_file:
                 dark_stylesheet = css_file.read()
