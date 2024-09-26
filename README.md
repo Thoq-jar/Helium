@@ -5,6 +5,7 @@ Web browser with Python
 Any OS:
 ```
 git clone https://github.com/Thoq-jar/Purrooser.git
+cd Purrooser
 ```
 
 ## Bootstrap
