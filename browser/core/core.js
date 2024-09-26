@@ -77,8 +77,8 @@ $(document).ready(() => {
 
                 $weatherContainer.css({ 'display': 'flex' });
                 $weatherDescription.show();
-            }).fail(() => console.log("Error loading weather")
-        }).fail(() => console.log("Error getting ip");
+            }).fail(() => console.log("Error loading weather"));
+        }).fail(() => console.log("Error getting ip"));
     }
 
     function getWeatherConditionDescription(weatherCode) {
