@@ -62,10 +62,10 @@ $(document).ready(() => {
     }
 
     function fetchWeather() {
-        $.getJSON('https://ipapi.co/json', (locationData) => {
+        $.getJSON('https://ip-api.com/json', (locationData) => {
             const city = locationData.city;
 
-            $.getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${locationData.latitude}&longitude=${locationData.longitude}&current_weather=true`, function (weatherData) {
+            $.getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${locationData.lat}&longitude=${locationData.lon}&current_weather=true`, function (weatherData) {
                 const temperature = Math.round((weatherData.current_weather.temperature * 1.8) + 32);
                 const weatherCode = weatherData.current_weather.weathercode;
                 const { description, iconUrl } = getWeatherConditionDescription(weatherCode);
@@ -75,10 +75,10 @@ $(document).ready(() => {
                 $weatherIcon.attr('src', iconUrl);
                 $weatherDescription.text(description);
 
-                $weatherContainer.css({ 'display': 'flex' })
+                $weatherContainer.css({ 'display': 'flex' });
                 $weatherDescription.show();
-            }).fail(() => window.location.href = 'http://localhost:54365/error.html');
-        }).fail(() => window.location.href = 'http://localhost:54365/error.html');
+            }).fail(() => window.location.href = 'http://localhost:54365/kitty.html');
+        }).fail(() => window.location.href = 'http://localhost:54365/kitty.html');
     }
 
     function getWeatherConditionDescription(weatherCode) {
