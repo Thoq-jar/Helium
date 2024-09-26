@@ -9,18 +9,15 @@ pip install -r requirements.txt
 
 macOS/Linux/Unix:
 ```
-pip3 install -r requirements.txt
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ## Run
-Windows/DOS:
+Any OS *(Make sure if on Unix-Like system you are in venv)*: 
 ```
 python -m src.main
-```
-
-macOS/Linux/Unix:
-```
-python3 -m src.main
 ```
 
 ## License
