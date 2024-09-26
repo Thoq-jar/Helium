@@ -77,8 +77,8 @@ $(document).ready(() => {
 
                 $weatherContainer.css({ 'display': 'flex' });
                 $weatherDescription.show();
-            }).fail(() => window.location.href = 'http://localhost:54365/kitty.html');
-        }).fail(() => window.location.href = 'http://localhost:54365/kitty.html');
+            }).fail(() => window.location.href = 'http://localhost:54365/error.html');
+        }).fail(() => window.location.href = 'http://localhost:54365/error.html');
     }
 
     function getWeatherConditionDescription(weatherCode) {
