@@ -82,6 +82,9 @@ class MainWindow(QMainWindow):
         tab_label.setLayout(layout)
         return tab_label
 
+      def on_load_finished(self, success):
+        pass
+          
     def close_current_tab(self):
         current_index = self.tab_widget.currentIndex()
         if current_index != -1:
