@@ -1,20 +1,17 @@
-﻿from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton
+﻿from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl, Qt
-import sys
-import threading
-import os
-from http.server import SimpleHTTPRequestHandler, HTTPServer
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, http_server):
         super().__init__()
 
+        self.http_server = http_server
         self.setWindowTitle("Purrooser")
         self.setGeometry(100, 100, 1600, 900)
 
         self.setup_ui()
-        self.start_http_server()
+        self.http_server.start()
         self.load_local_file()
 
     def setup_ui(self):
@@ -35,15 +32,15 @@ class MainWindow(QMainWindow):
         back_button.clicked.connect(self.web_view.back)
         toolbar.addWidget(back_button)
 
-         # Reload button
-        reload_button = QPushButton("↻")
-        reload_button.clicked.connect(self.web_view.reload)
-        toolbar.addWidget(reload_button)
-
         # Forward button
         forward_button = QPushButton(">")
         forward_button.clicked.connect(self.web_view.forward)
         toolbar.addWidget(forward_button)
+
+         # Reload button
+        reload_button = QPushButton("↻")
+        reload_button.clicked.connect(self.web_view.reload)
+        toolbar.addWidget(reload_button)
 
         # Home button
         home_button = QPushButton("⌂")
@@ -59,13 +56,6 @@ class MainWindow(QMainWindow):
 
     def load_local_file(self):
         self.web_view.load(QUrl("http://localhost:54365/index.html"))
-
-    def start_http_server(self):
-        os.chdir(os.path.join(os.path.dirname(__file__), 'browser'))
-
-        server_address = ('', 54365)
-        httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
-        threading.Thread(target=httpd.serve_forever, daemon=True).start()
 
     def set_dark_mode(self):
         dark_stylesheet = """
@@ -90,9 +80,3 @@ class MainWindow(QMainWindow):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
             self.web_view.reload()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
