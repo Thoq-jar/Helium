@@ -4,7 +4,6 @@ Web browser with Python
 ## Prerequisites
 - Python 3.10 or later
 - macOS, Linux, Windows or BSD
-- Display
 
 ## Get
 Any OS:
