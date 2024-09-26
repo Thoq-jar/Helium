@@ -66,9 +66,6 @@ class MainWindow(QMainWindow):
 
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
-    def on_load_finished(self, success):
-        if not success:self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
-
     def create_tab_label(self, title):
         tab_label = QWidget()
         layout = QHBoxLayout()
