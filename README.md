@@ -1,6 +1,12 @@
 # Purrooser
 Web browser with Python
 
+## Get
+Any OS:
+```
+git clone https://github.com/Thoq-jar/Purrooser.git
+```
+
 ## Bootstrap
 Windows/DOS:
 ```
