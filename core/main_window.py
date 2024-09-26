@@ -1,7 +1,7 @@
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel
-from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import QUrl, Qt
-import os  # Remove this if not used
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QHBoxLayout, QLabel # type: ignore
+from PySide6.QtWebEngineWidgets import QWebEngineView # type: ignore
+from PySide6.QtCore import QUrl, Qt # type: ignore
+import os
 
 
 class MainWindow(QMainWindow):
@@ -129,7 +129,10 @@ class MainWindow(QMainWindow):
             print(f"CSS file not found: {css_file_path}")
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
+        if event.key() == Qt.Key_F5 or (event.key() == 
+                                        Qt.Key_R and (event.modifiers() & 
+                                                      Qt.ControlModifier or event.modifiers() & 
+                                                      Qt.MetaModifier)):
             self.current_web_view().reload()
         elif event.key() == Qt.Key_T and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.add_new_tab()
