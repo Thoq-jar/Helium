@@ -1,10 +1,10 @@
 import os
+import platform
 from PySide6.QtCore import QUrl, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
-
 
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("assets/icon.ico"))
         self.http_server.start()
         self.load_local_file()
+        self.is_dark_mode = True
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
@@ -27,8 +28,12 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 print(f"Error creating storage directory: {e}")
                 return
-        self.profile = QWebEngineProfile.defaultProfile()
+
+        self.profile = QWebEngineProfile("web_profile", self)
         self.profile.setPersistentStoragePath(storage_path)
+        self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
+        self.profile.setHttpCacheType(QWebEngineProfile.DiskHttpCache)
+        self.profile.setHttpCacheMaximumSize(0)
 
     def setup_ui(self):
         central_widget = QWidget()
@@ -67,8 +72,20 @@ class MainWindow(QMainWindow):
         close_tab_button.clicked.connect(self.close_current_tab)
         toolbar.addWidget(close_tab_button)
 
+        if platform.system() not in ["Darwin", "Windows"]:
+            toggle_button = QPushButton("🌙")
+            toggle_button.clicked.connect(self.toggle_dark_light_mode)
+            toolbar.addWidget(toggle_button)
+
         self.tab_widget.currentChanged.connect(self.update_buttons)
-        self.set_dark_mode()
+
+    def toggle_dark_light_mode(self):
+        if platform.system() not in ["Darwin", "Windows"]:
+            self.is_dark_mode = not self.is_dark_mode
+            if self.is_dark_mode:
+                self.setStyleSheet("background-color: #2E2E2E; color: white;")
+            else:
+                self.setStyleSheet("background-color: white; color: black;")
 
     def add_new_tab(self):
         new_tab = QWebEngineView()
@@ -109,22 +126,19 @@ class MainWindow(QMainWindow):
         else:
             self.add_new_tab()
 
-    def set_dark_mode(self):
-        css = os.path.join('..', 'ui', 'core', 'window.css')
-        if os.path.exists(css):
-            with open(css, 'r') as css_file:
-                dark_stylesheet = css_file.read()
-            self.setStyleSheet(dark_stylesheet)
-        else:
-            print(f"CSS file not found: {css}")
-
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and
-                (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
+        if (event.key() == Qt.Key_F5 or
+                (event.key() == Qt.Key_R and
+                 (event.modifiers() & Qt.ControlModifier or
+                  event.modifiers() &
+                  Qt.MetaModifier))):
             self.current_web_view().reload()
-        elif event.key() == Qt.Key_T and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+        elif event.key() == Qt.Key_T and (
+                event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.add_new_tab()
-        elif event.key() == Qt.Key_W and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+        elif event.key() == Qt.Key_W and (
+                event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close_current_tab()
-        elif event.key() == Qt.Key_Q and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+        elif event.key() == Qt.Key_Q and (
+                event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close()
