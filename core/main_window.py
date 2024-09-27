@@ -24,8 +24,16 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 print(f"Error creating storage directory: {e}")
                 return
-        self.profile = QWebEngineProfile.defaultProfile()
+
+        self.profile = QWebEngineProfile("web_profile", self)
         self.profile.setPersistentStoragePath(storage_path)
+
+        # Enable persistent cookies
+        self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
+
+        # Enable other storage (like localStorage, IndexedDB) persistence
+        self.profile.setHttpCacheType(QWebEngineProfile.DiskHttpCache)
+        self.profile.setHttpCacheMaximumSize(0)  # 0 means no limit
 
     def setup_ui(self):
         central_widget = QWidget()
@@ -116,12 +124,18 @@ class MainWindow(QMainWindow):
             print(f"CSS file not found: {css}")
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and
-                (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
+        if (event.key() == Qt.Key_F5 or
+                (event.key() == Qt.Key_R and
+                 (event.modifiers() & Qt.ControlModifier or
+                  event.modifiers() &
+                  Qt.MetaModifier))):
             self.current_web_view().reload()
-        elif event.key() == Qt.Key_T and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+        elif event.key() == Qt.Key_T and (
+                event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.add_new_tab()
-        elif event.key() == Qt.Key_W and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+        elif event.key() == Qt.Key_W and (
+                event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close_current_tab()
-        elif event.key() == Qt.Key_Q and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
+        elif event.key() == Qt.Key_Q and (
+                event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close()
