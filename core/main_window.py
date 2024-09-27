@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
             self.add_new_tab()
 
     def set_dark_mode(self):
-        css_file_path = os.path.join('ui', 'core', 'window.css')
+        css_file_path = os.path.join('..', 'ui', 'core', 'window.css')
         if os.path.exists(css_file_path):
             with open(css_file_path, 'r') as css_file:
                 dark_stylesheet = css_file.read()
