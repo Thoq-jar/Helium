@@ -8,7 +8,6 @@
         "ui/about/about.css",
         "ui/about/about.js",
         "ui/about.html",
-        "ui/core/window.css",
         "ui/error/error.css",
         "ui/error/error.js",
         "ui/error.html",
