@@ -1,5 +1,4 @@
 import os
-
 from PySide6.QtCore import QUrl, Qt
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
@@ -9,11 +8,9 @@ from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPush
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
         super().__init__()
-
         self.http_server = http_server
         self.setWindowTitle("Purrooser")
         self.setGeometry(100, 100, 1600, 900)
-
         self.setup_profile()
         self.setup_ui()
         self.http_server.start()
@@ -21,29 +18,23 @@ class MainWindow(QMainWindow):
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
-
         if not os.path.exists(storage_path):
             try:
                 os.makedirs(storage_path)
             except Exception as e:
                 print(f"Error creating storage directory: {e}")
                 return
-
         self.profile = QWebEngineProfile.defaultProfile()
         self.profile.setPersistentStoragePath(storage_path)
 
     def setup_ui(self):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-
         layout = QVBoxLayout()
         central_widget.setLayout(layout)
-
         self.tab_widget = QTabWidget()
         layout.addWidget(self.tab_widget)
-
         self.add_new_tab()
-
         toolbar = QToolBar()
         self.addToolBar(toolbar)
 
@@ -74,7 +65,6 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(close_tab_button)
 
         self.tab_widget.currentChanged.connect(self.update_buttons)
-
         self.set_dark_mode()
 
     def add_new_tab(self):
@@ -83,9 +73,7 @@ class MainWindow(QMainWindow):
         self.tab_widget.addTab(new_tab, "New Tab")
         self.tab_widget.setCurrentWidget(new_tab)
         new_tab.loadFinished.connect(self.on_load_finished)
-
         new_tab.page().titleChanged.connect(lambda title: self.update_tab_title(new_tab, title))
-
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
     def on_load_finished(self, success):
@@ -120,7 +108,6 @@ class MainWindow(QMainWindow):
 
     def set_dark_mode(self):
         css = os.path.join('..', 'ui', 'core', 'window.css')
-
         if os.path.exists(css):
             with open(css, 'r') as css_file:
                 dark_stylesheet = css_file.read()
@@ -130,7 +117,7 @@ class MainWindow(QMainWindow):
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and
-        (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
+                (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier)):
             self.current_web_view().reload()
         elif event.key() == Qt.Key_T and (event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.add_new_tab()

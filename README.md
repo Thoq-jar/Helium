@@ -33,5 +33,9 @@ python -m main
 cd ..
 ```
 
+## Linting
+Run tooling.py with the args --lint
+(eg. `python3 tooling.py --lint`)
+
 ## License
 > This project uses the [MIT](LICENSE) License
