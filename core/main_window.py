@@ -16,7 +16,6 @@ class MainWindow(QMainWindow):
         self.http_server.start()
         self.load_local_file()
         self.is_dark_mode = True
-        self.setStyleSheet("background-color: #2E2E2E; color: white;")
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
