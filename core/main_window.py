@@ -70,14 +70,15 @@ class MainWindow(QMainWindow):
         close_tab_button.clicked.connect(self.close_current_tab)
         toolbar.addWidget(close_tab_button)
 
-        toggle_button = QPushButton("🌙")
-        toggle_button.clicked.connect(self.toggle_dark_light_mode)
-        toolbar.addWidget(toggle_button)
+        if platform.system() not in ["Darwin", "Windows"]:
+            toggle_button = QPushButton("🌙")
+            toggle_button.clicked.connect(self.toggle_dark_light_mode)
+            toolbar.addWidget(toggle_button)
 
         self.tab_widget.currentChanged.connect(self.update_buttons)
 
     def toggle_dark_light_mode(self):
-        if platform.system() not in ["darwin", "Windows"]:
+        if platform.system() not in ["Darwin", "Windows"]:
             self.is_dark_mode = not self.is_dark_mode
             if self.is_dark_mode:
                 self.setStyleSheet("background-color: #2E2E2E; color: white;")
