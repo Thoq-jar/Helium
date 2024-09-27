@@ -11,7 +11,7 @@ $(document).ready(() => {
     const $humidity = $('#humidity');
 
     setInterval(updateDateTime, 1000);
-    setInterval(fetchWeather, 1000);
+    fetchWeather()
 
     function updateDateTime() {
         $datetime.text(new Date().toLocaleString());
