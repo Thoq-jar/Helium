@@ -73,7 +73,6 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(close_tab_button)
 
         self.tab_widget.currentChanged.connect(self.update_buttons)
-        self.set_dark_mode()
 
     def add_new_tab(self):
         new_tab = QWebEngineView()
@@ -113,15 +112,6 @@ class MainWindow(QMainWindow):
             current_view.load(QUrl("http://localhost:54365/index.html"))
         else:
             self.add_new_tab()
-
-    def set_dark_mode(self):
-        css = os.path.join('..', 'ui', 'core', 'window.css')
-        if os.path.exists(css):
-            with open(css, 'r') as css_file:
-                dark_stylesheet = css_file.read()
-            self.setStyleSheet(dark_stylesheet)
-        else:
-            print(f"CSS file not found: {css}")
 
     def keyPressEvent(self, event):
         if (event.key() == Qt.Key_F5 or
