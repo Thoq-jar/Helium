@@ -1,4 +1,5 @@
 import os
+import platform
 from PySide6.QtCore import QUrl, Qt
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
@@ -14,7 +15,8 @@ class MainWindow(QMainWindow):
         self.setup_ui()
         self.http_server.start()
         self.load_local_file()
-        self.is_dark_mode = False  # Default to light mode
+        self.is_dark_mode = True
+        self.setStyleSheet("background-color: #2E2E2E; color: white;")
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
@@ -75,11 +77,12 @@ class MainWindow(QMainWindow):
         self.tab_widget.currentChanged.connect(self.update_buttons)
 
     def toggle_dark_light_mode(self):
-        self.is_dark_mode = not self.is_dark_mode
-        if self.is_dark_mode:
-            self.setStyleSheet("background-color: #2E2E2E; color: white;")
-        else:
-            self.setStyleSheet("background-color: white; color: black;")
+        if platform.system() in ["Linux", "FreeBSD"]:
+            self.is_dark_mode = not self.is_dark_mode
+            if self.is_dark_mode:
+                self.setStyleSheet("background-color: #2E2E2E; color: white;")
+            else:
+                self.setStyleSheet("background-color: white; color: black;")
 
     def add_new_tab(self):
         new_tab = QWebEngineView()
