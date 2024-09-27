@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         self.tab_widget.currentChanged.connect(self.update_buttons)
 
     def toggle_dark_light_mode(self):
-        if platform.system() == "Linux":
+        if platform.system() not in ["darwin", "Windows"]:
             self.is_dark_mode = not self.is_dark_mode
             if self.is_dark_mode:
                 self.setStyleSheet("background-color: #2E2E2E; color: white;")
