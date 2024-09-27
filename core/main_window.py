@@ -21,10 +21,15 @@ class MainWindow(QMainWindow):
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
-        if not os.path.exists(storage_path):
-            os.makedirs(storage_path)
 
-        self.profile = QWebEngineProfile(storage_path)
+        if not os.path.exists(storage_path):
+            try:
+                os.makedirs(storage_path)
+            except Exception as e:
+                print(f"Error creating storage directory: {e}")
+                return
+
+        self.profile = QWebEngineProfile.defaultProfile()
         self.profile.setPersistentStoragePath(storage_path)
 
     def setup_ui(self):
@@ -79,11 +84,18 @@ class MainWindow(QMainWindow):
         self.tab_widget.setCurrentWidget(new_tab)
         new_tab.loadFinished.connect(self.on_load_finished)
 
+        new_tab.page().titleChanged.connect(lambda title: self.update_tab_title(new_tab, title))
+
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
     def on_load_finished(self, success):
         if not success:
             self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
+
+    def update_tab_title(self, web_view, title):
+        index = self.tab_widget.indexOf(web_view)
+        if index != -1:
+            self.tab_widget.setTabText(index, title if title else "Untitled")
 
     def close_current_tab(self):
         current_index = self.tab_widget.currentIndex()
@@ -107,13 +119,14 @@ class MainWindow(QMainWindow):
             self.add_new_tab()
 
     def set_dark_mode(self):
-        css_file_path = os.path.join('..', 'ui', 'core', 'window.css')
-        if os.path.exists(css_file_path):
-            with open(css_file_path, 'r') as css_file:
+        css = os.path.join('..', 'ui', 'core', 'window.css')
+
+        if os.path.exists(css):
+            with open(css, 'r') as css_file:
                 dark_stylesheet = css_file.read()
             self.setStyleSheet(dark_stylesheet)
         else:
-            print(f"CSS file not found: {css_file_path}")
+            print(f"CSS file not found: {css}")
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and

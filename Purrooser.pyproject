@@ -32,6 +32,7 @@
         "ui/main/core.js",
         "ui/settings/settings.css",
         "ui/settings/settings.js",
-        "ui/settings.html"
+        "ui/settings.html",
+        "ui/favicon.ico"
     ]
 }
