@@ -4,7 +4,6 @@ from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
 
-
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
         super().__init__()
@@ -15,6 +14,7 @@ class MainWindow(QMainWindow):
         self.setup_ui()
         self.http_server.start()
         self.load_local_file()
+        self.is_dark_mode = False  # Default to light mode
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
@@ -27,13 +27,9 @@ class MainWindow(QMainWindow):
 
         self.profile = QWebEngineProfile("web_profile", self)
         self.profile.setPersistentStoragePath(storage_path)
-
-        # Enable persistent cookies
         self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
-
-        # Enable other storage (like localStorage, IndexedDB) persistence
         self.profile.setHttpCacheType(QWebEngineProfile.DiskHttpCache)
-        self.profile.setHttpCacheMaximumSize(0)  # 0 means no limit
+        self.profile.setHttpCacheMaximumSize(0)
 
     def setup_ui(self):
         central_widget = QWidget()
@@ -72,7 +68,18 @@ class MainWindow(QMainWindow):
         close_tab_button.clicked.connect(self.close_current_tab)
         toolbar.addWidget(close_tab_button)
 
+        toggle_button = QPushButton("🌙")
+        toggle_button.clicked.connect(self.toggle_dark_light_mode)
+        toolbar.addWidget(toggle_button)
+
         self.tab_widget.currentChanged.connect(self.update_buttons)
+
+    def toggle_dark_light_mode(self):
+        self.is_dark_mode = not self.is_dark_mode
+        if self.is_dark_mode:
+            self.setStyleSheet("background-color: #2E2E2E; color: white;")
+        else:
+            self.setStyleSheet("background-color: white; color: black;")
 
     def add_new_tab(self):
         new_tab = QWebEngineView()

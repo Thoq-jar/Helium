@@ -1,11 +1,12 @@
-// noinspection HttpUrlsUsage, JSUnusedGlobalSymbols, JSUnresolvedReference
+// noinspection HttpUrlsUsage, JSUnusedGlobalSymbols, JSUnresolvedReference,DuplicatedCode
 
 const sysLinks = [
     'about',
     'kitty',
     'error',
     'welcome',
-    'settings'
+    'settings',
+    'weather'
 ];
 
 $(document).ready(() => {
