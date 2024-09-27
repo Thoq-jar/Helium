@@ -1,5 +1,6 @@
 import os
 from PySide6.QtCore import QUrl, Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
@@ -11,8 +12,10 @@ class MainWindow(QMainWindow):
         self.http_server = http_server
         self.setWindowTitle("Purrooser")
         self.setGeometry(100, 100, 1600, 900)
+
         self.setup_profile()
         self.setup_ui()
+        self.setWindowIcon(QIcon("assets/icon.ico"))
         self.http_server.start()
         self.load_local_file()
 

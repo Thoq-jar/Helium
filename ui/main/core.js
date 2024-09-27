@@ -27,9 +27,7 @@ $(document).ready(() => {
     $('#searchButton').on('click', () => {
         const query = $('#searchBar').val().trim();
         if (query.startsWith('purr://')) parseSysLink(query);
-        else if (
-            isValidUrl(query)
-        ) window.location.href = query.startsWith('http://') || query.startsWith('https://') ? query : 'https://' + query;
+        else if (isValidUrl(query)) window.location.href = query.startsWith('http://') || query.startsWith('https://') ? query : 'https://' + query;
         else window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
     });
 
@@ -60,23 +58,23 @@ $(document).ready(() => {
             window.localStorage.setItem('blurBackground', 'false');
         }
     });
-});
 
-$(document).ready(() => {
-    const $body = $('body');
-    const $city = $('#city');
-    const $temperature = $('#temperature');
-    const $unit = $('#unit');
-    const $weatherIcon = $('#weather-icon');
-    const $weatherDescription = $('#weather-description');
-    const $weatherContainer = $('.weather-container');
+    const images = [
+        '1.png', '2.png', '3.png', '4.png', '5.png',
+        '6.png', '7.png', '8.png', '9.png', '10.png',
+        '11.png', '12.png', '13.png', '14.png', '15.png'
+    ];
 
-    setRandomBackground();
-    fetchWeather();
+    let lastIndex = -1;
 
     function setRandomBackground() {
-        const images = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png'];
-        const randomIndex = Math.floor(Math.random() * images.length);
+        let randomIndex;
+
+        do randomIndex = Math.floor(Math.random() * images.length);
+        while (randomIndex === lastIndex);
+
+        lastIndex = randomIndex;
+
         const randomImageUrl = `images/wallpaper/${images[randomIndex]}`;
 
         $body.css({
@@ -86,6 +84,17 @@ $(document).ready(() => {
             'background-repeat': 'no-repeat',
         });
     }
+
+    setRandomBackground();
+
+    $('#bgSwitchButton').on('click', setRandomBackground);
+
+    const $city = $('#city');
+    const $temperature = $('#temperature');
+    const $unit = $('#unit');
+    const $weatherIcon = $('#weather-icon');
+    const $weatherDescription = $('#weather-description');
+    const $weatherContainer = $('.weather-container');
 
     function fetchWeather() {
         $.getJSON('http://ip-api.com/json', (locationData) => {
@@ -99,6 +108,7 @@ $(document).ready(() => {
                 headers: {
                     'Version': 'Purrooser/1.0'
                 },
+
                 success: (weatherData) => {
                     const temperature = Math.round(weatherData.main.temp);
                     const weatherCode = weatherData.weather[0].id;
@@ -118,6 +128,8 @@ $(document).ready(() => {
             });
         }).fail(() => alert("Error getting IP"));
     }
+
+    fetchWeather();
 
     function getWeatherConditionDescription(weatherCode) {
         const weatherConditions = {
