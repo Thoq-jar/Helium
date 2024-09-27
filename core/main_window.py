@@ -21,7 +21,8 @@ class MainWindow(QMainWindow):
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
-        if not os.path.exists(storage_path): os.makedirs(storage_path)
+        if not os.path.exists(storage_path):
+            os.makedirs(storage_path)
 
         self.profile = QWebEngineProfile(storage_path)
         self.profile.setPersistentStoragePath(storage_path)
@@ -81,7 +82,8 @@ class MainWindow(QMainWindow):
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
     def on_load_finished(self, success):
-        if not success: self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
+        if not success:
+            self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
 
     def close_current_tab(self):
         current_index = self.tab_widget.currentIndex()
@@ -99,8 +101,10 @@ class MainWindow(QMainWindow):
 
     def load_local_file(self):
         current_view = self.current_web_view()
-        if current_view: current_view.load(QUrl("http://localhost:54365/index.html"))
-        else: self.add_new_tab()
+        if current_view:
+            current_view.load(QUrl("http://localhost:54365/index.html"))
+        else:
+            self.add_new_tab()
 
     def set_dark_mode(self):
         css_file_path = os.path.join('..', 'ui', 'core', 'window.css')
@@ -108,7 +112,8 @@ class MainWindow(QMainWindow):
             with open(css_file_path, 'r') as css_file:
                 dark_stylesheet = css_file.read()
             self.setStyleSheet(dark_stylesheet)
-        else: print(f"CSS file not found: {css_file_path}")
+        else:
+            print(f"CSS file not found: {css_file_path}")
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_F5 or (event.key() == Qt.Key_R and

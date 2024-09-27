@@ -2,6 +2,7 @@ import os
 import threading
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 
+
 class HttpServer:
     def __init__(self, port=54365):
         self.port = port
