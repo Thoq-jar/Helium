@@ -33,6 +33,7 @@
         "ui/settings/settings.css",
         "ui/settings/settings.js",
         "ui/settings.html",
-        "ui/favicon.ico"
+        "ui/favicon.ico",
+        "requirements.txt"
     ]
 }
