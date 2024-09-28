@@ -3,10 +3,10 @@
   "description": "Web browser with Python",
   "scripts": {
     "setup:unix": "python3 -m venv venv",
-    "run:unix": "source venv/bin/activate; pip install -r requirements.txt; cd core; python -m main; cd ..; deactivate;",
+    "run:unix": "source venv/bin/activate; pip install -r requirements.txt; python core/main.py;",
     "bootstrap:unix": "#!/bin/bash; source venv/bin/activate; pip install -r requirements.txt; deactivate;",
 
-    "run:win": "cd core && python -m main && cd ..",
+    "run:win": "python core/main.py",
     "bootstrap:win": "pip install -r requirements.txt;",
 
     "compile:ts": "npm i -g yarn && yarn tsc",
@@ -14,7 +14,7 @@
     "compile": "npm run compile:ts && npm run compile:scss",
 
     "unix:big": "npm install && python3 -m venv venv; source venv/bin/activate; pip install -r requirements.txt; npm run compile:scss; npm install -g yarn; yarn tsc; cd core; python -m main; cd ..; deactivate;",
-    "win:big": "npm install && pip install -r requirements.txt && npm run compile:scss && npm install -g yarn && yarn tsc && cd core && python -m main; cd .."
+    "win:big": "npm install && pip install -r requirements.txt && npm run compile:scss && npm install -g yarn && yarn tsc && python core/main.py."
   },
   "author": "Thoq",
   "license": "MIT",
