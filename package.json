@@ -13,8 +13,8 @@
     "compile:scss": "sass --update ui:ui",
     "compile": "npm run compile:ts && npm run compile:scss",
 
-    "unix:big": "npm install; python3 -m venv venv; source venv/bin/activate; pip install -r requirements.txt; npm run compile:scss; npm install -g tsc; tsc; cd core; python -m main; cd ..; deactivate;",
-    "win:big": "npm install; pip install -r requirements.txt; npm run compile:scss; npm install -g typescript; tsc; cd core; python -m main; cd ..;"
+    "unix:big": "npm install && python3 -m venv venv; source venv/bin/activate; pip install -r requirements.txt; npm run compile:scss; npm install -g tsc; tsc; cd core; python -m main; cd ..; deactivate;",
+    "win:big": "npm install && pip install -r requirements.txt; npm run compile:scss; npm install -g typescript; tsc; cd core; python -m main; cd ..;"
   },
   "author": "Thoq",
   "license": "MIT",
