@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Win" type="js.build_tools.npm" folderName="Windows">
+  <configuration default="false" name="Run Win Silent" type="js.build_tools.npm" folderName="Windows" activateToolWindowBeforeRun="false">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
@@ -8,7 +8,7 @@
     <node-interpreter value="project" />
     <envs />
     <method v="2">
-      <option name="RunConfigurationTask" enabled="false" run_configuration_name="Compile" run_configuration_type="js.build_tools.npm" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Compile Silent" run_configuration_type="js.build_tools.npm" />
     </method>
   </configuration>
 </component>

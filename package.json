@@ -7,7 +7,7 @@
     "bootstrap:unix": "source venv/bin/activate; pip install -r requirements.txt; deactivate;",
 
     "run:win": "python core/main.py",
-    "bootstrap:win": "pip install -r requirements.txt;",
+    "bootstrap:win": "pip install -r requirements.txt",
 
     "compile:ts": "npm install -g yarn && yarn tsc",
     "compile:scss": "sass --update ui:ui",
