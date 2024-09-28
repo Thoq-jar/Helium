@@ -4,7 +4,7 @@
   "scripts": {
     "setup:unix": "python3 -m venv venv",
     "run:unix": "source venv/bin/activate; cd core; python -m main; cd ..; deactivate;",
-    "bootstrap:unix": "#!/bin/bash; source venv/bin/activate && spip install -r requirements.txt;",
+    "bootstrap:unix": "#!/bin/bash; source venv/bin/activate; pip install -r requirements.txt; deactivate;",
 
     "run:win": "cd core; python -m main; cd ..;",
     "bootstrap:win": "pip install -r requirements.txt;",
