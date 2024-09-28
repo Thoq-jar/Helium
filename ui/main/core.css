@@ -127,10 +127,40 @@ button {
 }
 
 .weather-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   margin-left: 3px;
-  margin-top: 10px;
   border: none;
   outline: none;
+}
+
+.bg-switch-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    margin-right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    cursor: pointer;
+    background: transparent;
+    filter: invert(1);
+}
+
+.bg-switch-img {
+    border-radius: 5px;
+    background: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.bg-switch-img:hover {
+    background: rgba(10, 10, 10, 0.3);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.bg-switch-button, .bg-switch-img {
+    width: 35px;
+    height: 35px;
 }

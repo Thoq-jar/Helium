@@ -1,9 +1,10 @@
 import os
+import platform
 from PySide6.QtCore import QUrl, Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
-
 
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
@@ -11,10 +12,13 @@ class MainWindow(QMainWindow):
         self.http_server = http_server
         self.setWindowTitle("Purrooser")
         self.setGeometry(100, 100, 1600, 900)
+
         self.setup_profile()
         self.setup_ui()
+        self.setWindowIcon(QIcon("assets/icon.ico"))
         self.http_server.start()
         self.load_local_file()
+        self.is_dark_mode = True
 
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
@@ -27,13 +31,9 @@ class MainWindow(QMainWindow):
 
         self.profile = QWebEngineProfile("web_profile", self)
         self.profile.setPersistentStoragePath(storage_path)
-
-        # Enable persistent cookies
         self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
-
-        # Enable other storage (like localStorage, IndexedDB) persistence
         self.profile.setHttpCacheType(QWebEngineProfile.DiskHttpCache)
-        self.profile.setHttpCacheMaximumSize(0)  # 0 means no limit
+        self.profile.setHttpCacheMaximumSize(0)
 
     def setup_ui(self):
         central_widget = QWidget()
@@ -47,17 +47,17 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolbar)
 
         back_button = QPushButton("<")
-        back_button.clicked.connect(self.current_web_view().back)
+        back_button.clicked.connect(self.back)
         toolbar.addWidget(back_button)
         self.back_button = back_button
 
         forward_button = QPushButton(">")
-        forward_button.clicked.connect(self.current_web_view().forward)
+        forward_button.clicked.connect(self.forward)
         toolbar.addWidget(forward_button)
         self.forward_button = forward_button
 
         reload_button = QPushButton("↻")
-        reload_button.clicked.connect(self.current_web_view().reload)
+        reload_button.clicked.connect(self.reload)
         toolbar.addWidget(reload_button)
 
         home_button = QPushButton("⌂")
@@ -72,7 +72,20 @@ class MainWindow(QMainWindow):
         close_tab_button.clicked.connect(self.close_current_tab)
         toolbar.addWidget(close_tab_button)
 
+        if platform.system() not in ["Darwin", "Windows"]:
+            toggle_button = QPushButton("🌙")
+            toggle_button.clicked.connect(self.toggle_dark_light_mode)
+            toolbar.addWidget(toggle_button)
+
         self.tab_widget.currentChanged.connect(self.update_buttons)
+
+    def toggle_dark_light_mode(self):
+        if platform.system() not in ["Darwin", "Windows"]:
+            self.is_dark_mode = not self.is_dark_mode
+            if self.is_dark_mode:
+                self.setStyleSheet("background-color: #2E2E2E; color: white;")
+            else:
+                self.setStyleSheet("background-color: white; color: black;")
 
     def add_new_tab(self):
         new_tab = QWebEngineView()
@@ -86,6 +99,7 @@ class MainWindow(QMainWindow):
     def on_load_finished(self, success):
         if not success:
             self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
+        self.update_buttons()
 
     def update_tab_title(self, web_view, title):
         index = self.tab_widget.indexOf(web_view)
@@ -112,6 +126,21 @@ class MainWindow(QMainWindow):
             current_view.load(QUrl("http://localhost:54365/index.html"))
         else:
             self.add_new_tab()
+
+    def back(self):
+        current_view = self.current_web_view()
+        if current_view:
+            current_view.back()
+
+    def forward(self):
+        current_view = self.current_web_view()
+        if current_view:
+            current_view.forward()
+
+    def reload(self):
+        current_view = self.current_web_view()
+        if current_view:
+            current_view.reload()
 
     def keyPressEvent(self, event):
         if (event.key() == Qt.Key_F5 or
