@@ -80,9 +80,10 @@ class MainWindow(QMainWindow):
         self.apply_css()
 
         if platform.system() not in ["Darwin", "Windows"]:
-            toggle_button = QPushButton("🌙")
-            toggle_button.clicked.connect(self.toggle_dark_light_mode)
-            toolbar.addWidget(toggle_button)
+            # toggle_button = QPushButton("🌙")
+            # toggle_button.clicked.connect(self.toggle_dark_light_mode)
+            # toolbar.addWidget(toggle_button)
+            self.setStyleSheet("background-color: white; color: black;")
 
         self.tab_widget.currentChanged.connect(self.update_buttons)
 
