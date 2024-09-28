@@ -13,7 +13,7 @@
     "compile:scss": "sass --update ui:ui",
     "compile": "yarn run compile:ts && yarn run compile:scss",
 
-    "unix:big": "npm install -g yarn && yarn install && npm run compile:scss && yarn tsc && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python core/main.py && deactivate",
+    "unix:big": "npm install -g yarn && yarn install && npm run compile:scss && yarn tsc && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && python core/main.py && deactivate",
     "win:big": "npm install -g yarn && yarn install && pip install -r requirements.txt && npm run compile:scss && python core/main.py."
   },
   "author": "Thoq",
