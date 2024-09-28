@@ -3,7 +3,7 @@
   "description": "Web browser with Python",
   "scripts": {
     "setup:unix": "python3 -m venv venv",
-    "run:unix": "source venv/bin/activate; cd core; python -m main; cd ..; deactivate;",
+    "run:unix": "source venv/bin/activate; pip install -r requirements.txt; cd core; python -m main; cd ..; deactivate;",
     "bootstrap:unix": "#!/bin/bash; source venv/bin/activate; pip install -r requirements.txt; deactivate;",
 
     "run:win": "cd core; python -m main; cd ..;",
@@ -11,7 +11,10 @@
 
     "compile:ts": "tsc",
     "compile:scss": "sass --update ui:ui",
-    "compile": "npm run compile:ts && npm run compile:scss"
+    "compile": "npm run compile:ts && npm run compile:scss",
+
+    "unix:big": "python3 -m venv venv; source venv/bin/activate; pip install -r requirements.txt; npm run compile:ts; npm run compile:scss; cd core; python -m main; cd ..; deactivate;",
+    "win:big": "pip install -r requirements.txt; npm run compile:ts; npm run compile:scss; cd core; python -m main; cd ..;"
   },
   "author": "Thoq",
   "license": "MIT",
