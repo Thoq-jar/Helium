@@ -11,7 +11,7 @@
     "bootstrap:win": "pip install -r requirements.txt;",
     "run:win": "cd core; python -m main; cd ..;",
     "lint:win": "python tooling.py --lint",
-    "compile": "tsc"
+    "compile": "#!/bin/bash; tsc"
   },
   "keywords": [],
   "author": "",
