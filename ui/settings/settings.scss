@@ -72,13 +72,13 @@ body {
     outline: none;
     text-align: left;
     transition: background-color 100ms ease;
+
+    &:hover {
+        background-color: rgb(100, 100, 100);
+    }
 }
 
 .tab.active {
-    background-color: rgb(100, 100, 100);
-}
-
-.tab:hover {
     background-color: rgb(100, 100, 100);
 }
 

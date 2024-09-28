@@ -59,28 +59,28 @@ input[type="text"] {
   font-family: inherit;
   font-size: 20px;
   transition: background-color 0.3s ease;
-}
 
-input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
 
-input[type="text"]:hover {
-  background-color: rgba(48, 48, 48, 0.5);
-}
+  &:hover {
+    background-color: rgba(48, 48, 48, 0.5);
+  }
 
-input[type="text"]:focus {
-  outline: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 .go {
   border: 1px #777 solid;
   background-color: rgba(32, 33, 36, 0.5);
   color: white;
-}
 
-.go:hover {
-  background-color: rgba(48, 48, 48, 0.5);
+  &:hover {
+    background-color: rgba(48, 48, 48, 0.5);
+  }
 }
 
 button {
@@ -143,8 +143,6 @@ button {
     border: none;
     cursor: pointer;
     z-index: 3;
-    cursor: pointer;
-    background: transparent;
     filter: invert(1);
 }
 
@@ -152,12 +150,12 @@ button {
     border-radius: 5px;
     background: transparent;
     transition: background-color 0.3s ease;
-}
 
-.bg-switch-img:hover {
+  &:hover {
     background: rgba(10, 10, 10, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+  }
 }
 
 .bg-switch-button, .bg-switch-img {

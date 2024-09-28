@@ -7,7 +7,9 @@
     "bootstrap:unix": "#!/bin/bash; pip install -r requirements.txt;",
     "run:win": "cd core; python -m main; cd ..;",
     "bootstrap:win": "pip install -r requirements.txt;",
-    "compile": "#!/bin/bash; tsc"
+    "compile:ts": "tsc",
+    "compile:scss": "sass --update ui:ui",
+    "compile": "npm run compile:ts && npm run compile:scss"
   },
   "author": "Thoq",
   "license": "MIT",
