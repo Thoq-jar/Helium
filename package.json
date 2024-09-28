@@ -1,19 +1,15 @@
 {
   "name": "purrooser",
-  "version": "1.0.0",
   "description": "Web browser with Python",
   "scripts": {
     "setup:unix": "python3 -m venv venv",
     "run:unix": "source venv/bin/activate; cd core; python -m main; cd ..; deactivate;",
-
     "bootstrap:win": "pip install -r requirements.txt;",
     "run:win": "cd core; python -m main; cd ..;",
-
     "compile": "#!/bin/bash; tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Thoq",
+  "license": "MIT",
   "dependencies": {
     "tsc": "^2.0.4"
   },
