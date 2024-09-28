@@ -2,10 +2,12 @@
   "flux": {
     "setup:unix": "python3 -m venv venv",
     "bootstrap:unix": "source venv/bin/activate; pip install -r requirements.txt; deactivate;",
-    "bootstrap:win": "pip install -r requirements.txt;",
     "run:unix": "source venv/bin/activate; cd core; python -m main; cd ..; deactivate;",
-    "run:win": "cd core; python -m main; cd ..;",
     "lint:unix": "python3 tooling.py --lint",
+
+    "setup:win": "",
+    "bootstrap:win": "pip install -r requirements.txt;",
+    "run:win": "cd core; python -m main; cd ..;",
     "lint:win": "python tooling.py --lint"
   }
 }
