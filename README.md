@@ -1,41 +1,63 @@
 # Purrooser
+
 Web browser with Python
 
 ## Prerequisites
+
 - Python 3.10 or later
 - macOS, Linux, Windows or BSD
 
 ## Get
+
 Any OS:
+
 ```
 git clone https://github.com/Thoq-jar/Purrooser.git
 cd Purrooser
 ```
 
 ## Bootstrap
+
 Windows/DOS:
+
 ```
-pip install -r requirements.txt
+python flux.py --bootstrap:win
 ```
 
 macOS/Linux/Unix:
+
 ```
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+python3 flux.py --bootstrap:unix
 ```
 
 ## Run
-Any OS *(Make sure if on Unix-Like system you are in venv)*: 
+
+Windows/DOS:
+
 ```
-cd core
-python -m main
-cd ..
+python flux.py --run:win
+```
+
+macOS/Linux/Unix:
+
+```
+python3 flux.py --run:unix
 ```
 
 ## Linting
-Run tooling.py with the args --lint
-(eg. `python3 tooling.py --lint`)
+
+Windows/DOS:
+
+```
+python flux.py --lint:win
+```
+
+macOS/Linux/Unix:
+
+```
+python3 flux.py --lint:unix
+```
 
 ## License
+
 > This project uses the [MIT](LICENSE) License
