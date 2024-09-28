@@ -7,6 +7,7 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
 
 
+# noinspection PyUnresolvedReferences,PyAttributeOutsideInit
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
         super().__init__()

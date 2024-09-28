@@ -5,17 +5,17 @@
     "setup:unix": "python3 -m venv venv",
     "run:unix": "source venv/bin/activate; cd core; python -m main; cd ..; deactivate;",
     "bootstrap:unix": "#!/bin/bash; pip install -r requirements.txt;",
-
     "run:win": "cd core; python -m main; cd ..;",
     "bootstrap:win": "pip install -r requirements.txt;",
-
     "compile": "#!/bin/bash; tsc"
   },
   "author": "Thoq",
   "license": "MIT",
   "devDependencies": {
     "@types/jquery": "^3.5.31",
-    "typescript": "^4.9.5",
-    "tsc": "^2.0.4"
+    "sass": "^1.79.4",
+    "scss": "^0.2.4",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.5"
   }
 }
