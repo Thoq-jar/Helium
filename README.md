@@ -21,13 +21,13 @@ cd Purrooser
 Windows/DOS:
 
 ```
-python flux.py --bootstrap:win
+npm run bootstrap:win
 ```
 
 macOS/Linux/Unix:
 
 ```
-python3 flux.py --bootstrap:unix
+npm run bootstrap:unix
 ```
 
 ## Run
@@ -35,27 +35,13 @@ python3 flux.py --bootstrap:unix
 Windows/DOS:
 
 ```
-python flux.py --run:win
+npm run run:win
 ```
 
 macOS/Linux/Unix:
 
 ```
-python3 flux.py --run:unix
-```
-
-## Linting
-
-Windows/DOS:
-
-```
-python flux.py --lint:win
-```
-
-macOS/Linux/Unix:
-
-```
-python3 flux.py --lint:unix
+npm run run:unix
 ```
 
 ## License
