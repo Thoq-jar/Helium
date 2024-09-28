@@ -1,13 +1,26 @@
 {
-  "flux": {
+  "name": "purrooser",
+  "version": "1.0.0",
+  "description": "Web browser with Python",
+  "scripts": {
     "setup:unix": "python3 -m venv venv",
     "bootstrap:unix": "source venv/bin/activate; pip install -r requirements.txt; deactivate;",
     "run:unix": "source venv/bin/activate; cd core; python -m main; cd ..; deactivate;",
     "lint:unix": "python3 tooling.py --lint",
-
     "setup:win": "",
     "bootstrap:win": "pip install -r requirements.txt;",
     "run:win": "cd core; python -m main; cd ..;",
-    "lint:win": "python tooling.py --lint"
+    "lint:win": "python tooling.py --lint",
+    "compile": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tsc": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.31",
+    "typescript": "^4.0.0"
   }
 }
