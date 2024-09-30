@@ -1,18 +1,31 @@
 import os
 import platform
+import re
 
 from PySide6.QtCore import QUrl, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
 from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QLineEdit
 
 
+# noinspection PyMethodOverriding,HttpUrlsUsage,PyPep8Naming
+class CustomWebEnginePage(QWebEnginePage):
+    def acceptNavigationRequest(self, url: QUrl, isMainFrame: bool) -> bool:
+        if url.scheme() == "http" and not (url.host() in ["localhost", "0.0.0.0", "127.0.0.1"]):
+            https_url = url.toString().replace("http://", "https://")
+            self.load(QUrl(https_url))
+            return False
+        return super().acceptNavigationRequest(url, isMainFrame)
+
+
+# noinspection PyUnresolvedReferences,HttpUrlsUsage
 class MainWindow(QMainWindow):
     def __init__(self, http_server):
         super().__init__()
         self.forward_button = None
         self.back_button = None
+        self.url_bar = None
         self.tab_widget = QTabWidget()
         self.profile = QWebEngineProfile("web_profile", self)
         self.http_server = http_server
@@ -26,7 +39,6 @@ class MainWindow(QMainWindow):
         self.load_local_file()
         self.is_dark_mode = True
 
-    # noinspection PyUnresolvedReferences
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
         if not os.path.exists(storage_path):
@@ -46,10 +58,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         layout = QVBoxLayout()
         central_widget.setLayout(layout)
-        layout.addWidget(self.tab_widget)
-        self.add_new_tab()
+
         toolbar = QToolBar()
         self.addToolBar(toolbar)
+
+        self.url_bar = QLineEdit()
+        self.url_bar.returnPressed.connect(self.navigate_to_url)
+        toolbar.addWidget(self.url_bar)
 
         back_button = QPushButton("<")
         back_button.clicked.connect(self.back)
@@ -85,6 +100,9 @@ class MainWindow(QMainWindow):
             toolbar.addWidget(toggle_button)
 
         self.tab_widget.currentChanged.connect(self.update_buttons)
+        layout.addWidget(self.tab_widget)
+
+        self.add_new_tab()
 
     def toggle_dark_light_mode(self):
         if platform.system() not in ["Darwin", "Windows"]:
@@ -96,18 +114,18 @@ class MainWindow(QMainWindow):
 
     def add_new_tab(self):
         new_tab = QWebEngineView()
-        new_tab.setPage(QWebEnginePage(self.profile))
+        new_tab.setPage(CustomWebEnginePage(self.profile))
         self.tab_widget.addTab(new_tab, "New Tab")
         self.tab_widget.setCurrentWidget(new_tab)
         new_tab.loadFinished.connect(self.on_load_finished)
         new_tab.page().titleChanged.connect(lambda title: self.update_tab_title(new_tab, title))
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
-    # noinspection PyUnresolvedReferences
     def on_load_finished(self, success):
         self.update_buttons()
         if not success:
             self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
+        self.update_url_bar()
 
     def update_tab_title(self, web_view, title):
         index = self.tab_widget.indexOf(web_view)
@@ -122,14 +140,12 @@ class MainWindow(QMainWindow):
     def current_web_view(self):
         return self.tab_widget.currentWidget()
 
-    # noinspection PyUnresolvedReferences
     def update_buttons(self):
         current_view = self.current_web_view()
         if current_view:
             self.back_button.setEnabled(current_view.history().canGoBack())
             self.forward_button.setEnabled(current_view.history().canGoForward())
 
-    # noinspection PyUnresolvedReferences
     def load_local_file(self):
         current_view = self.current_web_view()
         if current_view:
@@ -137,24 +153,38 @@ class MainWindow(QMainWindow):
         else:
             self.add_new_tab()
 
-    # noinspection PyUnresolvedReferences
     def back(self):
         current_view = self.current_web_view()
         if current_view:
             current_view.back()
 
-    # noinspection PyUnresolvedReferences
     def forward(self):
         current_view = self.current_web_view()
         if current_view:
             current_view.forward()
 
-    # noinspection PyUnresolvedReferences
     def reload(self):
         current_view = self.current_web_view()
         if current_view:
             current_view.reload()
 
+    def navigate_to_url(self):
+        url_text = self.url_bar.text().strip()
+
+        tld_pattern = r'\.[a-zA-Z]{2,}'
+
+        if not re.search(tld_pattern, url_text):
+            search_url = f"https://www.google.com/search?q={url_text}"
+            self.current_web_view().load(QUrl(search_url))
+        else:
+            if not url_text.startswith("http://") and not url_text.startswith("https://"):
+                url_text = "http://" + url_text
+            self.current_web_view().load(QUrl(url_text))
+
+    def update_url_bar(self):
+        current_view = self.current_web_view()
+        if current_view:
+            self.url_bar.setText(current_view.url().toString())
 
     def apply_css(self):
         css_file_path = os.path.join('ui', 'core', 'core.css')
@@ -165,7 +195,6 @@ class MainWindow(QMainWindow):
         else:
             print(f"[ERR] CSS file not found: {css_file_path}")
 
-    # noinspection PyUnresolvedReferences
     def keyPressEvent(self, event):
         if (event.key() == Qt.Key_F5 or
                 (event.key() == Qt.Key_R and
