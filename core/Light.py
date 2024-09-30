@@ -12,6 +12,9 @@ from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPush
 # noinspection PyMethodOverriding,HttpUrlsUsage,PyPep8Naming
 class CustomWebEnginePage(QWebEnginePage):
     def acceptNavigationRequest(self, url: QUrl, isMainFrame: bool) -> bool:
+        if url.host() == "localhost" and url.port() == 54365:
+            self.load(QUrl("purr://newtab"))
+            return False
         if url.scheme() == "http" and not (url.host() in ["localhost", "0.0.0.0", "127.0.0.1"]):
             https_url = url.toString().replace("http://", "https://")
             self.load(QUrl(https_url))
@@ -20,7 +23,7 @@ class CustomWebEnginePage(QWebEnginePage):
 
 
 # noinspection PyUnresolvedReferences,HttpUrlsUsage
-class MainWindow(QMainWindow):
+class Renderer(QMainWindow):
     def __init__(self, http_server):
         super().__init__()
         self.forward_button = None
@@ -170,21 +173,42 @@ class MainWindow(QMainWindow):
 
     def navigate_to_url(self):
         url_text = self.url_bar.text().strip()
+        url_mapping = {
+            "purr://newtab": "http://localhost:54365/index.html",
+            "purr://error": "http://localhost:54365/error.html",
+            "purr://about": "http://localhost:54365/about.html",
+            "purr://kitty": "http://localhost:54365/kitty.html",
+            "purr://settings": "http://localhost:54365/settings.html",
+            "purr://weather": "http://localhost:54365/weather.html",
+        }
 
-        tld_pattern = r'\.[a-zA-Z]{2,}'
-
-        if not re.search(tld_pattern, url_text):
-            search_url = f"https://www.google.com/search?q={url_text}"
-            self.current_web_view().load(QUrl(search_url))
+        if url_text in url_mapping:
+            self.current_web_view().load(QUrl(url_mapping[url_text]))
         else:
-            if not url_text.startswith("http://") and not url_text.startswith("https://"):
-                url_text = "http://" + url_text
-            self.current_web_view().load(QUrl(url_text))
+            tld_pattern = r'\.[a-zA-Z]{2,}'
+            if not re.search(tld_pattern, url_text):
+                search_url = f"https://www.google.com/search?q={url_text}"
+                self.current_web_view().load(QUrl(search_url))
+            else:
+                if not url_text.startswith("http://") and not url_text.startswith("https://"):
+                    url_text = "http://" + url_text
+                self.current_web_view().load(QUrl(url_text))
 
     def update_url_bar(self):
         current_view = self.current_web_view()
         if current_view:
-            self.url_bar.setText(current_view.url().toString())
+            current_url = current_view.url().toString()
+            url_display_mapping = {
+                "http://localhost:54365/index.html": "purr://newtab",
+                "http://localhost:54365/error.html": "purr://error",
+                "http://localhost:54365/about.html": "purr://about",
+                "http://localhost:54365/kitty.html": "purr://kitty",
+                "http://localhost:54365/settings.html": "purr://settings",
+                "http://localhost:54365/weather.html": "purr://weather",
+            }
+
+            display_text = url_display_mapping.get(current_url, current_url)
+            self.url_bar.setText(display_text)
 
     def apply_css(self):
         css_file_path = os.path.join('ui', 'core', 'core.css')

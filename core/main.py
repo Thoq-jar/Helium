@@ -1,14 +1,21 @@
 import sys
+
 from PySide6.QtWidgets import QApplication
-from http_server import HttpServer
-from main_window import MainWindow
+
+from Light import Renderer
+from Lambda import Server
+
+
+def main():
+    lambda_server = Server()
+    light_renderer = Renderer(lambda_server)
+    light_renderer.show()
+
 
 if __name__ == "__main__":
+    app = QApplication(sys.argv)
     try:
-        app = QApplication(sys.argv)
-        http_server = HttpServer()
-        window = MainWindow(http_server)
-        window.show()
-        sys.exit(app.exec())
+        main()
     except KeyboardInterrupt:
         print("Goodbye!")
+    sys.exit(app.exec())
