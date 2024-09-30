@@ -47,7 +47,7 @@ void PurrooserFrame::ApplyTheme() {
     backgroundColor = wxColor(30, 30, 30);
     textColor = wxColor(255, 255, 255);
   } else if (m_currentTheme == Theme::LIGHT) {
-    Utils::Alert("Purrooser", "Hey there! Light mode isn't currently finished! Please check back another time!");
+    Utils::Alert("Purr", "Hey there! Light mode isn't currently finished! Please check back another time!");
   } else {
     Utils::Alert("Purrooser (FATAL ERROR)",
                  "Oops! The theme you selected is invalid! Please restart the application and try again!");
@@ -63,7 +63,6 @@ void PurrooserFrame::ApplyTheme() {
     m_backButton->SetForegroundColour(textColor);
     m_forwardButton->SetForegroundColour(textColor);
     m_homeButton->SetForegroundColour(textColor);
-    m_searchEngineChoice->SetForegroundColour(textColor);
 
     for (size_t i = 0; i < m_notebook->GetPageCount(); ++i) {
       const auto panel = dynamic_cast<wxPanel *>(m_notebook->GetPage(i));
@@ -85,9 +84,7 @@ void PurrooserFrame::OnSearch(wxCommandEvent &event) {
 
   if (!url.StartsWith("http://") && !url.StartsWith("https://")) {
     if (!url.Contains(".")) {
-      const int selectedIndex = m_searchEngineChoice->GetSelection();
-      const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
-      url = selectedEngine + "/?q=" + url;
+      url = "https://google.com/?q=" + url;
     } else {
       url = "https://" + url;
     }
@@ -104,9 +101,7 @@ void PurrooserFrame::OnSearch(wxCommandEvent &event) {
 }
 
 void PurrooserFrame::OnNewTab(wxCommandEvent &event) {
-  const int selectedIndex = m_searchEngineChoice->GetSelection();
-  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
-  CreateNewTab(selectedEngine);
+  CreateNewTab("http://localhost:54367/");
 }
 
 void PurrooserFrame::OnCloseTab(wxCommandEvent &event) {
@@ -122,29 +117,8 @@ void PurrooserFrame::OnToggleTheme(wxCommandEvent &event) {
 }
 
 void PurrooserFrame::OnQuit(wxCommandEvent &WXUNUSED(event)) {
-  const int selectedIndex = m_searchEngineChoice->GetSelection();
-  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
-
-  wxString homeDir = wxFileName::GetHomeDir();
-  wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
-
-  ofstream outFile(filePath.ToStdString());
-  if (outFile.is_open()) {
-    outFile << selectedEngine.ToStdString();
-    outFile.close();
-  } else {
-    Utils::Alert("Error", "Unable to save the settings!");
-  }
-
   cout << "Goodbye!" << endl;
   Close(true);
-}
-
-void PurrooserFrame::OnSearchEngineChange(wxCommandEvent &event) {
-  const int selectedIndex = m_searchEngineChoice->GetSelection();
-  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
-  OnCloseTab(event);
-  CreateNewTab(selectedEngine);
 }
 
 void PurrooserFrame::OnForward(wxCommandEvent &event) {
@@ -208,63 +182,14 @@ void PurrooserFrame::OnSiteLoaded(wxWebViewEvent &event) {
 }
 
 void PurrooserFrame::OnHome(wxCommandEvent &event) {
-  const int selectedIndex = m_searchEngineChoice->GetSelection();
-  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
   OnCloseTab(event);
-  CreateNewTab(selectedEngine);
-}
-
-void PurrooserFrame::OnSaveSearchEngine(wxCommandEvent &event) {
-  const int selectedIndex = m_searchEngineChoice->GetSelection();
-  const wxString selectedEngine = SEARCH_ENGINES[selectedIndex];
-
-  wxString homeDir = wxFileName::GetHomeDir();
-  wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
-
-  ofstream outFile(filePath.ToStdString());
-  if (outFile.is_open()) {
-    outFile << selectedEngine.ToStdString();
-    outFile.close();
-  } else {
-    Utils::Alert("Error", "Unable to save the settings!");
-  }
+  CreateNewTab("http://localhost:54367/");
 }
 
 wstring trim(const wstring &str) {
   const auto start = str.find_first_not_of(L" \t\n\r");
   const auto end = str.find_last_not_of(L" \t\n\r");
   return (start == wstring::npos) ? L"" : str.substr(start, end - start + 1);
-}
-
-void PurrooserFrame::LoadSearchEngine() {
-  wxString homeDir = wxFileName::GetHomeDir();
-  wxString filePath = homeDir + wxFILE_SEP_PATH + "purr_settings.txt";
-
-  if (wxFileName::FileExists(filePath)) {
-    wstring wstrFilePath = filePath.ToStdWstring();
-
-    wifstream inFile(reinterpret_cast<const char *>(wstrFilePath.c_str()), ios::in | ios::binary);
-    if (inFile.is_open()) {
-      wstring wstrSavedEngine;
-      getline(inFile, wstrSavedEngine, L'\n');
-      inFile.close();
-
-      wstrSavedEngine = trim(wstrSavedEngine);
-
-      if (wstrSavedEngine.empty()) {
-        return;
-      }
-
-      wxString wxStrSavedEngine(wstrSavedEngine.c_str());
-
-      for (size_t i = 0; i < SEARCH_ENGINES_SIZE; ++i) {
-        if (SEARCH_ENGINES[i] == wxStrSavedEngine) {
-          m_searchEngineChoice->SetSelection(i);
-          return;
-        }
-      }
-    }
-  }
 }
 
 void PurrooserFrame::OnSiteNavigated(wxWebViewEvent &event) {
@@ -297,6 +222,5 @@ void PurrooserFrame::ToggleUIElements(bool show) {
   m_searchCtrl->Show(show);
   m_newTabButton->Show(show);
   m_closeTabButton->Show(show);
-  m_searchEngineChoice->Show(show);
   Layout();
 }

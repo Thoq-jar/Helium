@@ -46,18 +46,6 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   topSizer->Add(m_newTabButton, 0, wxEXPAND | wxALL, 5);
   topSizer->Add(m_closeTabButton, 0, wxEXPAND | wxALL, 5);
 
-  wxArrayString searchEngines;
-  searchEngines.Add("DuckDuckGo");
-  searchEngines.Add("Qwant");
-  searchEngines.Add("Searx (.work)");
-  searchEngines.Add("Ecosia");
-  searchEngines.Add("StartPage");
-
-  m_searchEngineChoice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, searchEngines);
-  m_searchEngineChoice->SetSelection(0);
-  m_searchEngineChoice->Bind(wxEVT_CHOICE, &PurrooserFrame::OnSearchEngineChange, this);
-  topSizer->Add(m_searchEngineChoice, 0, wxEXPAND | wxALL, 5);
-
   sizer->Add(topSizer, 0, wxEXPAND);
 
   m_notebook = new wxNotebook(this, wxID_ANY);
@@ -65,10 +53,9 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
 
   SetSizer(sizer);
 
-  LoadSearchEngine();
   m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &PurrooserFrame::OnSiteNavigated, this);
 
-  CreateNewTab("https://www." + DEFAULT_SEARCH + "." + SEARCH_TLD);
+  CreateNewTab("http://localhost:54367/");
 
   auto *menuFile = new wxMenu;
 
@@ -90,7 +77,6 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   Bind(wxEVT_MENU, &PurrooserFrame::OnNewTab, this, wxID_NEW);
   Bind(wxEVT_MENU, &PurrooserFrame::OnCloseTab, this, wxID_CLOSE);
   Bind(wxEVT_MENU, &PurrooserFrame::FullScreenToggle, this, ID_FULLSCREEN_TOGGLE);
-  Bind(wxEVT_MENU, &PurrooserFrame::OnSaveSearchEngine, this, ID_SAVE_SEARCH_ENGINE);
 
   auto *menuBar = new wxMenuBar;
   menuBar->Append(menuFile, "&File");

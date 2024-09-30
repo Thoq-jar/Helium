@@ -1,8 +1,0 @@
-if [[ -d "buildDir" ]]; then
-    rm -rf buildDir
-fi
-meson setup buildDir --buildtype=release
-meson compile -C buildDir
-sudo mv buildDir/Purrooser /usr/local/bin/purrooser
-cd ~
-rm -rf .purroosertemp
