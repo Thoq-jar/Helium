@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
         self.profile = QWebEngineProfile("web_profile", self)
         self.http_server = http_server
         self.setWindowTitle("Purrooser")
-        self.setGeometry(100, 100, 1600, 900)
+        self.setGeometry(100, 100, 900, 600)
         self.setWindowIcon(QIcon("assets/icon.ico"))
 
         self.setup_profile()
