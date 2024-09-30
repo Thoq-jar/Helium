@@ -9,5 +9,5 @@ Purrooser is a simple, lightweight, and easy-to-use web browser.
 ## Run
 Linux/macOS (Bash/ZSH):
 ```bash
-mkdir $HOME/.purroosersrc && cd $HOME/.purroosersrc && git clone https://github.com/Thoq-jar/PurrooserExperimental.git && chmod +x utilty/start.sh && . utility/start.sh
+mkdir $HOME/.purroosersrc && cd $HOME/.purroosersrc && git clone https://github.com/Thoq-jar/PurrooserExperimental.git && chmod +x utility/start.sh && . utility/start.sh
 ```
