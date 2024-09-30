@@ -65,10 +65,6 @@ class Renderer(QMainWindow):
         toolbar = QToolBar()
         self.addToolBar(toolbar)
 
-        self.url_bar = QLineEdit()
-        self.url_bar.returnPressed.connect(self.navigate_to_url)
-        toolbar.addWidget(self.url_bar)
-
         back_button = QPushButton("<")
         back_button.clicked.connect(self.back)
         toolbar.addWidget(back_button)
@@ -86,6 +82,10 @@ class Renderer(QMainWindow):
         home_button = QPushButton("⌂")
         home_button.clicked.connect(self.load_local_file)
         toolbar.addWidget(home_button)
+
+        self.url_bar = QLineEdit()
+        self.url_bar.returnPressed.connect(self.navigate_to_url)
+        toolbar.addWidget(self.url_bar)
 
         new_tab_button = QPushButton("+")
         new_tab_button.clicked.connect(self.add_new_tab)
