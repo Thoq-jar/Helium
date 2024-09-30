@@ -1,5 +1,7 @@
 #!/bin/bash
 
+npm i -g http-server
+
 chmod +x utility/build.sh
 ./utility/build.sh
 
