@@ -7,7 +7,7 @@ else
     cd "build"
 fi
 
- cmake ..
+cmake ..
 make -j $(nproc)
 
 exit 0

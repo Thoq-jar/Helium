@@ -3,13 +3,11 @@
 Purrooser is a simple, lightweight, and easy-to-use web browser.
 
 ## Prerequisites
-- CMake
+- CMake (3.28 or higher)
 - wxWidgets (Required)
 
-## Installation
+## Run
 Linux/macOS (Bash/ZSH):
 ```bash
-cd $HOME; mkdir .purroosertemp; cd .purroosertemp
-git clone https://github.com/Thoq-jar/PurrooserExperimental.git; cd PurrooserExperimental
-chmod +x utility/install.sh; sh utility/install.sh; purrooser-experimental
+mkdir $HOME/.purroosersrc && cd $HOME/.purroosersrc && git clone https://github.com/Thoq-jar/PurrooserExperimental.git && chmod +x utilty/start.sh && . utility/start.sh
 ```
