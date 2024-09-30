@@ -1,10 +1,9 @@
-# Purrooser
+# Purrooser / Experimental
 
 Purrooser is a simple, lightweight, and easy-to-use web browser.
 
 ## Prerequisites
-- Meson (or Bazelisk a.k.a. Bazel)
-- Ninja (Only for Meson)
+- CMake
 - wxWidgets (Required)
 
 ## Installation
