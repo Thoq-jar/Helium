@@ -6,7 +6,7 @@ chmod +x utility/build.sh
 ./utility/build.sh
 
 cd browser || exit
-http-server -p 54367 &
+http-server -p 54367 -c 315360000 &
 SERVER_PID=$!
 
 sleep 0.5

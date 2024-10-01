@@ -2,15 +2,6 @@
 
 import KeyDownEvent = JQuery.KeyDownEvent;
 
-const sysLinks: string[] = [
-  'about',
-  'kitty',
-  'error',
-  'settings',
-  'weather',
-  'newtab'
-];
-
 $((): void => {
   const $body = $('body');
   const $overlay = $('.overlay');
@@ -29,7 +20,8 @@ $((): void => {
 
   $('#searchButton').on('click', () => {
     const query: string = String($('#searchBar').val()).trim();
-    if (query.startsWith('purr://')) parseSysLink(query);
+    const lowerCaseQuery: string = query.toLocaleLowerCase()
+    if (lowerCaseQuery.startsWith('purr://')) parseSysLink(lowerCaseQuery);
     else if (isValidUrl(query)) window.location.href = query.startsWith('http://') || query.startsWith('https://') ? query : 'https://' + query;
     else window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
   });
@@ -41,28 +33,28 @@ $((): void => {
   function parseSysLink(link: string) {
     const sysLink: string = link.replace('purr://', '');
     switch (sysLink) {
-      case sysLinks[0]:
-        window.location.href = `${sysLinks[0]}.html`
+      case "about":
+        window.location.href = `about.html`
         break;
 
-      case sysLinks[1]:
-        window.location.href = `${sysLinks[1]}.html`
+      case "weather":
+        window.location.href = `weather.html`
         break;
 
-      case sysLinks[2]:
-        window.location.href = `${sysLinks[2]}.html`
-        break;
-
-      case sysLinks[3]:
-        window.location.href = `${sysLinks[4]}.html`
-        break;
-
-      case sysLinks[4]:
-        window.location.href = `${sysLinks[5]}.html`
-        break;
-
-      case sysLinks[5]:
+      case "newtab":
         window.location.href = `index.html`
+        break;
+
+      case "kitty":
+        window.location.href = `kitty.html`
+        break;
+
+      case "settings":
+        window.location.href = `settings.html`
+        break;
+
+      case "error":
+        window.location.href = `error.html`
         break;
 
       default:

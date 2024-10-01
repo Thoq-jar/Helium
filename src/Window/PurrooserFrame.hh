@@ -19,6 +19,7 @@ public:
 
 private:
   bool m_isLoading{};
+  bool m_errorPageOpened{};
 
   wxWebView *CreateNewTab(const wxString &url);
   wxWebView *GetCurrentWebView() const;
@@ -48,6 +49,8 @@ private:
   void OnSiteLoaded(wxWebViewEvent &event);
 
   void OnSaveSearchEngine(wxCommandEvent &event);
+
+  void OnSiteError(wxWebViewEvent &event);
 
   void LoadSearchEngine();
 
