@@ -5,7 +5,8 @@
     "compile:ts": "npm install -g yarn && yarn tsc",
     "compile:scss": "sass --update browser:browser",
     "build": "chmod +x utility/build.sh && ./utility/build.sh && yarn run compile:ts && yarn run compile:scss",
-    "browser": "yarn run build && chmod +x utility/start.sh && ./utility/start.sh"
+    "browser": "yarn run build && chmod +x utility/start.sh && ./utility/start.sh",
+    "debug": "chmod +x utility/server.sh && ./utility/server.sh"
   },
   "author": "Thoq",
   "license": "MIT",

@@ -3,7 +3,7 @@
 using namespace std;
 
 PurrooserFrame::PurrooserFrame(const wxString &title)
-  : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(WIDTH, HEIGHT)), m_currentTheme(Theme::DARK) {
+    : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(WIDTH, HEIGHT)), m_currentTheme(Theme::DARK) {
   cout << "Creating main frame..." << endl;
 
 #ifdef defined__WXGTK__
@@ -58,7 +58,6 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   CreateNewTab("http://localhost:54367/");
 
   auto *menuFile = new wxMenu;
-
   menuFile->Append(wxID_EXIT, QUIT_KEYBIND);
   m_toggleThemeItem = menuFile->Append(ID_THEME_TOGGLE, "Toggle Theme");
   Bind(wxEVT_MENU, &PurrooserFrame::OnToggleTheme, this, m_toggleThemeItem->GetId());
@@ -78,9 +77,14 @@ PurrooserFrame::PurrooserFrame(const wxString &title)
   Bind(wxEVT_MENU, &PurrooserFrame::OnCloseTab, this, wxID_CLOSE);
   Bind(wxEVT_MENU, &PurrooserFrame::FullScreenToggle, this, ID_FULLSCREEN_TOGGLE);
 
+  auto *menuDeveloper = new wxMenu;
+  menuDeveloper->Append(wxID_ANY, "Inspect Element\tCtrl+I", "Open Inspect Element");
+  Bind(wxEVT_MENU, &PurrooserFrame::OnInspectElement, this, wxID_ANY);
+
   auto *menuBar = new wxMenuBar;
   menuBar->Append(menuFile, "&File");
   menuBar->Append(menuNavigation, "&Navigation");
+  menuBar->Append(menuDeveloper, "&Developer");
   wxFrameBase::SetMenuBar(menuBar);
   wxFrameBase::CreateStatusBar();
   Bind(wxEVT_MENU, &PurrooserFrame::OnQuit, this, wxID_EXIT);

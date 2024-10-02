@@ -54,6 +54,8 @@ private:
 
   void LoadSearchEngine();
 
+  void OnInspectElement(wxCommandEvent &event);
+
   void OnSiteNavigated(wxWebViewEvent &event);
 
   void FullScreenToggle(wxCommandEvent &event);
