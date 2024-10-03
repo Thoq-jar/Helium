@@ -1,0 +1,27 @@
+# build.ninja
+
+# Variables
+cxx = clang++
+cxxflags = -std=c++14
+wxWidgets_include = /home/linuxbrew/.linuxbrew/Cellar/wxwidgets/3.2.6/include/wx-3.2
+wxWidgets_lib = /home/linuxbrew/.linuxbrew/Cellar/wxwidgets/3.2.6/lib
+
+# Build rules
+rule cxx
+  command = echo "Compiling $in" && $cxx $cxxflags -I$wxWidgets_include -c $in -o $out
+
+rule link
+  command = echo "Linking $out" && $cxx $in -o $out -L$wxWidgets_lib -lwx_baseu-3.2 -lwx_gtk3u_core-3.2 -lwx_gtk3u_webview-3.2
+
+# Build targets
+build src/Main.o: cxx src/Main.cc
+build src/Purrooser/Purrooser.o: cxx src/Purrooser/Purrooser.cc
+build src/Window/PurrooserFrame.o: cxx src/Window/PurrooserFrame.cc
+build src/Utils/Utils.o: cxx src/Utils/Utils.cc
+build src/Utils/Actions/Actions.o: cxx src/Utils/Actions/Actions.cc
+
+# Executable
+build Purr: link src/Main.o src/Purrooser/Purrooser.o src/Window/PurrooserFrame.o src/Utils/Utils.o src/Utils/Actions/Actions.o
+
+# Default target
+default Purr
