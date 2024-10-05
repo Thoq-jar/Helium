@@ -2,6 +2,8 @@
 
 Web browser with Python
 
+**NOTE:NixOS users will need to enter nix-shell like this: `nix-shell -p gcc python3 python3Packages.pyside6`**
+
 ## Prerequisites
 
 - Python 3.10 or later
