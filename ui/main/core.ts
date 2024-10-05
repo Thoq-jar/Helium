@@ -54,11 +54,11 @@ $((): void => {
         break;
 
       case sysLinks[3]:
-        window.location.href = `${sysLinks[4]}.html`
+        window.location.href = `${sysLinks[3]}.html`
         break;
 
       case sysLinks[4]:
-        window.location.href = `${sysLinks[5]}.html`
+        window.location.href = `${sysLinks[4]}.html`
         break;
 
       case sysLinks[5]:
