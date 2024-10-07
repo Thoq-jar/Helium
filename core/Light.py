@@ -1,7 +1,18 @@
+"""
+--[[
+-- Purrooser
+-- File: Light.py
+-- Purpose: Frontend for the Light renderer
+-- License: MIT
+-- (C) Thoq
+]]--
+"""
+
+############################## Imports ##############################
 import os
 import platform
 import re
-
+from lupa import LuaRuntime
 from PySide6.QtCore import QUrl, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile
@@ -9,7 +20,7 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QToolBar, QPushButton, QTabWidget, QLineEdit
 
 
-# noinspection PyMethodOverriding,HttpUrlsUsage,PyPep8Naming
+############################## Engine Class ##############################
 class CustomWebEnginePage(QWebEnginePage):
     def acceptNavigationRequest(self, url: QUrl, isMainFrame: bool) -> bool:
         if url.host() == "localhost" and url.port() == 54365:
@@ -22,13 +33,19 @@ class CustomWebEnginePage(QWebEnginePage):
         return super().acceptNavigationRequest(url, isMainFrame)
 
 
-# noinspection PyUnresolvedReferences,HttpUrlsUsage
+############################## Renderer Class ##############################
 class Renderer(QMainWindow):
     def __init__(self, http_server):
         super().__init__()
-        self.forward_button = None
-        self.back_button = None
-        self.url_bar = None
+
+        self.lua = LuaRuntime(unpack_returned_tuples=True)
+
+        lua_script_path = os.path.join('core', 'lua', 'main.lua')
+        if os.path.exists(lua_script_path):
+            self.load_lua_script(lua_script_path)
+        else:
+            print("Error loading lua!")
+
         self.tab_widget = QTabWidget()
         self.profile = QWebEngineProfile("web_profile", self)
         self.http_server = http_server
@@ -42,6 +59,7 @@ class Renderer(QMainWindow):
         self.load_local_file()
         self.is_dark_mode = True
 
+    ############################## Setup Web Storage ( WIP ) ##############################
     def setup_profile(self):
         storage_path = os.path.join(os.getcwd(), "web_storage")
         if not os.path.exists(storage_path):
@@ -56,57 +74,29 @@ class Renderer(QMainWindow):
         self.profile.setHttpCacheType(QWebEngineProfile.DiskHttpCache)
         self.profile.setHttpCacheMaximumSize(0)
 
+    ############################## Setup UI ##############################
     def setup_ui(self):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         layout = QVBoxLayout()
         central_widget.setLayout(layout)
 
-        toolbar = QToolBar()
-        self.addToolBar(toolbar)
-
-        back_button = QPushButton("<")
-        back_button.clicked.connect(self.back)
-        toolbar.addWidget(back_button)
-        self.back_button = back_button
-
-        forward_button = QPushButton(">")
-        forward_button.clicked.connect(self.forward)
-        toolbar.addWidget(forward_button)
-        self.forward_button = forward_button
-
-        reload_button = QPushButton("↻")
-        reload_button.clicked.connect(self.reload)
-        toolbar.addWidget(reload_button)
-
-        home_button = QPushButton("⌂")
-        home_button.clicked.connect(self.load_local_file)
-        toolbar.addWidget(home_button)
-
-        self.url_bar = QLineEdit()
-        self.url_bar.returnPressed.connect(self.navigate_to_url)
-        toolbar.addWidget(self.url_bar)
-
-        new_tab_button = QPushButton("+")
-        new_tab_button.clicked.connect(self.add_new_tab)
-        toolbar.addWidget(new_tab_button)
-
-        close_tab_button = QPushButton("X")
-        close_tab_button.clicked.connect(self.close_current_tab)
-        toolbar.addWidget(close_tab_button)
-
         self.apply_css()
-
-        if platform.system() not in ["Darwin", "Windows"]:
-            toggle_button = QPushButton("🌙")
-            toggle_button.clicked.connect(self.toggle_dark_light_mode)
-            toolbar.addWidget(toggle_button)
-
         self.tab_widget.currentChanged.connect(self.update_buttons)
         layout.addWidget(self.tab_widget)
 
         self.add_new_tab()
 
+    ############################## Load Lua Script(s) ##############################
+    def load_lua_script(self, script_path):
+        if os.path.exists(script_path):
+            with open(script_path, 'r') as lua_file:
+                lua_code = lua_file.read()
+            self.lua.execute(lua_code)
+            self.lua.globals().PrintInfo()
+            self.lua.globals().CreateUI(self)
+
+    ############################## Handle Dark Mode ##############################
     def toggle_dark_light_mode(self):
         if platform.system() not in ["Darwin", "Windows"]:
             self.is_dark_mode = not self.is_dark_mode
@@ -115,6 +105,7 @@ class Renderer(QMainWindow):
             else:
                 self.setStyleSheet("background-color: white; color: black;")
 
+    ############################## Add New Tab ##############################
     def add_new_tab(self):
         new_tab = QWebEngineView()
         new_tab.setPage(CustomWebEnginePage(self.profile))
@@ -124,31 +115,36 @@ class Renderer(QMainWindow):
         new_tab.page().titleChanged.connect(lambda title: self.update_tab_title(new_tab, title))
         new_tab.load(QUrl("http://localhost:54365/index.html"))
 
+    ############################## Event Handler For Finsihed Loading Site ##############################
     def on_load_finished(self, success):
         self.update_buttons()
         if not success:
             self.current_web_view().load(QUrl("http://localhost:54365/error.html"))
         self.update_url_bar()
 
+    ############################## Update Tab Title Based On Website ##############################
     def update_tab_title(self, web_view, title):
         index = self.tab_widget.indexOf(web_view)
         if index != -1:
             self.tab_widget.setTabText(index, title if title else "Untitled")
-
+    
+    ############################## Close Current Tab ##############################
     def close_current_tab(self):
         current_index = self.tab_widget.currentIndex()
         if current_index != -1:
             self.tab_widget.removeTab(current_index)
 
+    ############################## Return View ##############################
     def current_web_view(self):
         return self.tab_widget.currentWidget()
 
+    ############################## Update Buttons ##############################
     def update_buttons(self):
         current_view = self.current_web_view()
         if current_view:
-            self.back_button.setEnabled(current_view.history().canGoBack())
-            self.forward_button.setEnabled(current_view.history().canGoForward())
+            pass
 
+    ############################## Load Homepage ##############################
     def load_local_file(self):
         current_view = self.current_web_view()
         if current_view:
@@ -156,21 +152,25 @@ class Renderer(QMainWindow):
         else:
             self.add_new_tab()
 
+    ############################## Handle Back ##############################
     def back(self):
         current_view = self.current_web_view()
         if current_view:
             current_view.back()
 
+    ############################## Handle Forword ##############################
     def forward(self):
         current_view = self.current_web_view()
         if current_view:
             current_view.forward()
 
+    ############################## Handle Reload ##############################
     def reload(self):
         current_view = self.current_web_view()
         if current_view:
             current_view.reload()
 
+    ############################## Go To A Purr URL ##############################
     def navigate_to_url(self):
         url_text = self.url_bar.text().strip()
         url_mapping = {
@@ -194,6 +194,7 @@ class Renderer(QMainWindow):
                     url_text = "http://" + url_text
                 self.current_web_view().load(QUrl(url_text))
 
+    ############################## Change URL Bar ##############################
     def update_url_bar(self):
         current_view = self.current_web_view()
         if current_view:
@@ -208,8 +209,8 @@ class Renderer(QMainWindow):
             }
 
             display_text = url_display_mapping.get(current_url, current_url)
-            self.url_bar.setText(display_text)
 
+    ############################## Add Styles ##############################
     def apply_css(self):
         css_file_path = os.path.join('ui', 'core', 'core.css')
         if os.path.exists(css_file_path):
@@ -219,6 +220,7 @@ class Renderer(QMainWindow):
         else:
             print(f"[ERR] CSS file not found: {css_file_path}")
 
+    ############################## Handle Keypress ##############################
     def keyPressEvent(self, event):
         if (event.key() == Qt.Key_F5 or
                 (event.key() == Qt.Key_R and
@@ -235,3 +237,28 @@ class Renderer(QMainWindow):
         elif event.key() == Qt.Key_Q and (
                 event.modifiers() & Qt.ControlModifier or event.modifiers() & Qt.MetaModifier):
             self.close()
+
+    ############################## Create Toolbar ##############################
+    def addToolBar(self, name):
+        toolbar = QToolBar(name)
+        super().addToolBar(toolbar) 
+        return toolbar
+
+    ############################## Create Buttons ##############################
+    def addButton(self, toolbar, text, callback):
+        button = QPushButton(text)
+        button.clicked.connect(callback)
+        toolbar.addWidget(button)
+        return button
+
+    ############################## Create URL Bar ##############################
+    def addUrlBar(self, toolbar, callback):
+        url_bar = QLineEdit()
+        url_bar.returnPressed.connect(callback)
+        toolbar.addWidget(url_bar)
+        self.url_bar = url_bar
+        return url_bar
+
+    ############################## Check if on Linux/FreeBSD ##############################
+    def is_dark_mode_supported(self):
+        return platform.system() not in ["Darwin", "Windows"]

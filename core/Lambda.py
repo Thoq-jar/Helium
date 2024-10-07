@@ -1,3 +1,13 @@
+"""
+--[[
+-- Purrooser
+-- File: Lambda.py
+-- Purpose: Lambda Server
+-- License: MIT
+-- (C) Thoq
+]]--
+"""
+
 import os
 import threading
 from http.server import SimpleHTTPRequestHandler, HTTPServer
