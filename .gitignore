@@ -6,3 +6,8 @@ web_storage
 core/web_storage
 node_modules
 venv
+
+ui/**/*.js
+ui/**/*.js.map
+ui/**/*.css
+ui/**/*.css.map
