@@ -1,13 +1,8 @@
 .vs
-env
+.env
 __pycache__
 src/__pycache__
-web_storage
-browser/web_storage
-node_modules
 venv
 
-ui/**/*.js
-ui/**/*.js.map
-ui/**/*.css
-ui/**/*.css.map
+*.DS_Store
+**/*.DS_Store
