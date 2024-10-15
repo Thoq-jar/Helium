@@ -23,13 +23,15 @@ cd Purrooser
 Windows/DOS:
 
 ```
-npm run bootstrap:win
+pip install -r requirements.txt
 ```
 
 macOS/Linux/Unix:
 
 ```
-npm run bootstrap:unix
+python3 -m venv
+. venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ## Run
@@ -37,13 +39,14 @@ npm run bootstrap:unix
 Windows/DOS:
 
 ```
-npm run run:win
+python browser/main.py
 ```
 
 macOS/Linux/Unix:
 
 ```
-npm run run:unix
+. venv/bin/activate
+python browser/main.py
 ```
 
 ## License
