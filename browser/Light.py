@@ -49,7 +49,7 @@ class Renderer(QMainWindow):
 
         self.tab_widget = QTabWidget()
         self.setWindowTitle("Purrooser")
-        self.setGeometry(100, 100, 900, 600)
+        self.setGeometry(100, 100, 1300, 800)
         self.setWindowIcon(QIcon("assets/icon.ico"))
 
         self.setup_ui()
@@ -67,6 +67,9 @@ class Renderer(QMainWindow):
         layout.addWidget(self.tab_widget)
 
         self.add_new_tab()
+
+        if self.is_dark_mode_supported:
+            self.setStyleSheet("background-color: #2E2E2E; color: white;")
 
     ############################## Load Lua Script(s) ##############################
     def load_lua_script(self, script_path):
