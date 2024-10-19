@@ -2,7 +2,7 @@
 
 bool Purrooser::OnInit() {
   cout << BANNER << endl;
-  cout << "Starting Purrooser..." << endl;
+  cout << "Starting" << space << name << space << version << space << type << "..." << endl;
   wxLog::SetLogLevel(wxLOG_FatalError);
 
   auto *frame = new PurrooserFrame("Purr");

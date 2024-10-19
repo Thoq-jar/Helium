@@ -43,6 +43,11 @@
 #define STOP_ICON "S"
 #endif
 
+const string name = "Purrooser";
+constexpr float version = 2.1;
+const string type = "Nightly";
+const string space = " ";
+
 constexpr int ID_FULLSCREEN_TOGGLE = wxID_HIGHEST + 2;
 constexpr int ID_THEME_TOGGLE = wxID_HIGHEST + 3;
 constexpr int ID_BACK_BUTTON = wxID_HIGHEST + 6;
