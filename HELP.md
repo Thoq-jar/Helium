@@ -9,5 +9,5 @@ in CLion
 
 or run it like this:
 ```bash
-WEBKIT_DISABLE_COMPOSITING_MODE=1 ./cmake-build-debug/Purrooser
+WEBKIT_DISABLE_COMPOSITING_MODE=1 ./cmake-build-debug/Purr
 ```

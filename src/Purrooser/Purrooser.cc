@@ -1,12 +1,4 @@
-#include "../Main.hh"
-
-const string BANNER = R"(
-+-----------------------------+
-+       Welcome to Purr!      +
-+      Developed by Thoq      +
-+       &  Contributors       +
-+-----------------------------+
-)";
+#include "Purrooser.h"
 
 bool Purrooser::OnInit() {
   cout << BANNER << endl;
@@ -14,6 +6,9 @@ bool Purrooser::OnInit() {
   wxLog::SetLogLevel(wxLOG_FatalError);
 
   auto *frame = new PurrooserFrame("Purr");
+
+  ActionsInit();
+
   frame->Show(true);
   wxCommandEvent event;
   cout << "Purrooser started successfully!" << endl;

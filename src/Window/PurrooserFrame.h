@@ -1,5 +1,5 @@
-#ifndef PURROOSERFRAME_HH
-#define PURROOSERFRAME_HH
+#ifndef PURROOSERFRAME_H
+#define PURROOSERFRAME_H
 
 enum class Theme {
   LIGHT,
@@ -77,4 +77,4 @@ private:
   Theme m_currentTheme;
 };
 
-#endif // PURROOSERFRAME_HH
+#endif // PURROOSERFRAME_H

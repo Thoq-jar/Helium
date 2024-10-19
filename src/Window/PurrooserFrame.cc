@@ -1,22 +1,22 @@
-#include "../Main.hh"
+#include "../Main.h"
 
 using namespace std;
+
+#ifdef defined__WXGTK__
+wxSize buttonSize(35, 35);
+#elif defined(__WXOSX__)
+wxSize buttonSize(30, 30);
+#elif __WXMSW__
+wxSize buttonSize(35, 35);
+#else
+wxSize buttonSize(35, 35);
+#endif
 
 PurrooserFrame::PurrooserFrame(const wxString& title)
     : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition,
               wxSize(WIDTH, HEIGHT)),
       m_currentTheme(Theme::DARK) {
   cout << "Creating main frame..." << endl;
-
-#ifdef defined__WXGTK__
-  wxSize buttonSize(35, 35);
-#elif defined(__WXOSX__)
-  wxSize buttonSize(30, 30);
-#elif __WXMSW__
-  wxSize buttonSize(35, 35);
-#else
-  wxSize buttonSize(35, 35);
-#endif
 
   auto* sizer = new wxBoxSizer(wxVERTICAL);
   auto* topSizer = new wxBoxSizer(wxHORIZONTAL);

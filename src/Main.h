@@ -1,5 +1,5 @@
-#ifndef MAIN_HH
-#define MAIN_HH
+#ifndef MAIN_H
+#define MAIN_H
 
 #include <iostream>
 #include <fstream>
@@ -12,10 +12,10 @@
 #include <wx/filename.h>
 #include <memory>
 
-#include "./Purrooser/Purrooser.hh"
-#include "./Utils/Utils.hh"
-#include "./Utils/Actions/Actions.hh"
-#include "./Window/PurrooserFrame.hh"
+#include "Purrooser/Purrooser.h"
+#include "Utils/Utils.h"
+#include "Utils/Actions/Actions.h"
+#include "Window/PurrooserFrame.h"
 
 #ifdef defined__WXGTK__
 #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
@@ -53,4 +53,4 @@ constexpr int ID_SEARCH_BUTTON = wxID_HIGHEST + 10;
 constexpr int ID_NEW_TAB_BUTTON = wxID_HIGHEST + 11;
 constexpr int ID_CLOSE_TAB_BUTTON = wxID_HIGHEST + 12;
 
-#endif //MAIN_HH
+#endif //MAIN_H

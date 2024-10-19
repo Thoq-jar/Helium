@@ -1,7 +1,7 @@
-#ifndef UTILS_HH
-#define UTILS_HH
+#ifndef UTILS_H
+#define UTILS_H
 
-#include "../Main.hh"
+#include "../Main.h"
 
 class Utils {
 public:
@@ -10,4 +10,4 @@ public:
   static void GetSearchEngine();
 };
 
-#endif //UTILS_HH
+#endif //UTILS_H

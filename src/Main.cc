@@ -1,4 +1,4 @@
-#include "Main.hh"
+#include "Main.h"
 
 int main(int argc, char **argv) {
   wxDISABLE_DEBUG_SUPPORT();
