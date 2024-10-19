@@ -13,9 +13,9 @@ class PurrooserFrame final : public wxFrame {
 public:
   explicit PurrooserFrame(const wxString &title);
 
-  void OnToggleTheme(wxCommandEvent &event);
+  void OnToggleTheme(wxCommandEvent& event);
 
-  wxChoice *m_searchEngineChoice;
+  wxChoice *m_searchEngineChoice{};
 
 private:
   bool m_isLoading{};

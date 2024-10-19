@@ -6,23 +6,19 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(wxWidgets REQUIRED COMPONENTS core base webview)
 include(${wxWidgets_USE_FILE})
 
-add_executable(
-        # Executable
-        Purr
+set(CMAKE_BUILD_TYPE MinSizeRel)
 
-        # Sources
+if(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+    add_compile_options(-O3 -DNDEBUG)
+endif()
+
+add_executable(
+        Purr
         src/Main.cc
         src/Purrooser/Purrooser.cc
         src/Window/PurrooserFrame.cc
-        src/utils/Utils.cc
+        src/Utils/Utils.cc
         src/Utils/Actions/Actions.cc
-
-        # Headers
-        src/Main.hh
-        src/Purrooser/Purrooser.hh
-        src/Window/PurrooserFrame.hh
-        src/utils/Utils.hh
-        src/Utils/Actions/Actions.hh
 )
 
 target_link_libraries(Purr ${wxWidgets_LIBRARIES})

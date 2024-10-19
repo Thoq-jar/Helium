@@ -10,6 +10,7 @@
 #include <wx/wx.h>
 #include <wx/choice.h>
 #include <wx/filename.h>
+#include <memory>
 
 #include "./Purrooser/Purrooser.hh"
 #include "./Utils/Utils.hh"
