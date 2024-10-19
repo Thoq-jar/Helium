@@ -37,7 +37,7 @@ void PurrooserFrame::OnSearch(wxCommandEvent& event) {
   }
   if (!url.StartsWith("http://") && !url.StartsWith("https://")) {
     if (!std::regex_search(url.ToStdString(), tldRegex)) {
-      url = "https://google.com/?q=" + url;
+      url = "https://google.com/search?q=" + url;
     } else {
       url = "https://" + url;
     }

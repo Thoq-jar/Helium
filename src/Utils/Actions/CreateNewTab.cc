@@ -10,9 +10,6 @@ wxWebView* PurrooserFrame::CreateNewTab(const wxString& url) {
     return nullptr;
   }
 
-  webView->SetUserAgent(
-      "Mozilla/5.0 (Purr; 'Light' web Renderer) Purrooser 1.0.27 Nightly "
-      "AppleWebKit/605.1.15 (KHTML, like Gecko)");
   sizer->Add(webView, 1, wxEXPAND);
 
   webView->Bind(wxEVT_WEBVIEW_NAVIGATING, &PurrooserFrame::OnSiteLoading, this);

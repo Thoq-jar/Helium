@@ -12,6 +12,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
     add_compile_options(-O3 -DNDEBUG)
 endif ()
 
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_options(-O3 -DNDEBUG)
+endif ()
+
 add_executable(
         Purr
         src/Main.cc
