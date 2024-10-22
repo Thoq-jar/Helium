@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(Purr)
+project(Helium)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -17,10 +17,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
 endif ()
 
 add_executable(
-        Purr
+        Helium
         src/Main.cc
-        src/Purrooser/Purrooser.cc
-        src/Window/PurrooserFrame.cc
+        src/Helium/Helium.cc
+        src/Window/HeliumFrame.cc
         src/Utils/Utils.cc
         src/Utils/Actions/Actions.cc
         src/Utils/Actions/CreateNewTab.cc
@@ -44,4 +44,39 @@ add_executable(
         src/Utils/Actions/OnReload.cc
 )
 
-target_link_libraries(Purr ${wxWidgets_LIBRARIES})
+target_link_libraries(Helium ${wxWidgets_LIBRARIES})
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Helium.app/Contents/MacOS)
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Helium.app/Contents/MacOS)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources)
+file(COPY assets/AppIcon.icns DESTINATION ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources)
+file(WRITE ${CMAKE_BINARY_DIR}/Helium.app/Contents/Info.plist
+        "<plist version=\"1.0\">
+<dict>
+    <key>CFBundleName</key>
+    <string>Helium</string>
+    <key>CFBundleVersion</key>
+    <string>1.0</string>
+    <key>CFBundleIdentifier</key>
+    <string>dev.thoq.helium</string>
+    <key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
+</dict>
+</plist>")
+
+add_custom_command(TARGET Helium POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rename
+        ${CMAKE_CURRENT_BINARY_DIR}/Helium
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Helium
+)
+
+add_custom_command(TARGET Helium POST_BUILD
+        COMMAND chmod +x ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Helium
+)
+
+add_custom_command(TARGET Helium POST_BUILD
+        COMMAND cp ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources/AppIcon.icns ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources/AppIcon.icns
+)

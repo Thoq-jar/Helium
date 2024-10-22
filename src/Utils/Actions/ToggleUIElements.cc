@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-void PurrooserFrame::ToggleUIElements(bool show) {
+void HeliumFrame::ToggleUIElements(bool show) {
   m_backButton->Show(show);
   m_forwardButton->Show(show);
   m_homeButton->Show(show);

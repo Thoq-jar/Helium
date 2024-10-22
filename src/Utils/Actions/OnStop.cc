@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-void PurrooserFrame::OnStop(wxCommandEvent& event) {
+void HeliumFrame::OnStop(wxCommandEvent& event) {
   if (m_notebook->GetPageCount() == 0) {
     return;
   }

@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-void PurrooserFrame::ApplyTheme() {
+void HeliumFrame::ApplyTheme() {
   const wxColor backgroundColor;
   const wxColor textColor;
 

@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-void PurrooserFrame::OnSiteNavigated(wxWebViewEvent& event) {
+void HeliumFrame::OnSiteNavigated(wxWebViewEvent& event) {
   if (m_notebook->GetPageCount() > 0) {
     auto const webView = dynamic_cast<wxWebView*>(
         m_notebook->GetCurrentPage()->GetChildren()[0]);

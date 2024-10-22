@@ -1,21 +1,23 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+// ReSharper disable CppUnusedIncludeDirective
 #include <iostream>
-#include <fstream>
+#include <wx/choice.h>
+#include <wx/filename.h>
 #include <wx/msgdlg.h>
 #include <wx/notebook.h>
 #include <wx/srchctrl.h>
 #include <wx/webview.h>
 #include <wx/wx.h>
-#include <wx/choice.h>
-#include <wx/filename.h>
+#include <fstream>
 #include <memory>
 
-#include "Purrooser/Purrooser.h"
-#include "Utils/Utils.h"
+#include "Helium/Helium.h"
 #include "Utils/Actions/Actions.h"
-#include "Window/PurrooserFrame.h"
+#include "Utils/Utils.h"
+#include "Window/HeliumFrame.h"
+// ReSharper restore CppUnusedIncludeDirective
 
 #ifdef defined__WXGTK__
 #define RELOAD_STOP_KEYBIND "Reload/Stop\tF5"
@@ -43,8 +45,8 @@
 #define STOP_ICON "S"
 #endif
 
-const string name = "Purrooser";
-constexpr float version = 2.1;
+const string name = "Helium";
+constexpr float version = 2.2;
 const string type = "Nightly";
 const string space = " ";
 

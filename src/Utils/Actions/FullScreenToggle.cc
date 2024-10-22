@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-void PurrooserFrame::FullScreenToggle(wxCommandEvent& event) {
+void HeliumFrame::FullScreenToggle(wxCommandEvent& event) {
   if (m_notebook->GetPageCount() > 0) {
     const auto webView = dynamic_cast<wxWebView*>(
         m_notebook->GetCurrentPage()->GetChildren()[0]);

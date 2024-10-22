@@ -1,6 +1,6 @@
 #include "Actions.h"
 
-void PurrooserFrame::OnSearch(wxCommandEvent& event) {
+void HeliumFrame::OnSearch(wxCommandEvent& event) {
   wxString url = m_searchCtrl->GetValue();
   url.Replace(" ", "+");
 

@@ -1,20 +1,20 @@
-#ifndef PURROOSER_H
-#define PURROOSER_H
+#ifndef HELIUM_H
+#define HELIUM_H
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../Main.h"
 using namespace std;
 const string BANNER = R"(
 +-----------------------------+
-+       Welcome to Purr!      +
-+      Developed by Thoq      +
++      Welcome to Helium      +
++           by Thoq           +
 +       &  Contributors       +
 +-----------------------------+
 )";
 
-class Purrooser final : public wxApp {
+class Helium final : public wxApp {
 public:
   bool OnInit() override;
 };
 
-#endif // PURROOSER_H
+#endif // HELIUM_H

@@ -1,5 +1,5 @@
-#ifndef PURROOSERFRAME_H
-#define PURROOSERFRAME_H
+#ifndef HELIUMFRAME_H
+#define HELIUMFRAME_H
 
 enum class Theme {
   LIGHT,
@@ -9,9 +9,9 @@ enum class Theme {
 constexpr int WIDTH = 1600;
 constexpr int HEIGHT = 900;
 
-class PurrooserFrame final : public wxFrame {
+class HeliumFrame final : public wxFrame {
 public:
-  explicit PurrooserFrame(const wxString &title);
+  explicit HeliumFrame(const wxString &title);
 
   void OnToggleTheme(wxCommandEvent& event);
 
@@ -77,4 +77,4 @@ private:
   Theme m_currentTheme;
 };
 
-#endif // PURROOSERFRAME_H
+#endif // HELIUMFRAME_H
