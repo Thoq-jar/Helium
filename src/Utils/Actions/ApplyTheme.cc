@@ -43,7 +43,7 @@ void HeliumFrame::ApplyTheme() {
     m_searchCtrl->SetBackgroundColour(wxColour(255, 255, 255));
     m_searchCtrl->SetForegroundColour(wxColour(0, 0, 0));
   } else {
-    Utils::Alert("Purrooser (FATAL ERROR)",
+    Utils::Alert("Helium (FATAL ERROR)",
                  "Oops! The theme you selected is invalid! Please restart the "
                  "application and try again!");
   }

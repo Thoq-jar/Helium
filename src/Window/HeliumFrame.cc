@@ -71,7 +71,7 @@ HeliumFrame::HeliumFrame(const wxString& title)
   m_notebook->Bind(wxEVT_WEBVIEW_NAVIGATED, &HeliumFrame::OnSiteNavigated,
                    this);
 
-  CreateNewTab("https://purrooser-api.deno.dev/ui/index.html");
+  CreateNewTab("https://helium-api.deno.dev/ui/index.html");
 
   auto* menuFile = new wxMenu;
   menuFile->Append(wxID_EXIT, QUIT_KEYBIND);

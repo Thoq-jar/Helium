@@ -23,6 +23,6 @@ bool Helium::OnInit() {
 
   frame->Show(true);
   wxCommandEvent event;
-  cout << "Purrooser started successfully!" << endl;
+  cout << name << space << "started successfully!" << endl;
   return true;
 }

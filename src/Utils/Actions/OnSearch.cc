@@ -9,27 +9,27 @@ void HeliumFrame::OnSearch(wxCommandEvent& event) {
   if (url.StartsWith("purr://")) {
     const wxString command = url.AfterFirst('/');
     if (command == "/newtab") {
-      CreateNewTab("https://purrooser-api.deno.dev/ui/index.html");
+      CreateNewTab("https://helium-api.deno.dev/ui/index.html");
       return;
     }
     if (command == "/error") {
-      CreateNewTab("https://purrooser-api.deno.dev/ui/error.html");
+      CreateNewTab("https://helium-api.deno.dev/ui/error.html");
       return;
     }
     if (command == "/about") {
-      CreateNewTab("https://purrooser-api.deno.dev/ui/about.html");
+      CreateNewTab("https://helium-api.deno.dev/ui/about.html");
       return;
     }
     if (command == "/kitty") {
-      CreateNewTab("https://purrooser-api.deno.dev/ui/kitty.html");
+      CreateNewTab("https://helium-api.deno.dev/ui/kitty.html");
       return;
     }
     if (command == "/settings") {
-      CreateNewTab("https://purrooser-api.deno.dev/ui/settings.html");
+      CreateNewTab("https://helium-api.deno.dev/ui/settings.html");
       return;
     }
     if (command == "/weather") {
-      CreateNewTab("https://purrooser-api.deno.dev/ui/weather.html");
+      CreateNewTab("https://helium-api.deno.dev/ui/weather.html");
       return;
     }
     Utils::Alert("Purr", "Unknown purr:// URL!");
