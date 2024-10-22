@@ -1,4 +1,4 @@
-# Purrooser / Nightly
+# Helium / Nightly
 
 Purrooser is a simple, lightweight, and easy-to-use web browser.
 
