@@ -13,7 +13,6 @@ set(wxWidgets_ROOT_DIR "/opt/homebrew/Cellar/wxwidgets/3.2.6")
 set(wxWidgets_INCLUDE_DIRS "${wxWidgets_ROOT_DIR}/include/wx-3.2")
 set(wxWidgets_LIBRARIES "${wxWidgets_ROOT_DIR}/lib/libwx_baseu-3.2.dylib;${wxWidgets_ROOT_DIR}/lib/libwx_osx_cocoau_core-3.2.dylib;${wxWidgets_ROOT_DIR}/lib/libwx_osx_cocoau_aui-3.2.dylib;${wxWidgets_ROOT_DIR}/lib/libwx_osx_cocoau_webview-3.2.dylib")
 
-# Add the path to the wxWidgets CMake configuration files
 set(CMAKE_PREFIX_PATH "${wxWidgets_ROOT_DIR}/lib/cmake/wxWidgets")
 
 find_package(wxWidgets REQUIRED COMPONENTS core base webview)

@@ -45,38 +45,3 @@ add_executable(
 )
 
 target_link_libraries(Helium ${wxWidgets_LIBRARIES})
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Helium.app/Contents/MacOS)
-
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Helium.app/Contents/MacOS)
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources)
-file(COPY assets/AppIcon.icns DESTINATION ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources)
-file(WRITE ${CMAKE_BINARY_DIR}/Helium.app/Contents/Info.plist
-        "<plist version=\"1.0\">
-<dict>
-    <key>CFBundleName</key>
-    <string>Helium</string>
-    <key>CFBundleVersion</key>
-    <string>1.0</string>
-    <key>CFBundleIdentifier</key>
-    <string>dev.thoq.helium</string>
-    <key>CFBundleIconFile</key>
-	<string>AppIcon</string>
-	<key>CFBundleIconName</key>
-	<string>AppIcon</string>
-</dict>
-</plist>")
-
-add_custom_command(TARGET Helium POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rename
-        ${CMAKE_CURRENT_BINARY_DIR}/Helium
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Helium
-)
-
-add_custom_command(TARGET Helium POST_BUILD
-        COMMAND chmod +x ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Helium
-)
-
-add_custom_command(TARGET Helium POST_BUILD
-        COMMAND cp ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources/AppIcon.icns ${CMAKE_BINARY_DIR}/Helium.app/Contents/Resources/AppIcon.icns
-)
