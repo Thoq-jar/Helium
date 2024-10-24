@@ -22,7 +22,7 @@ private:
   bool m_errorPageOpened{};
 
   wxWebView *CreateNewTab(const wxString &url);
-  wxWebView *GetCurrentWebView() const;
+  [[nodiscard]] wxWebView *GetCurrentWebView() const;
 
   void OnQuit(wxCommandEvent &event);
 

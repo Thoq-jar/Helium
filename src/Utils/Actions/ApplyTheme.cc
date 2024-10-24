@@ -61,8 +61,7 @@ void HeliumFrame::ApplyTheme() {
     m_errorPageOpened = false;
 
     for (size_t i = 0; i < m_notebook->GetPageCount(); ++i) {
-      const auto panel = dynamic_cast<wxPanel*>(m_notebook->GetPage(i));
-      if (panel) {
+      if (const auto panel = dynamic_cast<wxPanel*>(m_notebook->GetPage(i))) {
         panel->SetForegroundColour(textColor);
       }
     }

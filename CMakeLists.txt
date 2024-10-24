@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(Helium)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 23)
 
 find_package(wxWidgets REQUIRED COMPONENTS core base webview)
 include(${wxWidgets_USE_FILE})
@@ -45,3 +45,7 @@ add_executable(
 )
 
 target_link_libraries(Helium ${wxWidgets_LIBRARIES})
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    set_target_properties(Helium PROPERTIES CMAKE_CXX_CLANG_TIDY "clang-tidy;-p;${CMAKE_BINARY_DIR}")
+endif()

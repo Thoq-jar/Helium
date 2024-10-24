@@ -22,15 +22,11 @@ wxWebView* HeliumFrame::CreateNewTab(const wxString& url) {
   m_notebook->AddPage(panel, webView->GetCurrentTitle(), true);
 
   webView->Bind(wxEVT_WEBVIEW_TITLE_CHANGED, [this, webView](wxWebViewEvent&) {
-    const int pageIndex = m_notebook->FindPage(webView->GetParent());
-    if (pageIndex != wxNOT_FOUND) {
+    if (const int pageIndex = m_notebook->FindPage(webView->GetParent());
+        pageIndex != wxNOT_FOUND) {
       m_notebook->SetPageText(pageIndex, webView->GetCurrentTitle());
     }
   });
-
-  if (m_currentTheme == Theme::DARK) {
-    ApplyTheme();
-  }
 
   return webView;
 }
