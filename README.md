@@ -1,4 +1,4 @@
-# Helium / Nightly
+# Nebulae / Nightly
 
 Helium is a simple, lightweight, and easy-to-use web browser.
 
